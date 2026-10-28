@@ -69,7 +69,7 @@ lazy_static::lazy_static! {
     static ref ONLINE: Mutex<HashMap<String, i64>> = Default::default();
     pub static ref PROD_RENDEZVOUS_SERVER: RwLock<String> = RwLock::new("".to_owned());
     pub static ref EXE_RENDEZVOUS_SERVER: RwLock<String> = Default::default();
-    pub static ref APP_NAME: RwLock<String> = RwLock::new("Atlas Remote".to_owned());
+    pub static ref APP_NAME: RwLock<String> = RwLock::new("Hesper Remote".to_owned());
     static ref KEY_PAIR: Mutex<Option<KeyPair>> = Default::default();
     static ref USER_DEFAULT_CONFIG: RwLock<(UserDefaultConfig, Instant)> = RwLock::new((UserDefaultConfig::load(), Instant::now()));
     pub static ref NEW_STORED_PEER_CONFIG: Mutex<HashSet<String>> = Default::default();
@@ -2911,7 +2911,7 @@ fn get_or(
 /// inside the map itself, so it survives round-trips through the unchanged
 /// upstream `Data::Options` IPC protocol and through older binaries, which treat
 /// it as an opaque option.
-pub const OPTIONS_WRITE_SERIAL_KEY: &str = "atlas-options-write-serial";
+pub const OPTIONS_WRITE_SERIAL_KEY: &str = "hesper-options-write-serial";
 
 #[inline]
 fn options_write_serial_of(options: &HashMap<String, String>) -> u64 {
@@ -4265,13 +4265,13 @@ pub(crate) mod tests {
     // Regression coverage for the v1.5.13 first-launch incident (2026-07-08 23:30):
     // whole-map read-modify-write over IPC raced a daemon restart and silently
     // dropped `stop-service`, `local-ip-addr` and `verification-method` from
-    // `[options]`. The options map now carries `atlas-options-write-serial`;
+    // `[options]`. The options map now carries `hesper-options-write-serial`;
     // whole-map replacements from a stale or freshly-defaulted snapshot are
     // rejected, and cooperating writers apply per-key deltas instead.
 
     /// Redirects `APP_NAME` (and therefore every config path) into a throwaway
     /// per-test namespace, and snapshots the in-memory statics the options store
-    /// reads, so these tests can never touch the real Atlas Remote config.
+    /// reads, so these tests can never touch the real Hesper Remote config.
     struct OptionsStoreTestEnv {
         original_app_name: String,
         original_config2: Config2,
@@ -4284,7 +4284,7 @@ pub(crate) mod tests {
         fn new(tag: &str) -> Self {
             let original_app_name = APP_NAME.read().unwrap().clone();
             *APP_NAME.write().unwrap() =
-                format!("AtlasOptStoreTest-{}-{}", std::process::id(), tag);
+                format!("HesperOptStoreTest-{}-{}", std::process::id(), tag);
             let original_config2 = CONFIG2.read().unwrap().clone();
             *CONFIG2.write().unwrap() = Config2::default();
             let original_defaults = DEFAULT_SETTINGS.read().unwrap().clone();
@@ -4371,19 +4371,19 @@ pub(crate) mod tests {
             // Writer B lands a per-key write after the snapshot was taken.
             Config::set_option(
                 "custom-rendezvous-server".to_owned(),
-                "rdz.atlasos.work".to_owned(),
+                "rdz.hesper.work".to_owned(),
             );
 
             // Writer A pushes its mutated whole map: the base is now stale.
             let mut pushed = stale_snapshot;
-            pushed.insert("relay-server".to_owned(), "relay.atlasos.work".to_owned());
+            pushed.insert("relay-server".to_owned(), "relay.hesper.work".to_owned());
             Config::set_options(pushed);
 
             // The stale replacement is rejected: B's key survives, A's push is dropped.
             let options = Config::get_options();
             assert_eq!(
                 options.get("custom-rendezvous-server").map(String::as_str),
-                Some("rdz.atlasos.work")
+                Some("rdz.hesper.work")
             );
             assert!(options.get("relay-server").is_none());
             assert_eq!(options.get("stop-service").map(String::as_str), Some("Y"));
@@ -4403,12 +4403,12 @@ pub(crate) mod tests {
             // A well-behaved legacy round-trip (fetch → mutate → push, no
             // interleaving writer) is still accepted and bumps the serial.
             let mut fetched = Config::get_options();
-            fetched.insert("relay-server".to_owned(), "relay.atlasos.work".to_owned());
+            fetched.insert("relay-server".to_owned(), "relay.hesper.work".to_owned());
             Config::set_options(fetched);
             let options = Config::get_options();
             assert_eq!(
                 options.get("relay-server").map(String::as_str),
-                Some("relay.atlasos.work")
+                Some("relay.hesper.work")
             );
             assert_eq!(options.get("stop-service").map(String::as_str), Some("Y"));
             assert_eq!(Config::get_options_write_serial(), 2);
@@ -4419,14 +4419,14 @@ pub(crate) mod tests {
             let mut fresh_default = HashMap::new();
             fresh_default.insert(
                 "custom-rendezvous-server".to_owned(),
-                "rdz.atlasos.work".to_owned(),
+                "rdz.hesper.work".to_owned(),
             );
             Config::set_options(fresh_default);
             let options = Config::get_options();
             assert_eq!(options.get("stop-service").map(String::as_str), Some("Y"));
             assert_eq!(
                 options.get("relay-server").map(String::as_str),
-                Some("relay.atlasos.work")
+                Some("relay.hesper.work")
             );
             assert!(options.get("custom-rendezvous-server").is_none());
         });
@@ -4490,7 +4490,7 @@ pub(crate) mod tests {
 
             Config::apply_options_delta(&[(
                 "custom-rendezvous-server".to_owned(),
-                Some("rdz.atlasos.work".to_owned()),
+                Some("rdz.hesper.work".to_owned()),
             )]);
 
             // The delta merges on top of the newer on-disk map instead of
@@ -4508,7 +4508,7 @@ pub(crate) mod tests {
                     .options
                     .get("custom-rendezvous-server")
                     .map(String::as_str),
-                Some("rdz.atlasos.work")
+                Some("rdz.hesper.work")
             );
             assert_eq!(
                 on_disk.options.get("stop-service").map(String::as_str),
@@ -4533,7 +4533,7 @@ pub(crate) mod tests {
             incoming.nat_type = 2;
             incoming.options.insert(
                 "custom-rendezvous-server".to_owned(),
-                "rdz.atlasos.work".to_owned(),
+                "rdz.hesper.work".to_owned(),
             );
             incoming
                 .options
@@ -4554,7 +4554,7 @@ pub(crate) mod tests {
             let mut newer = Config2::default();
             newer.options.insert(
                 "custom-rendezvous-server".to_owned(),
-                "rdz.atlasos.work".to_owned(),
+                "rdz.hesper.work".to_owned(),
             );
             newer
                 .options
@@ -4563,7 +4563,7 @@ pub(crate) mod tests {
             let options = Config::get_options();
             assert_eq!(
                 options.get("custom-rendezvous-server").map(String::as_str),
-                Some("rdz.atlasos.work")
+                Some("rdz.hesper.work")
             );
             assert!(options.get("stop-service").is_none());
             assert_eq!(Config::get_options_write_serial(), 9);

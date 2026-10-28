@@ -247,34 +247,34 @@ class ColorThemeExtension extends ThemeExtension<ColorThemeExtension> {
   }
 }
 
-// Atlas OS type families (design tokens/fonts.css). Inter = body/UI,
+// Hesper OS type families (design tokens/fonts.css). Inter = body/UI,
 // Plus Jakarta Sans = display/headings, JetBrains Mono = wordmark/mono.
 // Only JetBrains Mono is currently bundled (see flutter/assets/fonts +
-// pubspec.yaml); 'Inter' resolves to the platform default until its .ttf
+// pubspec.yaml); 'DM Sans' resolves to the platform default until its .ttf
 // is added, which is a safe no-op fallback rather than a build break.
-const String kAtlasBodyFont = 'Inter';
-const String kAtlasDisplayFont = 'Plus Jakarta Sans';
-const String kAtlasMonoFont = 'JetBrains Mono';
+const String kHesperBodyFont = 'DM Sans';
+const String kHesperDisplayFont = 'Google Sans';
+const String kHesperMonoFont = 'JetBrains Mono';
 
 class MyTheme {
   MyTheme._();
 
-  // Atlas OS brand palette (design tokens: brand-500 #6ea924 green,
-  // sage surfaces #f7f9f6/#eaeee7, ink #1C1917). `accent` is the single
-  // master accent referenced across the UI, so retargeting it to Atlas
+  // Hesper brand palette (design tokens: brand-500 #7460ff violet,
+  // cool-grey surfaces #f7f9f6/#f7f6fa, ink #1C1917). `accent` is the single
+  // master accent referenced across the UI, so retargeting it to Hesper
   // green rebrands the whole app in one place.
-  static const Color grayBg = Color(0xFFEAEEE7); // sage cream (surface-100)
-  static const Color accent = Color(0xFF6EA924); // Atlas green (brand-500)
-  static const Color accent50 = Color(0x776EA924);
-  static const Color accent80 = Color(0xAA6EA924);
+  static const Color grayBg = Color(0xFFEFEDF5); // mist (surface-100)
+  static const Color accent = Color(0xFF7460FF); // Hesper violet (brand-500)
+  static const Color accent50 = Color(0x777460FF);
+  static const Color accent80 = Color(0xAA7460FF);
   static const Color canvasColor = Color(0xFF212121);
-  static const Color border = Color(0xFFD1D6CD); // sage line (surface-300)
-  static const Color idColor = Color(0xFF426516); // deep Atlas green (brand-700)
+  static const Color border = Color(0xFFDDD9E5); // neutral line (surface-300)
+  static const Color idColor = Color(0xFF4527E3); // deep Hesper violet (brand-700)
   static const Color darkGray = Color.fromARGB(255, 133, 133, 133); // ink-500
-  static const Color cmIdColor = Color(0xFF426516);
-  static const Color dark = Color(0xFF1C1917); // Atlas ink (ink-900)
-  static const Color button = Color(0xFF6EA924);
-  static const Color hoverBorder = Color(0xFFC7CDC2); // sage deep border
+  static const Color cmIdColor = Color(0xFF4527E3);
+  static const Color dark = Color(0xFF090909); // Hesper ink (ink-900)
+  static const Color button = Color(0xFF7460FF);
+  static const Color hoverBorder = Color(0xFFC4BFD0); // neutral deep border
 
   // ListTile
   static const ListTileThemeData listTileTheme = ListTileThemeData(
@@ -387,13 +387,13 @@ class MyTheme {
   static ThemeData lightTheme = ThemeData(
     // https://stackoverflow.com/questions/77537315/after-upgrading-to-flutter-3-16-the-app-bar-background-color-button-size-and
     useMaterial3: false,
-    // Atlas body font (Inter) — variable TTF bundled in pubspec. Headings use
+    // Hesper body font (Inter) — variable TTF bundled in pubspec. Headings use
     // Plus Jakarta Sans via the textTheme titleLarge/titleSmall below (design
     // token --font-display), with ink-scale colours + -0.015em heading tracking.
-    fontFamily: kAtlasBodyFont,
+    fontFamily: kHesperBodyFont,
     brightness: Brightness.light,
     hoverColor: Color.fromARGB(255, 234, 238, 231),
-    scaffoldBackgroundColor: Color(0xFFF7F9F6), // sage page (surface-50)
+    scaffoldBackgroundColor: Color(0xFFF7F6FA), // canvas (surface-50)
     dialogBackgroundColor: Colors.white,
     appBarTheme: AppBarTheme(
       shadowColor: Colors.transparent,
@@ -420,21 +420,21 @@ class MyTheme {
           )
         : null,
     textTheme: const TextTheme(
-        // Headings = Plus Jakarta Sans, Atlas ink (#1C1917), -0.015em tracking.
+        // Headings = Plus Jakarta Sans, Hesper ink (#1C1917), -0.015em tracking.
         titleLarge: TextStyle(
-            fontFamily: kAtlasDisplayFont,
+            fontFamily: kHesperDisplayFont,
             fontSize: 19,
             fontWeight: FontWeight.w700,
             letterSpacing: -0.3,
-            color: Color(0xFF1C1917)),
+            color: Color(0xFF090909)),
         titleSmall: TextStyle(
-            fontFamily: kAtlasDisplayFont,
+            fontFamily: kHesperDisplayFont,
             fontSize: 14,
             fontWeight: FontWeight.w600,
-            color: Color(0xFF292524)),
-        bodySmall: TextStyle(fontSize: 12, color: Color(0xFF44403C), height: 1.25),
+            color: Color(0xFF242429)),
+        bodySmall: TextStyle(fontSize: 12, color: Color(0xFF494451), height: 1.25),
         bodyMedium:
-            TextStyle(fontSize: 14, color: Color(0xFF292524), height: 1.25),
+            TextStyle(fontSize: 14, color: Color(0xFF242429), height: 1.25),
         labelLarge: TextStyle(fontSize: 16.0, color: MyTheme.accent80)),
     cardColor: grayBg,
     hintColor: Color(0xFFAAAAAA),
@@ -499,11 +499,11 @@ class MyTheme {
   );
   static ThemeData darkTheme = ThemeData(
     useMaterial3: false,
-    fontFamily: kAtlasBodyFont, // see lightTheme note re: bundling the .ttf
+    fontFamily: kHesperBodyFont, // see lightTheme note re: bundling the .ttf
     brightness: Brightness.dark,
     hoverColor: Color.fromARGB(255, 45, 46, 53),
-    scaffoldBackgroundColor: Color(0xFF18191E),
-    dialogBackgroundColor: Color(0xFF18191E),
+    scaffoldBackgroundColor: Color(0xFF141416),
+    dialogBackgroundColor: Color(0xFF141416),
     appBarTheme: AppBarTheme(
       shadowColor: Colors.transparent,
     ),
@@ -513,14 +513,14 @@ class MyTheme {
         borderRadius: BorderRadius.circular(18.0),
         side: BorderSide(
           width: 1,
-          color: Color(0xFF24252B),
+          color: Color(0xFF1C1C20),
         ),
       ),
     ),
     scrollbarTheme: scrollbarThemeDark,
     inputDecorationTheme: (isDesktop || isWebDesktop)
         ? InputDecorationTheme(
-            fillColor: Color(0xFF24252B),
+            fillColor: Color(0xFF1C1C20),
             filled: true,
             isDense: true,
             border: OutlineInputBorder(
@@ -539,7 +539,7 @@ class MyTheme {
         color: accent80,
       ),
     ),
-    cardColor: Color(0xFF24252B),
+    cardColor: Color(0xFF1C1C20),
     visualDensity: VisualDensity.adaptivePlatformDensity,
     tabBarTheme: const TabBarTheme(
       labelColor: Colors.white70,
@@ -573,7 +573,7 @@ class MyTheme {
     ),
     outlinedButtonTheme: OutlinedButtonThemeData(
       style: OutlinedButton.styleFrom(
-        backgroundColor: Color(0xFF24252B),
+        backgroundColor: Color(0xFF1C1C20),
         side: BorderSide(color: Colors.white12, width: 0.5),
         disabledForegroundColor: Colors.white70,
         foregroundColor: Colors.white70,
@@ -588,11 +588,11 @@ class MyTheme {
     listTileTheme: listTileTheme,
     menuBarTheme: MenuBarThemeData(
         style: MenuStyle(
-            backgroundColor: MaterialStatePropertyAll(Color(0xFF121212)))),
+            backgroundColor: MaterialStatePropertyAll(Color(0xFF090909)))),
     colorScheme: ColorScheme.dark(
       primary: accent,
       secondary: accent,
-      background: Color(0xFF24252B),
+      background: Color(0xFF1C1C20),
     ),
     popupMenuTheme: PopupMenuThemeData(
         shape: RoundedRectangleBorder(
@@ -683,14 +683,14 @@ extension ParseToString on ThemeMode {
 }
 
 // ---------------------------------------------------------------------------
-// Atlas Remote — theme-aware surface/ink tokens.
+// Hesper Remote — theme-aware surface/ink tokens.
 //
-// The Atlas redesign (Home/Connection/Settings/Fleet) hardcoded the LIGHT
-// palette (white cards #FFFFFF, sage page #F7F9F6, dark ink text). In DARK
+// The Hesper redesign (Home/Connection/Settings/Fleet) hardcoded the LIGHT
+// palette (white cards #FFFFFF, canvas #F7F9F6, dark ink text). In DARK
 // mode the app shell is dark but those surfaces rendered as white cards with
-// dark text — broken. These getters apply the Atlas light hex ONLY in light
+// dark text — broken. These getters apply the Hesper light hex ONLY in light
 // mode and defer to the dark equivalents in dark mode, so the same widget tree
-// reads correctly in both. The green accent (#6EA924) is intentionally
+// reads correctly in both. The green accent (#7460FF) is intentionally
 // constant across both modes.
 //
 // Dark values mirror the fork's darkTheme surfaces (card ~#23262B, page
@@ -699,40 +699,40 @@ bool isLightTheme(BuildContext context) =>
     Theme.of(context).brightness == Brightness.light;
 
 // Card / raised surface (light: #FFFFFF).
-Color atlasCardColor(BuildContext context) =>
-    isLightTheme(context) ? const Color(0xFFFFFFFF) : const Color(0xFF23262B);
+Color hesperCardColor(BuildContext context) =>
+    isLightTheme(context) ? const Color(0xFFFFFFFF) : const Color(0xFF141416);
 
-// Page / scaffold background (light: sage #F7F9F6).
-Color atlasPageColor(BuildContext context) =>
-    isLightTheme(context) ? const Color(0xFFF7F9F6) : const Color(0xFF17181C);
+// Page / scaffold background (light: neutral #F7F9F6).
+Color hesperPageColor(BuildContext context) =>
+    isLightTheme(context) ? const Color(0xFFF7F6FA) : const Color(0xFF090909);
 
-// Subtle sage fill for inset controls / segmented tracks (light: #EAEEE7).
-Color atlasFillColor(BuildContext context) =>
-    isLightTheme(context) ? const Color(0xFFEAEEE7) : const Color(0xFF2A2E34);
+// Subtle neutral fill for inset controls / segmented tracks (light: #F7F6FA).
+Color hesperFillColor(BuildContext context) =>
+    isLightTheme(context) ? const Color(0xFFEFEDF5) : const Color(0xFF1C1C20);
 
-// Hairline border (light: sage #D1D6CD).
-Color atlasBorderColor(BuildContext context) =>
-    isLightTheme(context) ? const Color(0xFFD1D6CD) : const Color(0xFF33373D);
+// Hairline border (light: neutral #D1D6CD).
+Color hesperBorderColor(BuildContext context) =>
+    isLightTheme(context) ? const Color(0xFFDDD9E5) : const Color(0xFF35313F);
 
 // Ink — headings / primary text (light: ink-900 #1C1917).
-Color atlasInkPrimary(BuildContext context) =>
-    isLightTheme(context) ? const Color(0xFF1C1917) : const Color(0xFFE6E8E3);
+Color hesperInkPrimary(BuildContext context) =>
+    isLightTheme(context) ? const Color(0xFF090909) : const Color(0xFFF7F6FA);
 
 // Ink — body text (light: ink-700 #44403C).
-Color atlasInkBody(BuildContext context) =>
-    isLightTheme(context) ? const Color(0xFF44403C) : const Color(0xFFB7BCB2);
+Color hesperInkBody(BuildContext context) =>
+    isLightTheme(context) ? const Color(0xFF494451) : const Color(0xFFDDD9E5);
 
 // Ink — labels / muted / secondary (light: ink-500 #858585).
-Color atlasInkMuted(BuildContext context) =>
-    isLightTheme(context) ? const Color(0xFF858585) : const Color(0xFF8C9187);
+Color hesperInkMuted(BuildContext context) =>
+    isLightTheme(context) ? const Color(0xFF66616F) : const Color(0xFFAAA5B7);
 
-// Atlas brand green — the SAME in both modes.
-const Color kAtlasBrandGreen = Color(0xFF6EA924);
-// Pale-green hover / status wash (light only; a translucent green in dark so
+// Hesper brand violet — the SAME in both modes.
+const Color kHesperBrand = Color(0xFF7460FF);
+// Pale-violet hover / status wash (light only; a translucent violet in dark so
 // it reads on the dark surface instead of a near-white block).
-Color atlasGreenPale(BuildContext context) => isLightTheme(context)
-    ? const Color(0xFFF4F8EC)
-    : kAtlasBrandGreen.withOpacity(0.16);
+Color hesperBrandPale(BuildContext context) => isLightTheme(context)
+    ? const Color(0xFFF6F3FF)
+    : kHesperBrand.withOpacity(0.16);
 
 final ButtonStyle flatButtonStyle = TextButton.styleFrom(
   minimumSize: Size(0, 36),
@@ -2637,10 +2637,10 @@ List<RendezvousCandidate> parseAltServers(String? raw) {
   return out;
 }
 
-/// Atlas fleet devices are synthesised into the address book with a real
+/// Hesper fleet devices are synthesised into the address book with a real
 /// Postgres UUID as their `id` (see /api/ab), not a genuine RustDesk peer ID
 /// (which is always numeric-charset, never hyphenated) — deliberately, so
-/// they are not directly dialable. Connecting to one must go through Atlas'
+/// they are not directly dialable. Connecting to one must go through Hesper'
 /// governed session flow (consent/approval/audit) instead of RustDesk's
 /// native dial. This is the discriminator connect() uses to tell the two
 /// apart.
@@ -2649,10 +2649,10 @@ final _fleetDeviceIdPattern = RegExp(
 
 bool isFleetDeviceId(String id) => _fleetDeviceIdPattern.hasMatch(id);
 
-/// Opens the device's page in the Atlas web dashboard, where the existing
+/// Opens the device's page in the Hesper web dashboard, where the existing
 /// governed connect flow (consent/approval, rmm_remote_sessions) runs —
 /// unchanged by this client. Reuses the same host /api/login already
-/// resolves to, so there is one source of truth for "what is Atlas' app
+/// resolves to, so there is one source of truth for "what is Hesper' app
 /// host", not two.
 Future<void> openGovernedDeviceConnect(String deviceId) async {
   final apiServer = await bind.mainGetApiServer();
@@ -2721,7 +2721,7 @@ connect(BuildContext context, String id,
     bool? isSharedPassword}) async {
   if (id == '') return;
   if (isFleetDeviceId(id)) {
-    // Atlas fleet peer — not directly dialable. Hand off to the governed
+    // Hesper fleet peer — not directly dialable. Hand off to the governed
     // connect flow in the web dashboard instead of RustDesk's native dial.
     await openGovernedDeviceConnect(id);
     return;
@@ -3892,7 +3892,7 @@ Widget loadPowered(BuildContext context) {
     cursor: SystemMouseCursors.click,
     child: GestureDetector(
       onTap: () {
-        launchUrl(Uri.parse('https://atlasos.work'));
+        launchUrl(Uri.parse('https://hesper.work'));
       },
       child: Opacity(
           opacity: 0.5,
@@ -3908,7 +3908,7 @@ Widget loadPowered(BuildContext context) {
   ).marginOnly(top: 6);
 }
 
-// Atlas Remote wordmark. Shipped as vector SVG (design export) rather than the
+// Hesper Remote wordmark. Shipped as vector SVG (design export) rather than the
 // upstream PNGs: logo_light = dark-ink wordmark for light surfaces, logo_dark =
 // white wordmark for dark surfaces.
 const _kDefaultLogoAsset = 'assets/logo.svg';
@@ -4216,8 +4216,8 @@ void earlyAssert() {
 
 void checkUpdate() {
   if (!isWeb) {
-    // Atlas: run the in-app update check for our custom client too. The Rust
-    // side (common.rs::check_software_update) already targets the Atlas hub's
+    // Hesper: run the in-app update check for our custom client too. The Rust
+    // side (common.rs::check_software_update) already targets the Hesper hub's
     // engine-version endpoint and returns the exact asset URL; the stock
     // `!isCustomClient()` gate meant this handler was never registered, so the
     // resulting updateUrl was dropped and the macOS "new version available"

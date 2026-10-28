@@ -186,7 +186,7 @@ fn main() {
         }
         i += 1;
     }
-    // Atlas: the CI distributes the packer as `...-windows-setup.exe`, so accept
+    // Hesper: the CI distributes the packer as `...-windows-setup.exe`, so accept
     // both suffixes — otherwise double-clicking runs portable instead of installing
     // (RustDesk only ever named it `...install.exe`). Keep in sync with
     // `src/common.rs::is_setup`.

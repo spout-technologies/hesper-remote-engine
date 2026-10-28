@@ -158,12 +158,12 @@ class ChatPage extends StatelessWidget implements PageShape {
                           (message, previousMessage, nextMessage) {
                         final isOwnMessage = message.user.id.isBlank!;
                         return defaultMessageDecoration(
-                          // Own messages carry the Atlas brand green; the peer's
+                          // Own messages carry the Hesper brand violet; the peer's
                           // messages use a neutral slate (not RustDesk blue-grey)
                           // — both keep the hard-coded white bubble text legible
                           // in light and dark.
                           color: isOwnMessage
-                              ? kAtlasBrandGreen
+                              ? kHesperBrand
                               : const Color(0xFF52525B),
                           borderTopLeft: 8,
                           borderTopRight: 8,

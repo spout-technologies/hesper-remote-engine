@@ -17,7 +17,7 @@ cert.pfx
 *png
 *svg
 *jpg
-# Atlas app icon — bundled via pubspec assets/ and loaded by loadIcon(); must be
+# Hesper app icon — bundled via pubspec assets/ and loaded by loadIcon(); must be
 # committed despite the broad *png ignore, else CI builds (fresh clone) fall
 # back to the stock RustDesk assets/icon.svg.
 !flutter/assets/icon.png

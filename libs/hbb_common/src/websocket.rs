@@ -409,7 +409,7 @@ mod tests {
     fn test_check_ws() {
         // Sandboxed via with_options_store_env: this test writes real global
         // config through Config::set_option, so it must never run against the
-        // real Atlas Remote config (see the relay-server/custom-rendezvous
+        // real Hesper Remote config (see the relay-server/custom-rendezvous
         // -server corruption incident, 2026-07-09).
         crate::config::tests::with_options_store_env("check_ws", || {
             // enable websocket

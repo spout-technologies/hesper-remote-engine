@@ -181,8 +181,8 @@ class ConnectionManagerState extends State<ConnectionManager>
                   child: Text(
                     translate("Waiting"),
                     style: TextStyle(
-                      color: atlasInkMuted(context),
-                      fontFamily: kAtlasBodyFont,
+                      color: hesperInkMuted(context),
+                      fontFamily: kHesperBodyFont,
                     ),
                   ),
                 ),
@@ -446,13 +446,13 @@ class _CmHeaderState extends State<_CmHeader>
   @override
   Widget build(BuildContext context) {
     super.build(context);
-    // Atlas card (was RustDesk blue gradient). Theme-aware surface so the
+    // Hesper card (was RustDesk blue gradient). Theme-aware surface so the
     // consent card reads correctly in both light and dark mode.
     return Container(
       decoration: BoxDecoration(
-        color: atlasCardColor(context),
+        color: hesperCardColor(context),
         borderRadius: BorderRadius.circular(12.0),
-        border: Border.all(color: atlasBorderColor(context)),
+        border: Border.all(color: hesperBorderColor(context)),
       ),
       margin: EdgeInsets.symmetric(horizontal: 5.0, vertical: 10.0),
       padding: EdgeInsets.only(
@@ -474,8 +474,8 @@ class _CmHeaderState extends State<_CmHeader>
                     child: Text(
                   client.name,
                   style: TextStyle(
-                    color: atlasInkPrimary(context),
-                    fontFamily: kAtlasBodyFont,
+                    color: hesperInkPrimary(context),
+                    fontFamily: kHesperBodyFont,
                     fontWeight: FontWeight.bold,
                     fontSize: 20,
                     overflow: TextOverflow.ellipsis,
@@ -486,8 +486,8 @@ class _CmHeaderState extends State<_CmHeader>
                   child: Text(
                     "(${client.peerId})",
                     style: TextStyle(
-                      color: atlasInkMuted(context),
-                      fontFamily: kAtlasMonoFont,
+                      color: hesperInkMuted(context),
+                      fontFamily: kHesperMonoFont,
                       fontSize: 14,
                     ),
                   ),
@@ -497,7 +497,7 @@ class _CmHeaderState extends State<_CmHeader>
                     child: Text(
                       translate("Terminal"),
                       style: TextStyle(
-                          color: atlasInkMuted(context), fontSize: 12),
+                          color: hesperInkMuted(context), fontSize: 12),
                     ),
                   ),
                 if (client.type_() == ClientType.file)
@@ -505,7 +505,7 @@ class _CmHeaderState extends State<_CmHeader>
                     child: Text(
                       translate("File Transfer"),
                       style: TextStyle(
-                          color: atlasInkMuted(context), fontSize: 12),
+                          color: hesperInkMuted(context), fontSize: 12),
                     ),
                   ),
                 if (client.type_() == ClientType.camera)
@@ -513,7 +513,7 @@ class _CmHeaderState extends State<_CmHeader>
                     child: Text(
                       translate("View Camera"),
                       style: TextStyle(
-                          color: atlasInkMuted(context), fontSize: 12),
+                          color: hesperInkMuted(context), fontSize: 12),
                     ),
                   ),
                 if (client.portForward.isNotEmpty)
@@ -521,7 +521,7 @@ class _CmHeaderState extends State<_CmHeader>
                     child: Text(
                       "Port Forward: ${client.portForward}",
                       style: TextStyle(
-                          color: atlasInkMuted(context), fontSize: 12),
+                          color: hesperInkMuted(context), fontSize: 12),
                     ),
                   ),
                 SizedBox(height: 10.0),
@@ -534,7 +534,7 @@ class _CmHeaderState extends State<_CmHeader>
                               ? translate("Disconnected")
                               : translate("Connected")
                           : "${translate("Request access to your device")}...",
-                      style: TextStyle(color: atlasInkBody(context)),
+                      style: TextStyle(color: hesperInkBody(context)),
                     ).marginOnly(right: 8.0),
                     if (client.authorized)
                       Obx(
@@ -543,8 +543,8 @@ class _CmHeaderState extends State<_CmHeader>
                             Duration(seconds: _time.value),
                           ),
                           style: TextStyle(
-                            color: atlasInkBody(context),
-                            fontFamily: kAtlasMonoFont,
+                            color: hesperInkBody(context),
+                            fontFamily: kHesperMonoFont,
                           ),
                         ),
                       )
@@ -571,7 +571,7 @@ class _CmHeaderState extends State<_CmHeader>
                 client.type_() == ClientType.file
                     ? 'assets/file_transfer.svg'
                     : 'assets/chat2.svg',
-                colorFilter: svgColor(atlasInkBody(context)),
+                colorFilter: svgColor(hesperInkBody(context)),
               ),
               splashRadius: kDesktopIconButtonSplashRadius,
             ),
@@ -595,19 +595,19 @@ class _CmHeaderState extends State<_CmHeader>
   }
 
   Widget _buildInitialAvatar() {
-    // Atlas green initial tile (was a random str2color hash).
+    // Hesper violet initial tile (was a random str2color hash).
     return Container(
       width: 70,
       height: 70,
       alignment: Alignment.center,
       decoration: BoxDecoration(
-        color: kAtlasBrandGreen,
+        color: kHesperBrand,
         borderRadius: BorderRadius.circular(12.0),
       ),
       child: Text(
         client.name.isNotEmpty ? client.name[0].toUpperCase() : '?',
         style: TextStyle(
-          fontFamily: kAtlasBodyFont,
+          fontFamily: kHesperBodyFont,
           fontWeight: FontWeight.bold,
           color: Colors.white,
           fontSize: 55,
@@ -631,7 +631,7 @@ class _PrivilegeBoardState extends State<_PrivilegeBoard> {
   Widget buildPermissionIcon(bool enabled, IconData iconData,
       Function(bool)? onTap, String tooltipText,
       {required bool canModify}) {
-    // Atlas tiles: green when active (was RustDesk blue), neutral sage fill
+    // Hesper tiles: green when active (was RustDesk blue), neutral neutral fill
     // when off (was Colors.grey[700]). Icon ink flips white/muted to keep
     // contrast in both states and both themes.
     final borderRadius = BorderRadius.circular(8.0);
@@ -642,13 +642,13 @@ class _PrivilegeBoardState extends State<_PrivilegeBoard> {
         decoration: BoxDecoration(
           color: enabled
               ? (canModify
-                  ? kAtlasBrandGreen
-                  : kAtlasBrandGreen.withOpacity(0.6))
-              : atlasFillColor(context),
+                  ? kHesperBrand
+                  : kHesperBrand.withOpacity(0.6))
+              : hesperFillColor(context),
           borderRadius: borderRadius,
           border: enabled
               ? null
-              : Border.all(color: atlasBorderColor(context)),
+              : Border.all(color: hesperBorderColor(context)),
         ),
         padding: EdgeInsets.all(8.0),
         child: InkWell(
@@ -663,7 +663,7 @@ class _PrivilegeBoardState extends State<_PrivilegeBoard> {
               Expanded(
                 child: Icon(
                   iconData,
-                  color: enabled ? Colors.white : atlasInkMuted(context),
+                  color: enabled ? Colors.white : hesperInkMuted(context),
                 ),
               ),
             ],
@@ -687,8 +687,8 @@ class _PrivilegeBoardState extends State<_PrivilegeBoard> {
       padding: EdgeInsets.all(8.0),
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(12.0),
-        color: atlasCardColor(context),
-        border: Border.all(color: atlasBorderColor(context)),
+        color: hesperCardColor(context),
+        border: Border.all(color: hesperBorderColor(context)),
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.center,
@@ -698,8 +698,8 @@ class _PrivilegeBoardState extends State<_PrivilegeBoard> {
             style: TextStyle(
               fontSize: 16,
               fontWeight: FontWeight.bold,
-              fontFamily: kAtlasBodyFont,
-              color: atlasInkPrimary(context),
+              fontFamily: kHesperBodyFont,
+              color: hesperInkPrimary(context),
             ),
             textAlign: TextAlign.center,
           ).marginOnly(left: 4.0, bottom: 8.0),
@@ -906,7 +906,7 @@ class _CmControlPanel extends StatelessWidget {
             children: [
               Expanded(
                 child: buildButton(context,
-                    color: kAtlasBrandGreen,
+                    color: kHesperBrand,
                     onClick: null, onTapDown: (details) async {
                   final devicesInfo =
                       await AudioInput.getDevicesInfo(true, true);
@@ -992,7 +992,7 @@ class _CmControlPanel extends StatelessWidget {
             children: [
               Expanded(
                 child: buildButton(context,
-                    color: kAtlasBrandGreen,
+                    color: kHesperBrand,
                     onClick: () => handleVoiceCall(true),
                     icon: Icon(
                       Icons.call_rounded,
@@ -1032,7 +1032,7 @@ class _CmControlPanel extends StatelessWidget {
           offstage: !showElevation,
           child: buildButton(
             context,
-            color: kAtlasBrandGreen,
+            color: kHesperBrand,
             onClick: () {
               handleElevate(context);
               windowManager.minimize();
@@ -1072,7 +1072,7 @@ class _CmControlPanel extends StatelessWidget {
       children: [
         Expanded(
             child: buildButton(context,
-                color: kAtlasBrandGreen,
+                color: kHesperBrand,
                 onClick: handleClose,
                 text: 'Close',
                 textColor: Colors.white)),
@@ -1092,7 +1092,7 @@ class _CmControlPanel extends StatelessWidget {
       children: [
         Offstage(
           offstage: !showElevation || !showAccept,
-          child: buildButton(context, color: kAtlasBrandGreen, onClick: () {
+          child: buildButton(context, color: kHesperBrand, onClick: () {
             handleAccept(context);
             handleElevate(context);
             windowManager.minimize();
@@ -1115,7 +1115,7 @@ class _CmControlPanel extends StatelessWidget {
                   children: [
                     buildButton(
                       context,
-                      color: kAtlasBrandGreen,
+                      color: kHesperBrand,
                       onClick: () {
                         handleAccept(context);
                         windowManager.minimize();
@@ -1130,10 +1130,10 @@ class _CmControlPanel extends StatelessWidget {
               child: buildButton(
                 context,
                 color: Colors.transparent,
-                border: Border.all(color: atlasBorderColor(context)),
+                border: Border.all(color: hesperBorderColor(context)),
                 onClick: handleDisconnect,
                 text: 'Cancel',
-                textColor: atlasInkBody(context),
+                textColor: hesperInkBody(context),
               ),
             ),
           ],
@@ -1272,11 +1272,11 @@ class __FileTransferLogPageState extends State<_FileTransferLogPage> {
   Widget generateCard(Widget child) {
     return Container(
       decoration: BoxDecoration(
-        color: atlasCardColor(context),
+        color: hesperCardColor(context),
         borderRadius: BorderRadius.all(
           Radius.circular(12.0),
         ),
-        border: Border.all(color: atlasBorderColor(context)),
+        border: Border.all(color: hesperBorderColor(context)),
       ),
       child: child,
     );

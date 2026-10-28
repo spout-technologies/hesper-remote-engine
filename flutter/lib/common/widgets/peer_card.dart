@@ -507,7 +507,7 @@ class _PeerCardState extends State<_PeerCard>
 /// screen point, e.g. a right-click location or a row's top-left). Reuses the
 /// same `mod_menu.showMenu` call the peer card uses for its own right-click,
 /// so every action (rename, connect, transfer, remove, …) behaves identically.
-/// Used by the Atlas device tables in `peers_view.dart` to restore the
+/// Used by the Hesper device tables in `peers_view.dart` to restore the
 /// right-click / long-press menu their custom rows would otherwise lack.
 Future<void> showPeerContextMenu(
   BuildContext context,
@@ -563,7 +563,7 @@ abstract class BasePeerCard extends StatelessWidget {
           .expand((i) => i)
           .toList();
 
-  /// Public entry point so bespoke Atlas table rows (which render their own
+  /// Public entry point so bespoke Hesper table rows (which render their own
   /// widget instead of a `_PeerCard`) can reuse this card's exact context menu
   /// — rename/alias, connect variants, transfer file, remove, etc. — without
   /// duplicating any action. Delegates to the same builder the peer card uses.

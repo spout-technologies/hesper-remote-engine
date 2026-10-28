@@ -73,8 +73,8 @@ class _PeersView extends StatefulWidget {
   final PeerFilter? peerFilter;
   final PeerCardBuilder peerCardBuilder;
   final PeerTabIndex peerTabIndex;
-  // Atlas Remote: force a full-width list layout regardless of the global
-  // peerCardUiType. Used by the Recent tab to render an Atlas device table
+  // Hesper Remote: force a full-width list layout regardless of the global
+  // peerCardUiType. Used by the Recent tab to render an Hesper device table
   // (one row per peer) instead of RustDesk's grid of peer cards.
   final bool forceListLayout;
   final double? rowHeight;
@@ -257,9 +257,9 @@ class _PeersViewState extends State<_PeersView>
               // No need to listen the currentTab change event.
               // Because the currentTab change event will trigger the peers change event,
               // and the peers change event will trigger _buildPeersView().
-              // List view sizes to a row (Atlas tables use their taller
+              // List view sizes to a row (Hesper tables use their taller
               // rowHeight); grid/tile get card boxes. Reactive to "Change view"
-              // on every tab, incl. the forceListLayout Atlas tables.
+              // on every tab, incl. the forceListLayout Hesper tables.
               return !isPortrait
                   ? Obx(() => peerCardUiType.value == PeerUiType.list
                       ? Container(
@@ -278,9 +278,9 @@ class _PeersViewState extends State<_PeersView>
             // We should avoid too many rebuilds. Win10(Some machines) on Flutter 3.19.6.
             // Continious rebuilds of `ListView.builder` will cause memory leak.
             // Simple demo can reproduce this issue.
-            // Atlas: Recent tab renders a borderless full-width table — no
+            // Hesper: Recent tab renders a borderless full-width table — no
             // inter-row spacing, no right gutter (the 1px separators + card
-            // border come from the Atlas row widget itself).
+            // border come from the Hesper row widget itself).
             if (updateEvent == UpdateEvent.load) {
               _curPeers.clear();
               _curPeers.addAll(peers.map((e) => e.id));
@@ -299,7 +299,7 @@ class _PeersViewState extends State<_PeersView>
                         controller: _scrollController,
                         itemCount: peers.length,
                         itemBuilder: (BuildContext context, int index) {
-                          // Atlas tables (forceListLayout) render borderless,
+                          // Hesper tables (forceListLayout) render borderless,
                           // full-width; stock list tabs keep the right gutter.
                           final row = buildOnePeer(peers[index], false);
                           return widget.forceListLayout
@@ -334,7 +334,7 @@ class _PeersViewState extends State<_PeersView>
 
   var _queryInterval = const Duration(seconds: 20);
 
-  // Atlas fleet peers are projected into the address book with a Postgres UUID
+  // Hesper fleet peers are projected into the address book with a Postgres UUID
   // as their id (see isFleetDeviceId), which hbbs has never seen. Sending those
   // ids to bind.queryOnlines can only ever mark them offline and would clobber
   // the hub's authoritative `online` (carried on the Peer from the /api/ab
@@ -492,8 +492,8 @@ abstract class BasePeersView extends StatelessWidget {
 }
 
 class RecentPeersView extends BasePeersView {
-  // Atlas Remote — Recent tab renders an Atlas device table (see
-  // `_AtlasRecentDeviceRow`) on desktop instead of RustDesk's peer-card grid.
+  // Hesper Remote — Recent tab renders an Hesper device table (see
+  // `_HesperRecentDeviceRow`) on desktop instead of RustDesk's peer-card grid.
   // Mobile keeps the stock RecentPeerCard so the touch UI is unchanged.
   RecentPeersView(
       {Key? key, EdgeInsets? menuPadding, ScrollController? scrollController})
@@ -503,10 +503,10 @@ class RecentPeersView extends BasePeersView {
           forceListLayout: isDesktop || isWebDesktop,
           rowHeight: 52,
           peerCardBuilder: (Peer peer) => (isDesktop || isWebDesktop)
-              // List → Atlas device-table row; grid/tile → stock large-icon
+              // List → Hesper device-table row; grid/tile → stock large-icon
               // card (AnyDesk-style), switched live by "Change view".
               ? Obx(() => peerCardUiType.value == PeerUiType.list
-                  ? _AtlasRecentDeviceRow(peer: peer)
+                  ? _HesperRecentDeviceRow(peer: peer)
                   : RecentPeerCard(peer: peer, menuPadding: menuPadding))
               : RecentPeerCard(
                   peer: peer,
@@ -522,7 +522,7 @@ class RecentPeersView extends BasePeersView {
       return peersView;
     }
     // Grid/tile → AnyDesk-style large-icon cards (no table chrome). List → the
-    // Atlas device table (card + DEVICE|CLIENT|LAST CONNECTED header). Reactive
+    // Hesper device table (card + DEVICE|CLIENT|LAST CONNECTED header). Reactive
     // to the "Change view" control.
     return Obx(() {
       if (peerCardUiType.value != PeerUiType.list) {
@@ -531,12 +531,12 @@ class RecentPeersView extends BasePeersView {
       return Container(
       margin: const EdgeInsets.only(right: 12),
       decoration: BoxDecoration(
-        color: atlasCardColor(context),
+        color: hesperCardColor(context),
         borderRadius: BorderRadius.circular(8),
-        border: Border.all(color: atlasBorderColor(context), width: 1),
+        border: Border.all(color: hesperBorderColor(context), width: 1),
         boxShadow: [
           BoxShadow(
-            color: const Color(0xFF1C1917).withOpacity(0.04),
+            color: const Color(0xFF090909).withOpacity(0.04),
             blurRadius: 8,
             offset: const Offset(0, 2),
           ),
@@ -550,22 +550,22 @@ class RecentPeersView extends BasePeersView {
           Container(
             padding: const EdgeInsets.fromLTRB(16, 10, 16, 10),
             decoration: BoxDecoration(
-              color: atlasPageColor(context),
+              color: hesperPageColor(context),
               border: Border(
-                bottom: BorderSide(color: atlasBorderColor(context), width: 1),
+                bottom: BorderSide(color: hesperBorderColor(context), width: 1),
               ),
             ),
             child: Row(
               children: const [
                 Expanded(
                     flex: 4,
-                    child: _AtlasTableHeaderCell(label: 'DEVICE')),
+                    child: _HesperTableHeaderCell(label: 'DEVICE')),
                 Expanded(
                     flex: 3,
-                    child: _AtlasTableHeaderCell(label: 'CLIENT')),
+                    child: _HesperTableHeaderCell(label: 'CLIENT')),
                 Expanded(
                     flex: 3,
-                    child: _AtlasTableHeaderCell(label: 'LAST CONNECTED')),
+                    child: _HesperTableHeaderCell(label: 'LAST CONNECTED')),
                 SizedBox(width: 36),
               ],
             ),
@@ -578,58 +578,58 @@ class RecentPeersView extends BasePeersView {
   }
 }
 
-// Atlas Remote design tokens for the device table (Claude Design DS Table).
+// Hesper Remote design tokens for the device table (Claude Design DS Table).
 //
 // Dark-mode note: card / border / head-fill / row-divider / fill / ink colours
 // are now sourced from the theme-aware getters in common.dart
-// (atlasCardColor / atlasBorderColor / atlasPageColor / atlasFillColor /
-// atlasInkPrimary|Body|Muted) so the tables adapt to the dark shell. They return
+// (hesperCardColor / hesperBorderColor / hesperPageColor / hesperFillColor /
+// hesperInkPrimary|Body|Muted) so the tables adapt to the dark shell. They return
 // the exact light hex below in light mode, so light mode is byte-identical.
 // The green accents are intentionally constant across both modes.
-const Color _kAtlasGreen = Color(0xFF6EA924); // brand-500
-const Color _kAtlasGreenDark = Color(0xFF58871D); // green-dark (row arrow)
+const Color _kHesperBrand = Color(0xFF7460FF); // brand-500
+const Color _kHesperBrandDark = Color(0xFF5B3FF0); // violet-dark (row arrow)
 // Offline status dot — muted sage-grey, constant in both modes (tiny 7px dot).
-const Color _kAtlasOfflineDot = Color(0xFFB7BDB0);
+const Color _kHesperOfflineDot = Color(0xFFAAA5B7);
 
-class _AtlasTableHeaderCell extends StatelessWidget {
+class _HesperTableHeaderCell extends StatelessWidget {
   final String label;
-  const _AtlasTableHeaderCell({required this.label});
+  const _HesperTableHeaderCell({required this.label});
 
   @override
   Widget build(BuildContext context) {
     return Text(
       label,
       style: TextStyle(
-        fontFamily: kAtlasBodyFont,
+        fontFamily: kHesperBodyFont,
         fontSize: 11,
         fontWeight: FontWeight.w600,
         letterSpacing: 0.55, // 0.05em at 11px
-        color: atlasInkMuted(context),
+        color: hesperInkMuted(context),
       ),
     );
   }
 }
 
-// A single device row in the Atlas Recent table. Double-tap or the green
+// A single device row in the Hesper Recent table. Double-tap or the green
 // arrow connects (remote control). The peer data is real — id/hostname/
 // username/online come from the recent-peers model. There is no per-peer
 // "last connected" timestamp in the RustDesk peer model, so that column
 // reflects the honest available signal: online / offline status.
-class _AtlasRecentDeviceRow extends StatefulWidget {
+class _HesperRecentDeviceRow extends StatefulWidget {
   final Peer peer;
-  const _AtlasRecentDeviceRow({required this.peer, Key? key}) : super(key: key);
+  const _HesperRecentDeviceRow({required this.peer, Key? key}) : super(key: key);
 
   @override
-  State<_AtlasRecentDeviceRow> createState() => _AtlasRecentDeviceRowState();
+  State<_HesperRecentDeviceRow> createState() => _HesperRecentDeviceRowState();
 }
 
-class _AtlasRecentDeviceRowState extends State<_AtlasRecentDeviceRow> {
+class _HesperRecentDeviceRowState extends State<_HesperRecentDeviceRow> {
   bool _hover = false;
 
   void _connect() => connect(context, widget.peer.id);
 
   // Restore RustDesk's per-peer right-click menu (rename/alias, connect
-  // variants, transfer file, remove, …) on the Atlas Recent table row by
+  // variants, transfer file, remove, …) on the Hesper Recent table row by
   // reusing the existing RecentPeerCard menu builder. `at` is the global
   // screen point to anchor the menu (right-click location, or the row origin
   // for the long-press fallback).
@@ -663,11 +663,11 @@ class _AtlasRecentDeviceRowState extends State<_AtlasRecentDeviceRow> {
         onSecondaryTapDown: (d) => _showContextMenu(d.globalPosition),
         onLongPress: () => _showContextMenu(_rowTopLeft()),
         child: Container(
-          color: _hover ? atlasPageColor(context) : Colors.transparent,
+          color: _hover ? hesperPageColor(context) : Colors.transparent,
           padding: const EdgeInsets.symmetric(horizontal: 16),
           decoration: BoxDecoration(
             border: Border(
-              bottom: BorderSide(color: atlasFillColor(context), width: 1),
+              bottom: BorderSide(color: hesperFillColor(context), width: 1),
             ),
           ),
           child: Row(
@@ -684,10 +684,10 @@ class _AtlasRecentDeviceRowState extends State<_AtlasRecentDeviceRow> {
                         device,
                         overflow: TextOverflow.ellipsis,
                         style: TextStyle(
-                          fontFamily: kAtlasMonoFont,
+                          fontFamily: kHesperMonoFont,
                           fontSize: 14,
                           fontWeight: FontWeight.w600,
-                          color: atlasInkPrimary(context),
+                          color: hesperInkPrimary(context),
                         ),
                       ),
                     ),
@@ -701,9 +701,9 @@ class _AtlasRecentDeviceRowState extends State<_AtlasRecentDeviceRow> {
                   client,
                   overflow: TextOverflow.ellipsis,
                   style: TextStyle(
-                    fontFamily: kAtlasBodyFont,
+                    fontFamily: kHesperBodyFont,
                     fontSize: 14,
-                    color: atlasInkBody(context),
+                    color: hesperInkBody(context),
                   ),
                 ),
               ),
@@ -719,8 +719,8 @@ class _AtlasRecentDeviceRowState extends State<_AtlasRecentDeviceRow> {
                       decoration: BoxDecoration(
                         shape: BoxShape.circle,
                         color: peer.online
-                            ? _kAtlasGreen
-                            : _kAtlasOfflineDot,
+                            ? _kHesperBrand
+                            : _kHesperOfflineDot,
                       ),
                     ),
                     Flexible(
@@ -728,9 +728,9 @@ class _AtlasRecentDeviceRowState extends State<_AtlasRecentDeviceRow> {
                         lastConnected,
                         overflow: TextOverflow.ellipsis,
                         style: TextStyle(
-                          fontFamily: kAtlasBodyFont,
+                          fontFamily: kHesperBodyFont,
                           fontSize: 12.5,
-                          color: atlasInkMuted(context),
+                          color: hesperInkMuted(context),
                         ),
                       ),
                     ),
@@ -738,7 +738,7 @@ class _AtlasRecentDeviceRowState extends State<_AtlasRecentDeviceRow> {
                 ),
               ),
               // Connect arrow — rounded-square (radius 7) surface-100 chip,
-              // green-dark glyph (design row action).
+              // violet-dark glyph (design row action).
               Tooltip(
                 message: translate('Connect'),
                 child: InkWell(
@@ -749,12 +749,12 @@ class _AtlasRecentDeviceRowState extends State<_AtlasRecentDeviceRow> {
                     height: 28,
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(7),
-                      color: _hover ? _kAtlasGreen : atlasFillColor(context),
+                      color: _hover ? _kHesperBrand : hesperFillColor(context),
                     ),
                     child: Icon(
                       Icons.arrow_forward,
                       size: 14,
-                      color: _hover ? Colors.white : _kAtlasGreenDark,
+                      color: _hover ? Colors.white : _kHesperBrandDark,
                     ),
                   ),
                 ),
@@ -767,7 +767,7 @@ class _AtlasRecentDeviceRowState extends State<_AtlasRecentDeviceRow> {
   }
 }
 
-// A single device row in the Atlas Address Book / Fleet table. The peer data
+// A single device row in the Hesper Address Book / Fleet table. The peer data
 // is real (id/hostname/username/online/tags from the address-book model).
 //
 // Client / Site (annotation f-clientcol) is mapped from the peer's address-book
@@ -776,22 +776,22 @@ class _AtlasRecentDeviceRowState extends State<_AtlasRecentDeviceRow> {
 // invented: an untagged peer shows "—". Connecting goes through
 // `connectInPeerTab(..., PeerTabIndex.ab)` so the address book's alias/password
 // handling is preserved.
-class _AtlasAbDeviceRow extends StatefulWidget {
+class _HesperAbDeviceRow extends StatefulWidget {
   final Peer peer;
-  const _AtlasAbDeviceRow({required this.peer, Key? key}) : super(key: key);
+  const _HesperAbDeviceRow({required this.peer, Key? key}) : super(key: key);
 
   @override
-  State<_AtlasAbDeviceRow> createState() => _AtlasAbDeviceRowState();
+  State<_HesperAbDeviceRow> createState() => _HesperAbDeviceRowState();
 }
 
-class _AtlasAbDeviceRowState extends State<_AtlasAbDeviceRow> {
+class _HesperAbDeviceRowState extends State<_HesperAbDeviceRow> {
   bool _hover = false;
 
   void _connect() =>
       connectInPeerTab(context, widget.peer, PeerTabIndex.ab);
 
   // Restore RustDesk's per-peer right-click menu (rename/alias, connect
-  // variants, transfer file, remove, tag edits, …) on the Atlas fleet table
+  // variants, transfer file, remove, tag edits, …) on the Hesper fleet table
   // row by reusing the existing AddressBookPeerCard menu builder. `at` is the
   // global screen point to anchor the menu (right-click location, or the row
   // origin for the long-press fallback).
@@ -824,11 +824,11 @@ class _AtlasAbDeviceRowState extends State<_AtlasAbDeviceRow> {
         onSecondaryTapDown: (d) => _showContextMenu(d.globalPosition),
         onLongPress: () => _showContextMenu(_rowTopLeft()),
         child: Container(
-          color: _hover ? atlasPageColor(context) : Colors.transparent,
+          color: _hover ? hesperPageColor(context) : Colors.transparent,
           padding: const EdgeInsets.symmetric(horizontal: 16),
           decoration: BoxDecoration(
             border: Border(
-              bottom: BorderSide(color: atlasFillColor(context), width: 1),
+              bottom: BorderSide(color: hesperFillColor(context), width: 1),
             ),
           ),
           child: Row(
@@ -845,10 +845,10 @@ class _AtlasAbDeviceRowState extends State<_AtlasAbDeviceRow> {
                         device,
                         overflow: TextOverflow.ellipsis,
                         style: TextStyle(
-                          fontFamily: kAtlasMonoFont,
+                          fontFamily: kHesperMonoFont,
                           fontSize: 14,
                           fontWeight: FontWeight.w600,
-                          color: atlasInkPrimary(context),
+                          color: hesperInkPrimary(context),
                         ),
                       ),
                     ),
@@ -858,7 +858,7 @@ class _AtlasAbDeviceRowState extends State<_AtlasAbDeviceRow> {
               // CLIENT / SITE — mapped from address-book tags (coloured chip)
               Expanded(
                 flex: 3,
-                child: _AtlasClientChip(tags: tags),
+                child: _HesperClientChip(tags: tags),
               ),
               // USER — pc username (falls back to hostname)
               Expanded(
@@ -867,9 +867,9 @@ class _AtlasAbDeviceRowState extends State<_AtlasAbDeviceRow> {
                   user,
                   overflow: TextOverflow.ellipsis,
                   style: TextStyle(
-                    fontFamily: kAtlasBodyFont,
+                    fontFamily: kHesperBodyFont,
                     fontSize: 14,
-                    color: atlasInkBody(context),
+                    color: hesperInkBody(context),
                   ),
                 ),
               ),
@@ -885,8 +885,8 @@ class _AtlasAbDeviceRowState extends State<_AtlasAbDeviceRow> {
                       decoration: BoxDecoration(
                         shape: BoxShape.circle,
                         color: peer.online
-                            ? _kAtlasGreen
-                            : _kAtlasOfflineDot,
+                            ? _kHesperBrand
+                            : _kHesperOfflineDot,
                       ),
                     ),
                     Flexible(
@@ -894,9 +894,9 @@ class _AtlasAbDeviceRowState extends State<_AtlasAbDeviceRow> {
                         access,
                         overflow: TextOverflow.ellipsis,
                         style: TextStyle(
-                          fontFamily: kAtlasBodyFont,
+                          fontFamily: kHesperBodyFont,
                           fontSize: 12.5,
-                          color: atlasInkMuted(context),
+                          color: hesperInkMuted(context),
                         ),
                       ),
                     ),
@@ -904,7 +904,7 @@ class _AtlasAbDeviceRowState extends State<_AtlasAbDeviceRow> {
                 ),
               ),
               // Connect arrow — rounded-square (radius 7) surface-100 chip,
-              // green-dark glyph (design row action).
+              // violet-dark glyph (design row action).
               Tooltip(
                 message: translate('Connect'),
                 child: InkWell(
@@ -915,12 +915,12 @@ class _AtlasAbDeviceRowState extends State<_AtlasAbDeviceRow> {
                     height: 28,
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(7),
-                      color: _hover ? _kAtlasGreen : atlasFillColor(context),
+                      color: _hover ? _kHesperBrand : hesperFillColor(context),
                     ),
                     child: Icon(
                       Icons.arrow_forward,
                       size: 14,
-                      color: _hover ? Colors.white : _kAtlasGreenDark,
+                      color: _hover ? Colors.white : _kHesperBrandDark,
                     ),
                   ),
                 ),
@@ -936,9 +936,9 @@ class _AtlasAbDeviceRowState extends State<_AtlasAbDeviceRow> {
 // Client / Site cell for the fleet table. Renders the peer's first address-book
 // tag as a coloured chip (using the tag's configured colour) and a "+N" pill
 // when a device carries multiple tags. Untagged devices show a muted em dash.
-class _AtlasClientChip extends StatelessWidget {
+class _HesperClientChip extends StatelessWidget {
   final List<String> tags;
-  const _AtlasClientChip({required this.tags});
+  const _HesperClientChip({required this.tags});
 
   @override
   Widget build(BuildContext context) {
@@ -946,9 +946,9 @@ class _AtlasClientChip extends StatelessWidget {
       return Text(
         '—',
         style: TextStyle(
-          fontFamily: kAtlasBodyFont,
+          fontFamily: kHesperBodyFont,
           fontSize: 13,
-          color: atlasInkMuted(context),
+          color: hesperInkMuted(context),
         ),
       );
     }
@@ -980,10 +980,10 @@ class _AtlasClientChip extends StatelessWidget {
                     primary,
                     overflow: TextOverflow.ellipsis,
                     style: TextStyle(
-                      fontFamily: kAtlasBodyFont,
+                      fontFamily: kHesperBodyFont,
                       fontSize: 12.5,
                       fontWeight: FontWeight.w500,
-                      color: atlasInkBody(context),
+                      color: hesperInkBody(context),
                     ),
                   ),
                 ),
@@ -996,16 +996,16 @@ class _AtlasClientChip extends StatelessWidget {
             margin: const EdgeInsets.only(left: 4),
             padding: const EdgeInsets.symmetric(horizontal: 5, vertical: 2),
             decoration: BoxDecoration(
-              color: atlasFillColor(context),
+              color: hesperFillColor(context),
               borderRadius: BorderRadius.circular(5),
             ),
             child: Text(
               '+${tags.length - 1}',
               style: TextStyle(
-                fontFamily: kAtlasBodyFont,
+                fontFamily: kHesperBodyFont,
                 fontSize: 11,
                 fontWeight: FontWeight.w600,
-                color: atlasInkMuted(context),
+                color: hesperInkMuted(context),
               ),
             ),
           ),
@@ -1056,8 +1056,8 @@ class DiscoveredPeersView extends BasePeersView {
 }
 
 class AddressBookPeersView extends BasePeersView {
-  // Atlas Remote — the Address Book tab renders the practice's Atlas-managed
-  // fleet as a Device / Client / User / Access table (see `_AtlasAbDeviceRow`)
+  // Hesper Remote — the Address Book tab renders the practice's Hesper-managed
+  // fleet as a Device / Client / User / Access table (see `_HesperAbDeviceRow`)
   // on desktop, matching the Recent table style. Mobile keeps the stock
   // AddressBookPeerCard so the touch UI is unchanged.
   AddressBookPeersView(
@@ -1070,10 +1070,10 @@ class AddressBookPeersView extends BasePeersView {
           peerFilter: (Peer peer) =>
               _hitTag(gFFI.abModel.selectedTags, peer.tags),
           peerCardBuilder: (Peer peer) => (isDesktop || isWebDesktop)
-              // List → Atlas fleet-table row; grid/tile → stock large-icon
+              // List → Hesper fleet-table row; grid/tile → stock large-icon
               // card (AnyDesk-style), switched live by "Change view".
               ? Obx(() => peerCardUiType.value == PeerUiType.list
-                  ? _AtlasAbDeviceRow(peer: peer)
+                  ? _HesperAbDeviceRow(peer: peer)
                   : AddressBookPeerCard(peer: peer, menuPadding: menuPadding))
               : AddressBookPeerCard(
                   peer: peer,
@@ -1088,7 +1088,7 @@ class AddressBookPeersView extends BasePeersView {
       return peersView;
     }
     // Grid/tile → AnyDesk-style large-icon cards (no table chrome). List → the
-    // Atlas fleet table (card + DEVICE|CLIENT|USER|ACCESS header). Reactive to
+    // Hesper fleet table (card + DEVICE|CLIENT|USER|ACCESS header). Reactive to
     // the "Change view" control.
     return Obx(() {
       if (peerCardUiType.value != PeerUiType.list) {
@@ -1096,12 +1096,12 @@ class AddressBookPeersView extends BasePeersView {
       }
       return Container(
       decoration: BoxDecoration(
-        color: atlasCardColor(context),
+        color: hesperCardColor(context),
         borderRadius: BorderRadius.circular(8),
-        border: Border.all(color: atlasBorderColor(context), width: 1),
+        border: Border.all(color: hesperBorderColor(context), width: 1),
         boxShadow: [
           BoxShadow(
-            color: const Color(0xFF1C1917).withOpacity(0.04),
+            color: const Color(0xFF090909).withOpacity(0.04),
             blurRadius: 8,
             offset: const Offset(0, 2),
           ),
@@ -1114,17 +1114,17 @@ class AddressBookPeersView extends BasePeersView {
           Container(
             padding: const EdgeInsets.fromLTRB(16, 10, 16, 10),
             decoration: BoxDecoration(
-              color: atlasPageColor(context),
+              color: hesperPageColor(context),
               border: Border(
-                bottom: BorderSide(color: atlasBorderColor(context), width: 1),
+                bottom: BorderSide(color: hesperBorderColor(context), width: 1),
               ),
             ),
             child: Row(
               children: const [
-                Expanded(flex: 4, child: _AtlasTableHeaderCell(label: 'DEVICE')),
-                Expanded(flex: 3, child: _AtlasTableHeaderCell(label: 'CLIENT')),
-                Expanded(flex: 3, child: _AtlasTableHeaderCell(label: 'USER')),
-                Expanded(flex: 2, child: _AtlasTableHeaderCell(label: 'ACCESS')),
+                Expanded(flex: 4, child: _HesperTableHeaderCell(label: 'DEVICE')),
+                Expanded(flex: 3, child: _HesperTableHeaderCell(label: 'CLIENT')),
+                Expanded(flex: 3, child: _HesperTableHeaderCell(label: 'USER')),
+                Expanded(flex: 2, child: _HesperTableHeaderCell(label: 'ACCESS')),
                 SizedBox(width: 36),
               ],
             ),

@@ -119,12 +119,12 @@ fn start_auto_update_check_(rx_msg: Receiver<UpdateMsg>) {
 
 #[allow(unreachable_code)]
 fn check_update(manually: bool) -> ResultType<()> {
-    // Atlas: this silent updater can only APPLY an update on Windows (see the
+    // Hesper: this silent updater can only APPLY an update on Windows (see the
     // cfg-gated `update_new_version` below) — on macOS/Linux in-app updates
     // flow through the Flutter banner / Settings → About instead, so running
     // the body here would just re-download the release asset to the temp dir
     // every day for nothing. With OPTION_ALLOW_AUTO_UPDATE now defaulting ON
-    // (common.rs::apply_atlas_client_defaults) that waste would hit every
+    // (common.rs::apply_hesper_client_defaults) that waste would hit every
     // endpoint, so bail out early on non-Windows.
     #[cfg(not(target_os = "windows"))]
     {
@@ -149,10 +149,10 @@ fn check_update(manually: bool) -> ResultType<()> {
         let version = download_url.split('/').last().unwrap_or_default();
         #[cfg(target_os = "windows")]
         let download_url = if download_url.ends_with(".exe") || download_url.ends_with(".msi") {
-            // Atlas: the hub's engine-version endpoint already returns the FULL
+            // Hesper: the hub's engine-version endpoint already returns the FULL
             // direct asset URL (…-windows-setup.exe), so the legacy
             // `rustdesk-<ver>-x86_64.exe` reconstruction below would 404 for our
-            // `AtlasRemote-*` assets. When the URL is already a concrete installer,
+            // `HesperRemote-*` assets. When the URL is already a concrete installer,
             // use it verbatim — mirrors the Flutter update_progress.dart
             // direct-asset check that the macOS path relies on. Clone rather than
             // move: `version` above still borrows the outer `download_url`.

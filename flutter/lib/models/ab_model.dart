@@ -185,7 +185,7 @@ class AbModel {
           listInitialized = true;
           trySetCurrentToLast();
         }
-        // Atlas Remote — remember whether the current book came from the
+        // Hesper Remote — remember whether the current book came from the
         // default fallback below (saved name absent or no longer present)
         // rather than from an explicit, persisted selection restored above:
         // only the fallback path may trigger the post-upgrade auto-select.
@@ -232,8 +232,8 @@ class AbModel {
     }
   }
 
-  /// Atlas Remote — post-upgrade auto-select for hubs gaining the ab-2.0
-  /// endpoints. The Atlas hub exposes one read-only shared address book per
+  /// Hesper Remote — post-upgrade auto-select for hubs gaining the ab-2.0
+  /// endpoints. The Hesper hub exposes one read-only shared address book per
   /// client entity (plus "Unassigned devices") and keeps the personal address
   /// book as an intentionally empty placeholder (it always returns 0 peers).
   /// When the current book landed on that empty personal book via the
@@ -1390,7 +1390,7 @@ class LegacyAb extends BaseAb {
     if (isFull()) {
       peers.removeRange(licensedDevices, peers.length);
     }
-    // restore online — but NOT for Atlas fleet (UUID) peers. hbbs never sees
+    // restore online — but NOT for Hesper fleet (UUID) peers. hbbs never sees
     // their ids, so `oldOnlineIDs` is a stale local guess that would flip a
     // now-offline fleet peer back to online across a refresh. Their status is
     // authoritative from the hub payload (parsed into Peer.online by

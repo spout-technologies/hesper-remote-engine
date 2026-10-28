@@ -569,7 +569,7 @@ mod tests {
 
         // Sandboxed via with_options_store_env: from here on this test writes
         // real global config through Config::set_option, so it must never run
-        // against the real Atlas Remote config (same hazard class as the
+        // against the real Hesper Remote config (same hazard class as the
         // test_check_ws relay/rendezvous corruption incident, 2026-07-09).
         crate::config::tests::with_options_store_env("webrtc_ice", || {
             config::Config::set_option("ice-servers".to_string(), "".to_string());

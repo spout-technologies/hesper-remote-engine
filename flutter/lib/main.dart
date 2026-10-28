@@ -141,7 +141,7 @@ Future<void> initEnv(String appType) async {
   updateSystemWindowTheme();
 }
 
-/// Atlas: when diagnostics mode (Settings → About) is on at startup, tee
+/// Hesper: when diagnostics mode (Settings → About) is on at startup, tee
 /// debugPrint output into <log dir>/flutter.log so Flutter-side prints survive
 /// in release builds, where a windowed app's stdout goes nowhere. Opt-in via
 /// the local kOptionDiagnosticsMode == 'Y', read once per process; appends

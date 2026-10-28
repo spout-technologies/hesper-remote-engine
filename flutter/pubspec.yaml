@@ -155,7 +155,7 @@ flutter:
     - assets/fonts/
 
   fonts:
-    # Atlas type system (design tokens/typography.css): Inter = body/sans/data,
+    # Hesper type system (design tokens/typography.css): Inter = body/sans/data,
     # Plus Jakarta Sans = display/headings, JetBrains Mono = wordmark/mono.
     # Self-hosted variable TTFs (all weights) under assets/fonts/.
     - family: Inter

@@ -31,11 +31,11 @@ void main() {
     test('fromJson reads the snake_case hub fields', () {
       final peer = Peer.fromJson({
         'id': '123456789',
-        'rendezvous_server': 'jhb.atlasos.work:21116',
+        'rendezvous_server': 'jhb.hesper.work:21116',
         'rendezvous_key': 'KEY+abc/123=',
       });
 
-      expect(peer.rendezvousServer, 'jhb.atlasos.work:21116');
+      expect(peer.rendezvousServer, 'jhb.hesper.work:21116');
       // The AB payload is already-decoded JSON: the key is raw base64 and must
       // NOT be percent-decoded again.
       expect(peer.rendezvousKey, 'KEY+abc/123=');
@@ -49,10 +49,10 @@ void main() {
 
     test('toJson round-trips through fromJson', () {
       final peer = _peer(
-          rendezvousServer: 'jhb.atlasos.work:21116', rendezvousKey: 'KEYZA');
+          rendezvousServer: 'jhb.hesper.work:21116', rendezvousKey: 'KEYZA');
       final back = Peer.fromJson(peer.toJson());
 
-      expect(back.rendezvousServer, 'jhb.atlasos.work:21116');
+      expect(back.rendezvousServer, 'jhb.hesper.work:21116');
       expect(back.rendezvousKey, 'KEYZA');
     });
 
@@ -61,27 +61,27 @@ void main() {
       // fields are missing here they vanish on restart and every peer silently
       // falls back to the client's configured rendezvous node.
       final peer = _peer(
-          rendezvousServer: 'jhb.atlasos.work:21116', rendezvousKey: 'KEYZA');
+          rendezvousServer: 'jhb.hesper.work:21116', rendezvousKey: 'KEYZA');
 
       final cached = peer.toCustomJson(includingHash: false);
-      expect(cached['rendezvous_server'], 'jhb.atlasos.work:21116');
+      expect(cached['rendezvous_server'], 'jhb.hesper.work:21116');
       expect(cached['rendezvous_key'], 'KEYZA');
 
       final rehydrated = Peer.fromJson(cached);
-      expect(rehydrated.rendezvousServer, 'jhb.atlasos.work:21116');
+      expect(rehydrated.rendezvousServer, 'jhb.hesper.work:21116');
       expect(rehydrated.rendezvousKey, 'KEYZA');
     });
 
     test('equal() treats a re-homed peer as changed (so the UI re-syncs)', () {
-      final a = _peer(rendezvousServer: 'jhb.atlasos.work', rendezvousKey: 'K1');
+      final a = _peer(rendezvousServer: 'jhb.hesper.work', rendezvousKey: 'K1');
 
-      expect(a.equal(_peer(rendezvousServer: 'jhb.atlasos.work', rendezvousKey: 'K1')),
+      expect(a.equal(_peer(rendezvousServer: 'jhb.hesper.work', rendezvousKey: 'K1')),
           isTrue);
       // Moved to another region.
-      expect(a.equal(_peer(rendezvousServer: 'eu.atlasos.work', rendezvousKey: 'K1')),
+      expect(a.equal(_peer(rendezvousServer: 'eu.hesper.work', rendezvousKey: 'K1')),
           isFalse);
       // Key rotated on the same node.
-      expect(a.equal(_peer(rendezvousServer: 'jhb.atlasos.work', rendezvousKey: 'K2')),
+      expect(a.equal(_peer(rendezvousServer: 'jhb.hesper.work', rendezvousKey: 'K2')),
           isFalse);
       // Moved back to the default node (cleared).
       expect(a.equal(_peer()), isFalse);
@@ -89,9 +89,9 @@ void main() {
 
     test('Peer.copy preserves the home node', () {
       final copy = Peer.copy(
-          _peer(rendezvousServer: 'eu.atlasos.work:21116', rendezvousKey: 'KEYEU'));
+          _peer(rendezvousServer: 'eu.hesper.work:21116', rendezvousKey: 'KEYEU'));
 
-      expect(copy.rendezvousServer, 'eu.atlasos.work:21116');
+      expect(copy.rendezvousServer, 'eu.hesper.work:21116');
       expect(copy.rendezvousKey, 'KEYEU');
     });
 

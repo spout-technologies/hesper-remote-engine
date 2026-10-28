@@ -1,10 +1,10 @@
 #!/usr/bin/env bash
 #
-# gen_atlas_icons.sh — regenerate every Atlas Remote icon asset from the
-# canonical artwork at res/atlas-icon.svg.
+# gen_hesper_icons.sh — regenerate every Hesper Remote icon asset from the
+# canonical artwork at res/hesper-icon.svg.
 #
-# Artwork: rounded-square app icon — pale grey-green background (#eaeee7)
-# with two interlocking ribbon strokes (#6ea924 bright green, #b3cab3 sage).
+# Artwork: rounded-square app icon — pale grey-green background (#f7f6fa)
+# with two interlocking ribbon strokes (#7460ff bright green, #bba8ff sage).
 #
 # Outputs (all overwritten in place):
 #   res/            icon.png (512), 32x32.png, 64x64.png, 128x128.png,
@@ -24,25 +24,25 @@
 #   flutter/android/app/src/main/res/mipmap-*/ic_launcher.png (48..192),
 #                   ic_launcher_round.png (circular mask), ic_launcher_foreground.png
 #                   (adaptive-icon foreground: ribbon glyph at ~66% on transparency),
-#                   values/ic_launcher_background.xml (#EAEEE7)
+#                   values/ic_launcher_background.xml (#F7F6FA)
 #   fastlane/metadata/android/en-US/images/icon.png (512)
 #
 # Requirements: rsvg-convert (librsvg), magick (ImageMagick 7), python3;
 #               iconutil for the .icns step (macOS — skipped elsewhere with a warning).
 #
-# Usage: bash res/gen_atlas_icons.sh   (from anywhere; paths are self-resolved)
+# Usage: bash res/gen_hesper_icons.sh   (from anywhere; paths are self-resolved)
 
 set -euo pipefail
 
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 ROOT="$(cd "${SCRIPT_DIR}/.." && pwd)"
-SRC="${SCRIPT_DIR}/atlas-icon.svg"
+SRC="${SCRIPT_DIR}/hesper-icon.svg"
 
-BG_COLOUR="#eaeee7"   # rounded-square background
-GREEN="#6ea924"       # bright green ribbon
-SAGE="#b3cab3"        # sage ribbon
-SAGE_LIGHT_CHROME="#9dba9d"   # sage recolour used on light chrome (matches wordmark convention)
-SAGE_DARK_CHROME="#eff5ef"    # sage recolour used on dark chrome (matches wordmark convention)
+BG_COLOUR="#f7f6fa"   # rounded-square background
+GREEN="#7460ff"       # bright green ribbon
+SAGE="#bba8ff"        # sage ribbon
+SAGE_LIGHT_CHROME="#9980ff"   # sage recolour used on light chrome (matches wordmark convention)
+SAGE_DARK_CHROME="#ece6ff"    # sage recolour used on dark chrome (matches wordmark convention)
 
 for tool in rsvg-convert magick python3; do
     command -v "$tool" >/dev/null 2>&1 || { echo "ERROR: $tool not found" >&2; exit 1; }
@@ -175,7 +175,7 @@ done < "${TMP}/ios-manifest.txt"
 #    - ic_launcher.png        : full artwork (legacy launchers)
 #    - ic_launcher_round.png  : full artwork under a circular alpha mask
 #    - ic_launcher_foreground : adaptive-icon foreground — ribbon glyph at ~66%
-#                               of the canvas on transparency (the #EAEEE7
+#                               of the canvas on transparency (the #F7F6FA
 #                               background layer is supplied by the colour
 #                               resource below)
 # ---------------------------------------------------------------------------
@@ -207,7 +207,7 @@ done
 cat > "${ANDROID_RES}/values/ic_launcher_background.xml" <<'XML'
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="ic_launcher_background">#EAEEE7</color>
+    <color name="ic_launcher_background">#F7F6FA</color>
 </resources>
 XML
 
@@ -216,4 +216,4 @@ XML
 # ---------------------------------------------------------------------------
 render 512 "${ROOT}/fastlane/metadata/android/en-US/images/icon.png"
 
-echo "OK: Atlas Remote icon assets regenerated from ${SRC}"
+echo "OK: Hesper Remote icon assets regenerated from ${SRC}"

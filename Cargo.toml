@@ -4,7 +4,7 @@ version = "1.5.24"
 authors = ["rustdesk <info@rustdesk.com>"]
 edition = "2021"
 build= "build.rs"
-description = "Atlas Remote"
+description = "Hesper Remote"
 default-run = "rustdesk"
 rust-version = "1.75"
 
@@ -232,8 +232,8 @@ hound = "3.5"
 docopt = "1.1"
 
 [package.metadata.bundle]
-name = "Atlas Remote"
-identifier = "dev.spout.atlasremote"
+name = "Hesper Remote"
+identifier = "dev.spout.hesperremote"
 icon = ["res/32x32.png", "res/128x128.png", "res/128x128@2x.png"]
 osx_minimum_system_version = "10.14"
 

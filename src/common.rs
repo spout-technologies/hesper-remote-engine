@@ -940,9 +940,9 @@ pub fn is_modifier(evt: &KeyEvent) -> bool {
 }
 
 pub fn check_software_update() {
-    // Atlas build: run the update check for our custom client. The version-check
-    // URL now targets the Atlas hub (see hbb_common::version_check_request), not
-    // api.rustdesk.com, so there is no phone-home — this gives the Atlas Remote
+    // Hesper build: run the update check for our custom client. The version-check
+    // URL now targets the Hesper hub (see hbb_common::version_check_request), not
+    // api.rustdesk.com, so there is no phone-home — this gives the Hesper Remote
     // app AnyDesk-style "a new version is available" in-app updates. Still gated
     // on the user-facing enable-check-update option so it can be turned off.
     let opt = LocalConfig::get_option(keys::OPTION_ENABLE_CHECK_UPDATE);
@@ -951,7 +951,7 @@ pub fn check_software_update() {
     }
 }
 
-/// Atlas: on-demand update check for the Settings → About "Check for updates"
+/// Hesper: on-demand update check for the Settings → About "Check for updates"
 /// button (`main_check_for_update` FFI). Unlike `check_software_update()` this
 /// is NOT gated on OPTION_ENABLE_CHECK_UPDATE — the user explicitly asked —
 /// and it always pushes a `check_software_update_manual_finish` event when the
@@ -1032,13 +1032,13 @@ pub async fn do_check_software_update() -> hbb_common::ResultType<()> {
     Ok(())
 }
 
-/// Atlas: pull the dotted-numeric version out of a release URL.
+/// Hesper: pull the dotted-numeric version out of a release URL.
 ///
 /// The stock flow assumed the update URL ends in a bare version tag
 /// (`…/releases/tag/1.2.3`) and compared `rsplit('/').next()` directly. The
-/// Atlas hub's engine-version endpoint instead returns the FULL direct asset
-/// URL (`…/releases/download/v1.5.20/AtlasRemote-1.5.20-x86_64.dmg`), whose
-/// last segment is a filename — `get_version_number("AtlasRemote-…")` is 0, so
+/// Hesper hub's engine-version endpoint instead returns the FULL direct asset
+/// URL (`…/releases/download/v1.5.20/HesperRemote-1.5.20-x86_64.dmg`), whose
+/// last segment is a filename — `get_version_number("HesperRemote-…")` is 0, so
 /// the "newer version?" comparison could never trip and neither the home
 /// banner nor the silent updater ever fired. Scan the last path segment's
 /// `-`-separated parts for the first dotted-numeric run (tolerating a leading
@@ -1074,10 +1074,10 @@ pub fn is_rustdesk() -> bool {
 
 #[inline]
 pub fn get_uri_prefix() -> String {
-    // Strip spaces so a multi-word APP_NAME ("Atlas Remote") yields a valid,
-    // single-token URL scheme ("atlasremote://") that matches what the Windows
-    // installer registers and what the Atlas hub / macOS Info.plist emit
-    // (atlasremote://…). Without this the runtime prefix was "atlas remote://"
+    // Strip spaces so a multi-word APP_NAME ("Hesper Remote") yields a valid,
+    // single-token URL scheme ("hesperremote://") that matches what the Windows
+    // installer registers and what the Hesper hub / macOS Info.plist emit
+    // (hesperremote://…). Without this the runtime prefix was "hesper remote://"
     // (with a space) — an invalid scheme no handler could be invoked with.
     format!("{}://", get_app_name().to_lowercase().replace(' ', ""))
 }
@@ -1092,7 +1092,7 @@ pub fn get_full_name() -> String {
 }
 
 pub fn is_setup(name: &str) -> bool {
-    // Atlas: accept both `...install.exe` and `...setup.exe` — the CI distributes
+    // Hesper: accept both `...install.exe` and `...setup.exe` — the CI distributes
     // the packer as `...-windows-setup.exe`. Keep in sync with the click_setup
     // check in libs/portable/src/main.rs.
     let name = name.to_lowercase();
@@ -1133,15 +1133,15 @@ pub fn get_api_server(api: String, custom: String) -> String {
     res
 }
 
-/// Atlas Remote fork: the account/API backend (login, address book, OIDC
+/// Hesper Remote fork: the account/API backend (login, address book, OIDC
 /// options — everything user_model.dart / ab_model.dart / hbbs/account.rs
-/// hit) always defaults to Atlas' own app, on its own host — separate from
+/// hit) always defaults to Hesper' own app, on its own host — separate from
 /// the ID/rendezvous relay (159.195.16.230), which runs only the open-source
 /// hbbs/hbbr and has never served an account API. Deriving the API host from
 /// the rendezvous host (as upstream RustDesk Pro does, assuming both are
 /// colocated) is wrong for this fork's split-host architecture, so that
 /// derivation is not attempted here.
-pub const ATLAS_API_SERVER_DEFAULT: &str = "https://dash.atlasos.work";
+pub const HESPER_API_SERVER_DEFAULT: &str = "https://dash.hesper.work";
 
 fn get_api_server_(api: String, _custom: String) -> String {
     #[cfg(windows)]
@@ -1153,19 +1153,19 @@ fn get_api_server_(api: String, _custom: String) -> String {
     if !api.is_empty() {
         return api.to_owned();
     }
-    ATLAS_API_SERVER_DEFAULT.to_owned()
+    HESPER_API_SERVER_DEFAULT.to_owned()
 }
 
 #[inline]
 pub fn is_public(url: &str) -> bool {
     let url = url.to_ascii_lowercase();
-    // Treat both the upstream RustDesk public cloud and the Atlas public
+    // Treat both the upstream RustDesk public cloud and the Hesper public
     // account host as "public" (disables audit server + flips punch defaults,
     // same as upstream did for rustdesk.com).
     url.contains("rustdesk.com/")
         || url.ends_with("rustdesk.com")
-        || url.contains("atlasos.work/")
-        || url.ends_with("atlasos.work")
+        || url.contains("hesper.work/")
+        || url.ends_with("hesper.work")
 }
 
 pub fn get_udp_punch_enabled() -> bool {
@@ -2163,12 +2163,12 @@ pub fn load_custom_client() {
     #[cfg(debug_assertions)]
     if let Ok(data) = std::fs::read_to_string("./custom.txt") {
         read_custom_client(data.trim());
-        apply_atlas_client_defaults();
+        apply_hesper_client_defaults();
         return;
     }
     let Some(path) = std::env::current_exe().map_or(None, |x| x.parent().map(|x| x.to_path_buf()))
     else {
-        apply_atlas_client_defaults();
+        apply_hesper_client_defaults();
         return;
     };
     #[cfg(target_os = "macos")]
@@ -2181,10 +2181,10 @@ pub fn load_custom_client() {
             log::error!("Failed to read custom client config");
         }
     }
-    apply_atlas_client_defaults();
+    apply_hesper_client_defaults();
 }
 
-/// Atlas Remote de-RustDesk feature-gate defaults, baked in source.
+/// Hesper Remote de-RustDesk feature-gate defaults, baked in source.
 ///
 /// This fork bakes its custom-client config into the source tree (relay,
 /// name, icons — see the CI workflow comment) rather than shipping RustDesk's
@@ -2201,7 +2201,7 @@ pub fn load_custom_client() {
 /// `mainIsUsingPublicServer()` is already false because the relay is baked
 /// (PROD_RENDEZVOUS_SERVER / RENDEZVOUS_SERVERS), which suppresses the
 /// pricing / "setup your server" upsell without any flag.
-fn apply_atlas_client_defaults() {
+fn apply_hesper_client_defaults() {
     // Top-level HARD_SETTINGS flags (read by config::is_disable_*()).
     {
         let mut hard = config::HARD_SETTINGS.write().unwrap();
@@ -2228,7 +2228,7 @@ fn apply_atlas_client_defaults() {
         }
     }
     // DEFAULT_SETTINGS — server options read by config::get_option/get_bool_option.
-    // R3: Atlas is an RMM engine (operators manage their own endpoints), so allow
+    // R3: Hesper is an RMM engine (operators manage their own endpoints), so allow
     // changing a device's settings during a live session — default the anti-tamper
     // `allow-remote-config-modification` ON. Otherwise the whole Settings page is
     // blocked by a dark scrim while the box is being controlled

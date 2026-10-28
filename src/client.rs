@@ -4456,11 +4456,11 @@ mod peer_decoration_tests {
 
     #[test]
     fn parse_peer_decoration_server_no_key() {
-        let (id, other_server, force_relay) = parse_peer_decoration("123456789@relay.atlasos.work");
+        let (id, other_server, force_relay) = parse_peer_decoration("123456789@relay.hesper.work");
         assert_eq!(id, "123456789");
         assert_eq!(
             other_server,
-            Some(("relay.atlasos.work".to_owned(), "".to_owned()))
+            Some(("relay.hesper.work".to_owned(), "".to_owned()))
         );
         assert!(!force_relay);
     }
@@ -4468,11 +4468,11 @@ mod peer_decoration_tests {
     #[test]
     fn parse_peer_decoration_server_port_and_key() {
         let (id, other_server, force_relay) =
-            parse_peer_decoration("123456789@jhb.atlasos.work:21116?key=KEY123");
+            parse_peer_decoration("123456789@jhb.hesper.work:21116?key=KEY123");
         assert_eq!(id, "123456789");
         assert_eq!(
             other_server,
-            Some(("jhb.atlasos.work:21116".to_owned(), "KEY123".to_owned()))
+            Some(("jhb.hesper.work:21116".to_owned(), "KEY123".to_owned()))
         );
         assert!(!force_relay);
     }
@@ -4481,11 +4481,11 @@ mod peer_decoration_tests {
     fn parse_peer_decoration_force_relay_with_server() {
         // `<id>/r@<server>?key=<K>` — the hub's force-relay deep-link form.
         let (id, other_server, force_relay) =
-            parse_peer_decoration("123456789/r@jhb.atlasos.work:21116?key=KEY123");
+            parse_peer_decoration("123456789/r@jhb.hesper.work:21116?key=KEY123");
         assert_eq!(id, "123456789");
         assert_eq!(
             other_server,
-            Some(("jhb.atlasos.work:21116".to_owned(), "KEY123".to_owned()))
+            Some(("jhb.hesper.work:21116".to_owned(), "KEY123".to_owned()))
         );
         assert!(force_relay);
     }
@@ -4509,13 +4509,13 @@ mod peer_decoration_tests {
         // empty key; `initialize()` is what falls back to the persisted
         // `other-server-key` peer option, so nothing here touches config.
         for id_str in [
-            "123456789@jhb.atlasos.work",
-            "123456789@jhb.atlasos.work?key=",
+            "123456789@jhb.hesper.work",
+            "123456789@jhb.hesper.work?key=",
         ] {
             let (id, other_server, force_relay) = parse_peer_decoration(id_str);
             assert_eq!(id, "123456789");
             let (server, key) = other_server.expect("server should parse");
-            assert_eq!(server, "jhb.atlasos.work");
+            assert_eq!(server, "jhb.hesper.work");
             assert!(key.is_empty(), "key should be empty for {id_str}");
             assert!(!force_relay);
         }
@@ -4531,18 +4531,18 @@ mod peer_decoration_tests {
         // FIRST `=` only.
         let key = "a+b/cDE9fGh=";
         let (id, other_server, force_relay) =
-            parse_peer_decoration(&format!("123456789@jhb.atlasos.work:21116?key={key}"));
+            parse_peer_decoration(&format!("123456789@jhb.hesper.work:21116?key={key}"));
         assert_eq!(id, "123456789");
         assert_eq!(
             other_server,
-            Some(("jhb.atlasos.work:21116".to_owned(), key.to_owned()))
+            Some(("jhb.hesper.work:21116".to_owned(), key.to_owned()))
         );
         assert!(!force_relay);
 
         // A full-length 32-byte base64 key (44 chars, `=`-padded).
         let key = "XU1zOo6SpZYfNGlsb3iMNRaEHEDYLsgEirPgI6VNt8c=";
         let (_, other_server, _) =
-            parse_peer_decoration(&format!("123456789@jhb.atlasos.work?key={key}"));
+            parse_peer_decoration(&format!("123456789@jhb.hesper.work?key={key}"));
         assert_eq!(other_server.map(|(_, k)| k), Some(key.to_owned()));
     }
 
@@ -4550,7 +4550,7 @@ mod peer_decoration_tests {
     fn parse_peer_decoration_key_survives_extra_query_args() {
         // Unknown args are ignored, and `key` is found wherever it sits.
         let (_, other_server, _) = parse_peer_decoration(
-            "123456789@jhb.atlasos.work:21116?password=hunter2&key=KEY123&alt=x",
+            "123456789@jhb.hesper.work:21116?password=hunter2&key=KEY123&alt=x",
         );
         assert_eq!(other_server.map(|(_, k)| k), Some("KEY123".to_owned()));
     }

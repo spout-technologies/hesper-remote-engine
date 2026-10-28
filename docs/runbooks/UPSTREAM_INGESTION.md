@@ -13,7 +13,7 @@ Quarterly (or on a CVE advisory). We cherry-pick into TRACKED subsystems only; w
 5. Branch off `main`; `git cherry-pick <sha>` (or hand-port when the file has diverged). Resolve against our vendored
    `libs/`.
 6. Re-run `bridge.yml` (flutter_rust_bridge codegen) if any FFI signature changed.
-7. Both `atlas-remote-macos.yml` and `atlas-remote-windows.yml` green (they publish DRAFTs — see the release runbook).
+7. Both `hesper-remote-macos.yml` and `hesper-remote-windows.yml` green (they publish DRAFTs — see the release runbook).
 8. Smoke a governed session: connect → screen → input → clean teardown.
 9. Append a row to the ledger (date, upstream range, subsystems, ported commits, notes).
 10. Tag `v*` / `win-v*` → hardware-verify the drafts → publish (never skip the hardware gate).

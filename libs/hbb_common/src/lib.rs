@@ -493,11 +493,11 @@ pub const VER_TYPE_RUSTDESK_CLIENT: &str = "rustdesk-client";
 pub const VER_TYPE_RUSTDESK_SERVER: &str = "rustdesk-server";
 
 pub fn version_check_request(typ: String) -> (VersionCheckRequest, String) {
-    // Atlas build: check the Atlas hub for updates, NOT api.rustdesk.com (which
+    // Hesper build: check the Hesper hub for updates, NOT api.rustdesk.com (which
     // would phone home to RustDesk). The hub returns { url } pointing at the
     // latest engine release asset for the requesting os/arch; the client parses
     // the version from that URL's filename and offers an in-app update.
-    const URL: &str = "https://dash.atlasos.work/api/install/engine-version";
+    const URL: &str = "https://dash.hesper.work/api/install/engine-version";
 
     use sysinfo::System;
     let system = System::new();

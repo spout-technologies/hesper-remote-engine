@@ -1,11 +1,11 @@
-# Atlas Remote Engine — CI Preflight & Secret Manifest
+# Hesper Remote Engine — CI Preflight & Secret Manifest
 
-Everything the `spout-technologies/atlas-remote-engine` CI needs. Keep the AGPL
-toolchain + build logs OUT of the private Atlas tree — this is a separate repo.
+Everything the `spout-technologies/hesper-remote-engine` CI needs. Keep the AGPL
+toolchain + build logs OUT of the private Hesper tree — this is a separate repo.
 
 ## 0. Repo creation (one-time, human-gated)
 
-1. Create `spout-technologies/atlas-remote-engine` (PRIVATE in the Spout org;
+1. Create `spout-technologies/hesper-remote-engine` (PRIVATE in the Spout org;
    flip PUBLIC at first Release to satisfy AGPL corresponding-source).
 2. `git subtree`/copy RustDesk at a pinned release tag; preserve its `LICENSE`.
 3. Rebrand; bake the Spout relay: `RENDEZVOUS_SERVER=<hbbs host>`,
@@ -65,11 +65,11 @@ source tarball.
 
 - `ci-invariant.yml` (this repo): the engine builds to its **own** binary; the
   installer ships **two distinct files**.
-- `agent/scripts/check-armslength.sh` (Atlas agent repo CI): the agent Go module
+- `agent/scripts/check-armslength.sh` (Hesper agent repo CI): the agent Go module
   graph contains **no** RustDesk/fork import (`go list -deps | grep -i rustdesk`
   must be empty).
 
-## 6. DEFERRED (human-gated — see Atlas VERIFICATION_REPORT)
+## 6. DEFERRED (human-gated — see Hesper VERIFICATION_REPORT)
 
 - The RustDesk fork build itself (Rust + Flutter toolchain, ~30 min).
 - macOS first-run TCC grant (Screen Recording + Accessibility).

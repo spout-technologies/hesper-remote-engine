@@ -96,12 +96,12 @@ class _DesktopTabPageState extends State<DesktopTabPage> {
             backgroundColor: Theme.of(context).colorScheme.background,
             body: DesktopTab(
               controller: tabController,
-              // Atlas Remote: top-right status pill (relay + service readiness)
+              // Hesper Remote: top-right status pill (relay + service readiness)
               // followed by the Settings action.
               tail: Row(
                 mainAxisSize: MainAxisSize.min,
                 children: [
-                  const _AtlasStatusPill(),
+                  const _HesperStatusPill(),
                   Offstage(
                     offstage:
                         bind.isIncomingOnly() || bind.isDisableSettings(),
@@ -127,16 +127,16 @@ class _DesktopTabPageState extends State<DesktopTabPage> {
   }
 }
 
-// Atlas Remote: top-right window-chrome status pill. A small green dot + text
-// "Ready · Atlas Relay (EU)" on a pale-green rounded-full pill. The dot colour
+// Hesper Remote: top-right window-chrome status pill. A small green dot + text
+// "Ready · Hesper Relay (EU)" on a pale-violet rounded-full pill. The dot colour
 // and the leading status word track the real service status
 // (stateGlobal.svcStatus), so the pill reads as a live health indicator.
-class _AtlasStatusPill extends StatelessWidget {
-  const _AtlasStatusPill();
+class _HesperStatusPill extends StatelessWidget {
+  const _HesperStatusPill();
 
-  static const Color _green = kAtlasBrandGreen;
+  static const Color _green = kHesperBrand;
   static const Color _warn = Color(0xFFE0A312);
-  static const String _relayLabel = 'Atlas Relay (EU)';
+  static const String _relayLabel = 'Hesper Relay (EU)';
 
   @override
   Widget build(BuildContext context) {
@@ -146,17 +146,17 @@ class _AtlasStatusPill extends StatelessWidget {
       final bool connecting = status == SvcStatus.connecting;
       final Color dot = ready
           ? _green
-          : (connecting ? _warn : const Color(0xFFB7BDB0));
+          : (connecting ? _warn : const Color(0xFFAAA5B7));
       final String statusWord = ready
           ? translate('Ready')
           : (connecting
               ? translate('connecting_status')
               : translate('not_ready_status'));
-      // Theme-aware pill: pale-green wash + ink text in light mode; a
+      // Theme-aware pill: pale-violet wash + ink text in light mode; a
       // translucent-green wash + light ink in dark mode so it reads on the
       // dark titlebar instead of a white block.
-      final Color pillBg = atlasGreenPale(context);
-      final Color pillInk = atlasInkBody(context);
+      final Color pillBg = hesperBrandPale(context);
+      final Color pillInk = hesperInkBody(context);
       // Constrain the label so it can NEVER overflow the titlebar / overlap the
       // window controls: it sizes to content but ellipsises past a sane cap,
       // and the pill keeps a right margin so there is a clear gap before the
@@ -188,7 +188,7 @@ class _AtlasStatusPill extends StatelessWidget {
                 softWrap: false,
                 overflow: TextOverflow.ellipsis,
                 style: TextStyle(
-                  fontFamily: kAtlasBodyFont,
+                  fontFamily: kHesperBodyFont,
                   fontSize: 12,
                   fontWeight: FontWeight.w500,
                   color: pillInk,

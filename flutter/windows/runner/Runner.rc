@@ -90,12 +90,12 @@ BEGIN
         BLOCK "040904e4"
         BEGIN
             VALUE "CompanyName", "Spout Technologies (Pty) Ltd" "\0"
-            VALUE "FileDescription", "Atlas Remote" "\0"
+            VALUE "FileDescription", "Hesper Remote" "\0"
             VALUE "FileVersion", VERSION_AS_STRING "\0"
-            VALUE "InternalName", "AtlasRemote" "\0"
+            VALUE "InternalName", "HesperRemote" "\0"
             VALUE "LegalCopyright", "Copyright © 2026 Spout Technologies. Based on RustDesk (AGPL-3.0)." "\0"
-            VALUE "OriginalFilename", "AtlasRemote.exe" "\0"
-            VALUE "ProductName", "Atlas Remote" "\0"
+            VALUE "OriginalFilename", "HesperRemote.exe" "\0"
+            VALUE "ProductName", "Hesper Remote" "\0"
             VALUE "ProductVersion", VERSION_AS_STRING "\0"
         END
     END

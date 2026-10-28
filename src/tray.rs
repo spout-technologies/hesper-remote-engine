@@ -65,7 +65,7 @@ fn make_tray() -> hbb_common::ResultType<()> {
         None
     };
     let open_i = MenuItem::new(translate("Open".to_owned()), true, None);
-    // Atlas: "Check for updates" from the tray. The tray runs in its own
+    // Hesper: "Check for updates" from the tray. The tray runs in its own
     // process (no Flutter engine / no updater thread), so it cannot run the
     // check and surface the result itself — instead it opens/fronts the main
     // window (same action as "Open"), where the startup check runs

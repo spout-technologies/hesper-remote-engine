@@ -160,12 +160,12 @@ pub fn core_main() -> Option<Vec<String>> {
     }
     hbb_common::init_log(false, &log_name);
 
-    // Task 9 — Atlas headless controlled-session entry point. A non-empty `--mode`
+    // Task 9 — Hesper headless controlled-session entry point. A non-empty `--mode`
     // is the sentinel that the Go agent spawned us headless (engine.go); handle it
     // before the `args[0]` subcommand chain (which `--mode` would otherwise fall
     // through, ending at the GUI). Unknown flags stay tolerated in the parser.
-    if let Some(atlas_args) = parse_atlas_headless(&args) {
-        return run_atlas_headless(atlas_args);
+    if let Some(hesper_args) = parse_hesper_headless(&args) {
+        return run_hesper_headless(hesper_args);
     }
 
     // linux uni (url) go here.
@@ -978,13 +978,13 @@ fn parse_silent_install_args(args: &[String]) -> (Option<bool>, bool) {
     (printer_override, debug)
 }
 
-// ── Task 9: Atlas headless controlled-session entry point ────────────────────
+// ── Task 9: Hesper headless controlled-session entry point ────────────────────
 /// Parsed argv for the headless controlled-server spawn. Populated only when
-/// `--mode` is present — the sentinel that the Atlas Go agent launched this
+/// `--mode` is present — the sentinel that the Hesper Go agent launched this
 /// engine at arm's length (os/exec; see `agent/internal/remote/engine.go`). The
 /// one-time session ticket is NEVER carried here — it arrives on stdin.
 #[derive(Debug, Default, PartialEq)]
-struct AtlasHeadlessArgs {
+struct HesperHeadlessArgs {
     mode: Option<String>,           // "view" | "input_control"
     rendezvous: Option<String>,     // confirm-or-override; relay is baked at build
     relay: Option<String>,
@@ -992,14 +992,14 @@ struct AtlasHeadlessArgs {
     session_target: Option<String>, // "console" | "current_user" (Windows-only)
 }
 
-/// Parse the Atlas headless flags out of the already-peeled `args` vector.
+/// Parse the Hesper headless flags out of the already-peeled `args` vector.
 /// Returns `Some` only when `--mode` is present. Unknown flags are logged and
 /// ignored — never an error — so hub/agent/engine can version independently (the
 /// field-safety invariant asserted in `engine.go`). Invalid `--mode` /
 /// `--session-target` values are warned and corrected/dropped rather than
 /// silently mis-selecting.
-fn parse_atlas_headless(args: &[String]) -> Option<AtlasHeadlessArgs> {
-    let mut out = AtlasHeadlessArgs::default();
+fn parse_hesper_headless(args: &[String]) -> Option<HesperHeadlessArgs> {
+    let mut out = HesperHeadlessArgs::default();
     let mut i = 0;
     while i < args.len() {
         let next = args.get(i + 1).cloned();
@@ -1010,22 +1010,22 @@ fn parse_atlas_headless(args: &[String]) -> Option<AtlasHeadlessArgs> {
             "--relay-key" => out.relay_key = next,
             "--session-target" => out.session_target = next,
             other => {
-                log::warn!("atlas headless: ignoring unrecognised arg {other:?}");
+                log::warn!("hesper headless: ignoring unrecognised arg {other:?}");
                 i += 1;
                 continue;
             }
         }
         i += 2;
     }
-    // `--mode` is the sentinel: absent → this is not an Atlas headless spawn.
+    // `--mode` is the sentinel: absent → this is not an Hesper headless spawn.
     let mode = out.mode.clone()?;
     if mode != "view" && mode != "input_control" {
-        log::warn!("atlas headless: invalid --mode {mode:?}; defaulting to view-only");
+        log::warn!("hesper headless: invalid --mode {mode:?}; defaulting to view-only");
         out.mode = Some("view".to_string());
     }
     if let Some(t) = out.session_target.as_deref() {
         if t != "console" && t != "current_user" {
-            log::warn!("atlas headless: invalid --session-target {t:?}; ignoring");
+            log::warn!("hesper headless: invalid --session-target {t:?}; ignoring");
             out.session_target = None;
         }
     }
@@ -1033,11 +1033,11 @@ fn parse_atlas_headless(args: &[String]) -> Option<AtlasHeadlessArgs> {
 }
 
 /// Task 9 — stand up the headless CONTROLLED server (spec §2: the engine-on-the-
-/// endpoint is the controlled side). The Atlas Go agent spawns us on the managed
+/// endpoint is the controlled side). The Hesper Go agent spawns us on the managed
 /// endpoint after consent; the operator's controller joins from elsewhere via the
-/// hub's `atlasremote://` URI. This never stands up an outgoing viewer.
+/// hub's `hesperremote://` URI. This never stands up an outgoing viewer.
 #[cfg(not(any(target_os = "android", target_os = "ios")))]
-fn run_atlas_headless(a: AtlasHeadlessArgs) -> Option<Vec<String>> {
+fn run_hesper_headless(a: HesperHeadlessArgs) -> Option<Vec<String>> {
     // Two secrets arrive on STDIN, never argv (contract with engine.go):
     //   line 1 = the one-time session ticket/grant (validating/consuming it is
     //            deferred to the consent task, spec §5).
@@ -1053,7 +1053,7 @@ fn run_atlas_headless(a: AtlasHeadlessArgs) -> Option<Vec<String>> {
         (t.trim().to_string(), o.trim().to_string())
     };
     log::info!(
-        "atlas headless: starting controlled server (mode={:?}, session_target={:?}, ticket={}, otp={})",
+        "hesper headless: starting controlled server (mode={:?}, session_target={:?}, ticket={}, otp={})",
         a.mode.as_deref(),
         a.session_target.as_deref(),
         if ticket.is_empty() { "absent" } else { "present" },
@@ -1073,13 +1073,13 @@ fn run_atlas_headless(a: AtlasHeadlessArgs) -> Option<Vec<String>> {
         config::Config::set_permanent_password(&otp);
         crate::ui_interface::set_option("verification-method".into(), "use-permanent-password".into());
         crate::ui_interface::set_option("approve-mode".into(), "password".into());
-        log::info!("atlas headless: per-session connect OTP provisioned (password approve-mode)");
+        log::info!("hesper headless: per-session connect OTP provisioned (password approve-mode)");
     }
 
-    // Relay config — confirm-or-override the build-baked Atlas relay (PREFLIGHT §3;
+    // Relay config — confirm-or-override the build-baked Hesper relay (PREFLIGHT §3;
     // RS_PUB_KEY is baked, so these are usually confirmatory).
     // DECISION #1: `set_option` persists to this process's config. For a dedicated
-    // Atlas-managed endpoint the values equal the baked relay (idempotent); a
+    // Hesper-managed endpoint the values equal the baked relay (idempotent); a
     // strictly process-scoped override is a later refinement.
     if let Some(host) = a.rendezvous {
         crate::ui_interface::set_option("custom-rendezvous-server".into(), host);
@@ -1103,7 +1103,7 @@ fn run_atlas_headless(a: AtlasHeadlessArgs) -> Option<Vec<String>> {
     // Session targeting — controlled-endpoint (Windows) machinery (spec §2/§C).
     #[cfg(windows)]
     if let Some(target) = a.session_target.as_deref() {
-        atlas_bind_session_target(target);
+        hesper_bind_session_target(target);
     }
 
     // Start the controlled server exactly as the `--server` arm does — do not
@@ -1121,7 +1121,7 @@ fn run_atlas_headless(a: AtlasHeadlessArgs) -> Option<Vec<String>> {
 /// `run_service` loop via the existing `UserSid` IPC, which relaunches the
 /// per-session `--server` bound to that window-station (platform/windows.rs:719-733).
 #[cfg(windows)]
-fn atlas_bind_session_target(target: &str) {
+fn hesper_bind_session_target(target: &str) {
     use crate::platform::windows::{get_current_session_id, is_share_rdp};
     let sid = match target {
         "console" => get_current_session_id(false),
@@ -1132,26 +1132,26 @@ fn atlas_bind_session_target(target: &str) {
         _ => return,
     };
     if sid == u32::MAX {
-        log::warn!("atlas headless: could not resolve a session for target {target:?}");
+        log::warn!("hesper headless: could not resolve a session for target {target:?}");
         return;
     }
     // DECISION #2 / live-gate (spec §C): this drives the ALREADY-RUNNING elevated
-    // Atlas service (installed at enrolment). If the service is not up the bind is
+    // Hesper service (installed at enrolment). If the service is not up the bind is
     // a logged no-op and the server falls back to the service's auto-followed
     // session; the ensure-service-running fallback is confirmed on live hardware.
     match crate::ipc::connect_to_user_session(Some(sid)) {
         Ok(()) => {
-            log::info!("atlas headless: bound controlled server to session {sid} (target={target})")
+            log::info!("hesper headless: bound controlled server to session {sid} (target={target})")
         }
         Err(e) => log::warn!(
-            "atlas headless: session bind to {sid} (target={target}) failed: {e} \
-             — is the elevated Atlas service running?"
+            "hesper headless: session bind to {sid} (target={target}) failed: {e} \
+             — is the elevated Hesper service running?"
         ),
     }
 }
 
 #[cfg(test)]
-mod atlas_headless_tests {
+mod hesper_headless_tests {
     use super::*;
 
     fn a(v: &[&str]) -> Vec<String> {
@@ -1161,21 +1161,21 @@ mod atlas_headless_tests {
     #[test]
     fn none_without_mode_sentinel() {
         assert_eq!(
-            parse_atlas_headless(&a(&["--rendezvous", "h", "--relay", "r"])),
+            parse_hesper_headless(&a(&["--rendezvous", "h", "--relay", "r"])),
             None
         );
-        assert_eq!(parse_atlas_headless(&a(&[])), None);
+        assert_eq!(parse_hesper_headless(&a(&[])), None);
     }
 
     #[test]
     fn parses_all_known_flags() {
-        let got = parse_atlas_headless(&a(&[
+        let got = parse_hesper_headless(&a(&[
             "--mode",
             "input_control",
             "--rendezvous",
-            "rv.atlas",
+            "rv.hesper",
             "--relay",
-            "relay.atlas",
+            "relay.hesper",
             "--relay-key",
             "PUBKEY==",
             "--session-target",
@@ -1183,8 +1183,8 @@ mod atlas_headless_tests {
         ]))
         .expect("should parse");
         assert_eq!(got.mode.as_deref(), Some("input_control"));
-        assert_eq!(got.rendezvous.as_deref(), Some("rv.atlas"));
-        assert_eq!(got.relay.as_deref(), Some("relay.atlas"));
+        assert_eq!(got.rendezvous.as_deref(), Some("rv.hesper"));
+        assert_eq!(got.relay.as_deref(), Some("relay.hesper"));
         assert_eq!(got.relay_key.as_deref(), Some("PUBKEY=="));
         assert_eq!(got.session_target.as_deref(), Some("console"));
     }
@@ -1192,7 +1192,7 @@ mod atlas_headless_tests {
     #[test]
     fn unknown_flags_tolerated_never_panic() {
         // Forward-compat: a newer agent may emit flags this engine predates.
-        let got = parse_atlas_headless(&a(&[
+        let got = parse_hesper_headless(&a(&[
             "--future-flag",
             "x",
             "--mode",
@@ -1205,20 +1205,20 @@ mod atlas_headless_tests {
 
     #[test]
     fn invalid_session_target_dropped() {
-        let got = parse_atlas_headless(&a(&["--mode", "view", "--session-target", "bogus"]))
+        let got = parse_hesper_headless(&a(&["--mode", "view", "--session-target", "bogus"]))
             .expect("should parse");
         assert_eq!(got.session_target, None);
     }
 
     #[test]
     fn invalid_mode_defaults_to_view_only() {
-        let got = parse_atlas_headless(&a(&["--mode", "sideways"])).expect("should parse");
+        let got = parse_hesper_headless(&a(&["--mode", "sideways"])).expect("should parse");
         assert_eq!(got.mode.as_deref(), Some("view"));
     }
 
     #[test]
     fn session_target_current_user_accepted() {
-        let got = parse_atlas_headless(&a(&["--mode", "view", "--session-target", "current_user"]))
+        let got = parse_hesper_headless(&a(&["--mode", "view", "--session-target", "current_user"]))
             .expect("should parse");
         assert_eq!(got.session_target.as_deref(), Some("current_user"));
     }
@@ -1226,7 +1226,7 @@ mod atlas_headless_tests {
     #[test]
     fn ticket_is_not_an_argv_field() {
         // The one-time ticket flows on stdin only; no parsed field ever holds it.
-        let got = parse_atlas_headless(&a(&["--mode", "input_control"])).expect("should parse");
+        let got = parse_hesper_headless(&a(&["--mode", "input_control"])).expect("should parse");
         assert_eq!(got.relay_key, None);
         assert_eq!(got.rendezvous, None);
     }

@@ -84,7 +84,7 @@ class _PeerTabPageState extends State<PeerTabPage>
               ? PeerUiType.tile
               : PeerUiType.list;
     }
-    // Atlas Remote — the tags panel is hidden by default: unset ('') and the
+    // Hesper Remote — the tags panel is hidden by default: unset ('') and the
     // legacy 'Y' both mean hidden; only an explicit 'N' (the user pressed
     // Toggle Tags to show the panel) reveals it. See hideAbTagsPanel in
     // address_book.dart for the matching default.
@@ -141,17 +141,17 @@ class _PeerTabPageState extends State<PeerTabPage>
   Widget _createSwitchBar(BuildContext context) {
     final model = Provider.of<PeerTabModel>(context);
     var counter = -1;
-    // Atlas Remote — pill tab bar, matched to the DS .ds-tabstrigger render.
+    // Hesper Remote — pill tab bar, matched to the DS .ds-tabstrigger render.
     // Active tab = white rounded chip (radius 6) with heading ink + shadow-sm;
     // idle = ink-400 (#858585) text on transparent; hover shifts idle text to
     // text-secondary (#444241) with no background fill (DS hover = colour shift
     // only). Desktop shows the text label (Recent / Favorites / …); mobile keeps
     // the compact icon so the narrow bar still fits.
     // Theme-aware: light hex in light mode, dark ink/surface in dark mode.
-    final inkActive = atlasInkPrimary(context); // --text-heading
-    final inkMuted = atlasInkMuted(context); // --text-muted
-    final inkHover = atlasInkBody(context); // --text-secondary
-    final cardWhite = atlasCardColor(context); // active chip surface
+    final inkActive = hesperInkPrimary(context); // --text-heading
+    final inkMuted = hesperInkMuted(context); // --text-muted
+    final inkHover = hesperInkBody(context); // --text-secondary
+    final cardWhite = hesperCardColor(context); // active chip surface
     final bool showLabels = isDesktop || isWebDesktop;
     return ReorderableListView(
         buildDefaultDragHandles: false,
@@ -215,7 +215,7 @@ class _PeerTabPageState extends State<PeerTabPage>
                           ? Text(
                               model.tabTooltip(t),
                               style: TextStyle(
-                                fontFamily: kAtlasBodyFont,
+                                fontFamily: kHesperBodyFont,
                                 fontSize: 14,
                                 fontWeight: FontWeight.w500,
                                 color: fg,
@@ -594,7 +594,7 @@ class _PeerTabPageState extends State<PeerTabPage>
           size: 18,
         ),
         onTap: () async {
-          // Atlas Remote — store an explicit 'N' when showing the panel:
+          // Hesper Remote — store an explicit 'N' when showing the panel:
           // defaultOptionNo is '' on non-custom builds, which reads back as
           // "never set" and would fall into the hidden-by-default state in
           // _loadLocalOptions.

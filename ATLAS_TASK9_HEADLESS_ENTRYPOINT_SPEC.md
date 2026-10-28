@@ -1,8 +1,8 @@
 # Task 9 — Headless engine entry point + `--session-target` (execution spec)
 
 **Status:** IMPLEMENTED on branch `feat/task9-headless-entrypoint` (2026-07-09) —
-`parse_atlas_headless` + `run_atlas_headless` + the `#[cfg(windows)]`
-`atlas_bind_session_target` seam in `src/core_main.rs` (additive; +240 lines).
+`parse_hesper_headless` + `run_hesper_headless` + the `#[cfg(windows)]`
+`hesper_bind_session_target` seam in `src/core_main.rs` (additive; +240 lines).
 Locally verified on macOS x86_64: **Phase A parser 7/7 unit tests PASS** and the
 full `librustdesk` crate compiles natively via `cargo test` — after a local
 `vcpkg install` of vpx/aom/yuv/opus @ x64-osx, so the earlier "cannot
@@ -16,8 +16,8 @@ code) and the §6 live E2E (Windows Server + workstation + relay). **Do not merg
 the fork's `main`** without both. (`PREFLIGHT.md` marks the fork build DEFERRED;
 `engine.go` calls it "the human-gated finish list".)
 
-**Repo:** `/Users/humphreytheodorek/StudioProjects/atlas-remote-engine` (branch off
-`feat/atlas-ui-1.5.0`). Separate git repo from Atlas OS — its own branch, commit,
+**Repo:** `/Users/humphreytheodorek/StudioProjects/hesper-remote-engine` (branch off
+`feat/hesper-ui-1.5.0`). Separate git repo from Hesper OS — its own branch, commit,
 and CI. All line numbers below are from the code as it exists now (verified
 2026-07-09).
 
@@ -25,7 +25,7 @@ and CI. All line numbers below are from the code as it exists now (verified
 
 ## 1. Why this exists / the contract already in the field
 
-The Atlas Go agent (main repo, `agent/internal/remote/engine.go`) already spawns
+The Hesper Go agent (main repo, `agent/internal/remote/engine.go`) already spawns
 this engine binary at arm's length via `os/exec` with a fixed contract:
 
 - **argv:** `--mode <view|input_control>`; when a relay is present:
@@ -33,8 +33,8 @@ this engine binary at arm's length via `os/exec` with a fixed contract:
   landed) `--session-target <console|current_user>` **only when non-empty**.
 - **stdin:** one line — the one-time session ticket/grant (the only secret; never
   argv).
-- The agent locates the binary as `atlas-remote-engine[.exe]` next to itself (or
-  `$ATLAS_REMOTE_ENGINE`) and treats its **absence as graceful degradation**
+- The agent locates the binary as `hesper-remote-engine[.exe]` next to itself (or
+  `$HESPER_REMOTE_ENGINE`) and treats its **absence as graceful degradation**
   (`locateEngine()` → false → `Handle()` reports `engine_unavailable`, never
   crashes).
 
@@ -61,7 +61,7 @@ host binds its server process to. It is NOT a controlling-side (viewer) concern.
 
 This matches the deployment: the Go agent spawns this engine **on the managed
 endpoint** after consent; the operator's controller joins from elsewhere via the
-`atlasremote://join/...` URI the hub emits. So the engine-on-the-endpoint is the
+`hesperremote://join/...` URI the hub emits. So the engine-on-the-endpoint is the
 **controlled** side, and `--session-target` drives the server-side session-binding
 chain (§4).
 
@@ -102,11 +102,11 @@ directly (`ipc.rs:2008`), which the elevated `run_service` already honours
 ## 4. Implementation plan (additive, minimal)
 
 **Phase A — arg parsing (pure, unit-testable, do first).**
-1. In `core_main.rs`, add a small struct `AtlasHeadlessArgs { mode, rendezvous,
+1. In `core_main.rs`, add a small struct `HesperHeadlessArgs { mode, rendezvous,
    relay, relay_key, session_target }` (all `Option<String>`), and a pure
-   `fn parse_atlas_headless(args: &[String]) -> Option<AtlasHeadlessArgs>` that
+   `fn parse_hesper_headless(args: &[String]) -> Option<HesperHeadlessArgs>` that
    returns `Some` only when `--mode` is present (the sentinel that this is an
-   Atlas headless spawn, not a normal invocation). Recognise `--mode`,
+   Hesper headless spawn, not a normal invocation). Recognise `--mode`,
    `--rendezvous`, `--relay`, `--relay-key`, `--session-target`; **ignore unknown
    flags with a `log::warn!`, never error** (§1 property).
 2. Validate `session_target ∈ {console, current_user}` — on any other value,
@@ -123,13 +123,13 @@ directly (`ipc.rs:2008`), which the elevated `run_service` already honours
 **Phase B — wire the parsed args into a controlled server.**
 5. Dispatch: near the top of the `core_main` arg handling (before the existing
    `args[0]` chain, since `--mode` won't match any existing arm), if
-   `parse_atlas_headless` returns `Some`, branch into a new
-   `run_atlas_headless(args, ticket)` instead of falling through to the GUI.
+   `parse_hesper_headless` returns `Some`, branch into a new
+   `run_hesper_headless(args, ticket)` instead of falling through to the GUI.
 6. Inject rendezvous/relay/key: set the global config options
    (`custom-rendezvous-server`, `relay-server`, `key`) from the parsed values via
    the existing `Config::set_option` path (same as `--option`, `core_main.rs:521`)
    **before** starting the server — scoped to this process. (Relay key: if the
-   baked `RS_PUB_KEY` is already correct for the Atlas relay, `--relay-key` may be
+   baked `RS_PUB_KEY` is already correct for the Hesper relay, `--relay-key` may be
    redundant/confirmatory — confirm against `PREFLIGHT.md:12` and decide whether to
    honour it or assert-match it.)
 7. Apply `mode`: `view` → set the session `view-only` on; `input_control` → leave
@@ -159,11 +159,11 @@ directly (`ipc.rs:2008`), which the elevated `run_service` already honours
     vs RDP session is a Windows-only concept; log-and-ignore.
 
 **Phase D — CI / arm's-length.**
-13. `.github/workflows/atlas-remote-windows.yml` builds via
+13. `.github/workflows/hesper-remote-windows.yml` builds via
     `python build.py --portable --hwcodec --flutter` on `win-v*` tags; keep the
     **dark-mode guardrail** step (`:118-125`) green and the `Cargo.lock` version
     sync (`:127-141`) intact on any version bump (`cargo build --locked`).
-14. The arm's-length *import* invariant lives in the **Atlas agent** repo
+14. The arm's-length *import* invariant lives in the **Hesper agent** repo
     (`go list -deps | grep -i rustdesk`), not here — nothing in this change should
     make the Go agent import the fork. Keep `agent/scripts/check-armslength.sh`
     green over there (it already is; this is a pure engine-side change).
@@ -191,13 +191,13 @@ Unit tests (Phase A) run in CI. Full proof needs live hardware:
 
 1. **Build gate:** the `win-v*` tagged build is green (dark-mode guardrail +
    `--locked` Cargo.lock).
-2. **Enrol** a Windows **Server** SKU + a Windows workstation via the normal Atlas
-   local-agent flow; drop the built `atlas-remote-engine.exe` next to each agent.
+2. **Enrol** a Windows **Server** SKU + a Windows workstation via the normal Hesper
+   local-agent flow; drop the built `hesper-remote-engine.exe` next to each agent.
 3. **Baseline / no regression:** a device with NO unattended policy → start a
    session → the on-endpoint consent prompt still appears (Go agent
    `promptConsent`), engine spawns only after `state=='active'`.
 4. **Console targeting:** RDP into the server first (establish an RDP session),
-   then start an Atlas session with `sessionTarget: 'console'` (or `'auto'` with
+   then start an Hesper session with `sessionTarget: 'console'` (or `'auto'` with
    `rmm_devices.role='server'`) → the session lands on the **physical console
    session**, verifiably distinct from the RDP session (`qwinsta`/`query session`
    on the box, or visibly different desktop).

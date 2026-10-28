@@ -22,7 +22,7 @@ import '../../common.dart';
 import 'dialog.dart';
 import 'login.dart';
 
-// Atlas Remote — the tags panel is collapsed by default so the fleet reads as
+// Hesper Remote — the tags panel is collapsed by default so the fleet reads as
 // a single, wide table; power users opt in via the Toggle Tags action. The
 // comment in _buildAddressBookLandscape always claimed "collapsed by default"
 // while this default was `false` — the default and the comment now agree. The
@@ -31,9 +31,9 @@ import 'login.dart';
 // show the panel) is respected.
 final hideAbTagsPanel = true.obs;
 
-// Atlas Remote — fleet toolbar design tokens (DS .ds-field / .ds-input--sm /
+// Hesper Remote — fleet toolbar design tokens (DS .ds-field / .ds-input--sm /
 // .ds-select). Card fill, border, ink-500 (placeholder/icon/count) and body
-// ink (field text) are now theme-aware via the atlas*Color(context) getters in
+// ink (field text) are now theme-aware via the hesper*Color(context) getters in
 // common.dart — light hex in light mode, dark surfaces/ink in dark mode.
 
 class AddressBook extends StatefulWidget {
@@ -85,7 +85,7 @@ class _AddressBookState extends State<AddressBook> {
       });
 
   Widget _buildAddressBookLandscape() {
-    // Atlas Remote — desktop fleet view: a Client selector + device search
+    // Hesper Remote — desktop fleet view: a Client selector + device search
     // toolbar (net-new, MSP-scale — design annotation f-filter) sits above the
     // fleet table (AddressBookPeersView renders the Device/Client/User/Access
     // table). The tags panel remains available for power users but is collapsed
@@ -136,9 +136,9 @@ class _AddressBookState extends State<AddressBook> {
     );
   }
 
-  // Atlas Remote — Client selector + device search toolbar for the fleet
+  // Hesper Remote — Client selector + device search toolbar for the fleet
   // table (design annotation f-filter; net-new for MSP-scale address books).
-  // On hubs with the ab-2.0 endpoints, Atlas exposes one read-only shared
+  // On hubs with the ab-2.0 endpoints, Hesper exposes one read-only shared
   // address book per client entity (plus "Unassigned devices"), so the Client
   // selector is the address-book picker itself: picking a client switches the
   // current address book (AbModel.setCurrentName pulls that book), and the
@@ -159,9 +159,9 @@ class _AddressBookState extends State<AddressBook> {
           Text(
             '$shown ${translate('of')} $total ${translate('devices')}',
             style: TextStyle(
-              fontFamily: kAtlasBodyFont,
+              fontFamily: kHesperBodyFont,
               fontSize: 12,
-              color: atlasInkMuted(context),
+              color: hesperInkMuted(context),
             ),
           ),
         ],
@@ -171,9 +171,9 @@ class _AddressBookState extends State<AddressBook> {
 
   // Shared pill chrome for the Client field (DS .ds-select).
   BoxDecoration _clientPillDecoration() => BoxDecoration(
-        color: atlasCardColor(context),
+        color: hesperCardColor(context),
         borderRadius: BorderRadius.circular(8),
-        border: Border.all(color: atlasBorderColor(context), width: 1),
+        border: Border.all(color: hesperBorderColor(context), width: 1),
       );
 
   // Degraded Client field: a static pill showing just the current book name.
@@ -192,8 +192,8 @@ class _AddressBookState extends State<AddressBook> {
         text,
         style: TextStyle(
             fontSize: 12.5,
-            fontFamily: kAtlasBodyFont,
-            color: atlasInkBody(context)),
+            fontFamily: kHesperBodyFont,
+            color: hesperInkBody(context)),
         overflow: TextOverflow.ellipsis,
       ),
     );
@@ -211,7 +211,7 @@ class _AddressBookState extends State<AddressBook> {
       return _buildClientStatic(abModel.translatedName(current));
     }
     final personalName = abModel.personalAddressBookName();
-    // In the Atlas topology the personal address book is an intentionally
+    // In the Hesper topology the personal address book is an intentionally
     // empty placeholder (the hub always returns 0 peers for it) — hide it
     // from the picker when shared client books exist, unless it is the
     // active selection (the dropdown value must remain among the items).
@@ -237,8 +237,8 @@ class _AddressBookState extends State<AddressBook> {
                 abModel.translatedName(name),
                 style: TextStyle(
                     fontSize: 12.5,
-                    fontFamily: kAtlasBodyFont,
-                    color: atlasInkBody(context)),
+                    fontFamily: kHesperBodyFont,
+                    color: hesperInkBody(context)),
                 overflow: TextOverflow.ellipsis,
               ),
             ))
@@ -256,8 +256,8 @@ class _AddressBookState extends State<AddressBook> {
             translate('Client'),
             style: TextStyle(
               fontSize: 12,
-              fontFamily: kAtlasBodyFont,
-              color: atlasInkMuted(context),
+              fontFamily: kHesperBodyFont,
+              color: hesperInkMuted(context),
             ),
           ),
           const SizedBox(width: 8),
@@ -282,7 +282,7 @@ class _AddressBookState extends State<AddressBook> {
                       },
                 iconStyleData: IconStyleData(
                   icon: const Icon(Icons.keyboard_arrow_down_rounded, size: 18),
-                  iconEnabledColor: atlasInkMuted(context),
+                  iconEnabledColor: hesperInkMuted(context),
                 ),
                 buttonStyleData: const ButtonStyleData(
                   padding: EdgeInsets.zero,
@@ -292,10 +292,10 @@ class _AddressBookState extends State<AddressBook> {
                   maxHeight: 320,
                   width: 200,
                   decoration: BoxDecoration(
-                    color: atlasCardColor(context),
+                    color: hesperCardColor(context),
                     borderRadius: BorderRadius.circular(8),
                     border:
-                        Border.all(color: atlasBorderColor(context), width: 1),
+                        Border.all(color: hesperBorderColor(context), width: 1),
                   ),
                 ),
               ),
@@ -310,9 +310,9 @@ class _AddressBookState extends State<AddressBook> {
     return Container(
       height: 32,
       decoration: BoxDecoration(
-        color: atlasCardColor(context),
+        color: hesperCardColor(context),
         borderRadius: BorderRadius.circular(8),
-        border: Border.all(color: atlasBorderColor(context), width: 1),
+        border: Border.all(color: hesperBorderColor(context), width: 1),
       ),
       child: Center(
         child: TextField(
@@ -325,21 +325,21 @@ class _AddressBookState extends State<AddressBook> {
           // DS .ds-input--sm: 13px; field text = --text-body.
           style: TextStyle(
               fontSize: 13,
-              fontFamily: kAtlasBodyFont,
-              color: atlasInkBody(context)),
+              fontFamily: kHesperBodyFont,
+              color: hesperInkBody(context)),
           decoration: InputDecoration(
             isDense: true,
             border: InputBorder.none,
             contentPadding: const EdgeInsets.symmetric(horizontal: 4),
             prefixIcon:
-                Icon(Icons.search, size: 16, color: atlasInkMuted(context)),
+                Icon(Icons.search, size: 16, color: hesperInkMuted(context)),
             prefixIconConstraints:
                 const BoxConstraints(minWidth: 32, minHeight: 32),
             hintText: translate('Search devices'),
             hintStyle: TextStyle(
               fontSize: 13,
-              fontFamily: kAtlasBodyFont,
-              color: atlasInkMuted(context),
+              fontFamily: kHesperBodyFont,
+              color: hesperInkMuted(context),
             ),
           ),
         ).workaroundFreezeLinuxMint(),

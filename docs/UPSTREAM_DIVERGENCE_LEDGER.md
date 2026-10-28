@@ -1,11 +1,11 @@
-# Atlas Remote — Upstream Divergence Ledger
+# Hesper Remote — Upstream Divergence Ledger
 
-**Purpose:** Atlas Remote is a hard fork of RustDesk. We evolve our own product (UI, hub integration,
+**Purpose:** Hesper Remote is a hard fork of RustDesk. We evolve our own product (UI, hub integration,
 routing, updater) but must keep ingesting upstream **security and codec/capture fixes**. This ledger is the
 map of what we own outright vs. what we track, and the record of each ingestion.
 
 **Fork baseline:** RustDesk tag **1.4.8** (`3c574a41`), `hbb_common` `387603f4`. Current fork: see `src/version.rs`.
-**Remotes:** `origin` = `spout-technologies/atlas-remote-engine`; `upstream` = `rustdesk/rustdesk` (added 2026-07-16,
+**Remotes:** `origin` = `spout-technologies/hesper-remote-engine`; `upstream` = `rustdesk/rustdesk` (added 2026-07-16,
 for CVE diffing — we do NOT merge upstream, we cherry-pick into tracked subsystems).
 
 ## Subsystem ownership map
@@ -13,13 +13,13 @@ for CVE diffing — we do NOT merge upstream, we cherry-pick into tracked subsys
 ### OWN outright — do NOT track upstream (upstream changes here are noise; ours is the source of truth)
 | Subsystem | Notes |
 |---|---|
-| `flutter/lib/**` UI + rebrand | Atlas Design pixel-rebuild, wordmark/theme, ab-2.0 client UI |
-| ab-2.0 hub address-book client (`ab_model.dart`, `/api/ab/*`) | Our contract with the Atlas hub |
+| `flutter/lib/**` UI + rebrand | Hesper Design pixel-rebuild, wordmark/theme, ab-2.0 client UI |
+| ab-2.0 hub address-book client (`ab_model.dart`, `/api/ab/*`) | Our contract with the Hesper hub |
 | In-app updater (`src/updater.rs`) + agent-driven update | Repointed off api.rustdesk.com; draft-gated fleet serve |
 | Per-session `lc` routing / `id@server?key=` + `&alt=` failover (`src/client.rs`) | Our multi-region seam |
 | Relay orchestration (hub-side) + rendezvous baked config | Data-driven region model |
-| Atlas icon/scheme federation (`atlasremote://`, `res/*` icons, `logo*.svg`) | Brand identity |
-| Headless controlled-session entrypoint | `ATLAS_TASK9_HEADLESS_ENTRYPOINT_SPEC.md` |
+| Hesper icon/scheme federation (`hesperremote://`, `res/*` icons, `logo*.svg`) | Brand identity |
+| Headless controlled-session entrypoint | `HESPER_TASK9_HEADLESS_ENTRYPOINT_SPEC.md` |
 
 ### TRACK upstream — ingest security/correctness fixes on a cadence
 | Subsystem | Why we track | Baseline |

@@ -17,11 +17,11 @@ import '../../common/widgets/peer_tab_page.dart';
 import '../../common/widgets/autocomplete.dart';
 import '../../models/platform_model.dart';
 
-// Atlas Remote design tokens (Claude Design spec) for the RIGHT pane.
-// Surface/ink tokens are theme-aware via the atlas*Color(context) getters in
+// Hesper Remote design tokens (Claude Design spec) for the RIGHT pane.
+// Surface/ink tokens are theme-aware via the hesper*Color(context) getters in
 // common.dart (light hex in light mode, dark surfaces/ink in dark mode). Only
-// the brand green is a constant — it is identical in both modes.
-const Color _kGreen = kAtlasBrandGreen;
+// the brand violet is a constant — it is identical in both modes.
+const Color _kGreen = kHesperBrand;
 
 class OnlineStatusWidget extends StatefulWidget {
   const OnlineStatusWidget({Key? key, this.onSvcStatusChanged})
@@ -43,7 +43,7 @@ class _OnlineStatusWidgetState extends State<OnlineStatusWidget> {
   double? get height => bind.isIncomingOnly() ? null : em * 3;
 
   void onUsePublicServerGuide() {
-    const url = "https://atlasos.work/pricing";
+    const url = "https://hesper.work/pricing";
     canLaunchUrlString(url).then((can) {
       if (can) {
         launchUrlString(url);
@@ -209,7 +209,7 @@ class _ConnectionPageState extends State<ConnectionPage>
 
   String selectedConnectionType = 'Connect';
 
-  // Atlas Remote — connect-type selector (monitor = remote control,
+  // Hesper Remote — connect-type selector (monitor = remote control,
   // folder = file transfer, terminal = terminal). The active kind tints green
   // and determines which flavour of onConnect() the green Connect button fires.
   final _connectKind = 0.obs; // 0 monitor, 1 folder, 2 terminal
@@ -321,11 +321,11 @@ class _ConnectionPageState extends State<ConnectionPage>
               child: Text(
                 translate("Connect to a Device").toUpperCase(),
                 style: TextStyle(
-                  fontFamily: kAtlasBodyFont,
+                  fontFamily: kHesperBodyFont,
                   fontSize: 10,
                   fontWeight: FontWeight.w700,
                   letterSpacing: 1.0, // 0.1em at 10px
-                  color: atlasInkMuted(context),
+                  color: hesperInkMuted(context),
                 ),
               ),
             ),
@@ -335,7 +335,7 @@ class _ConnectionPageState extends State<ConnectionPage>
           ],
         ).paddingOnly(left: 24.0, top: 24.0, right: 12.0)),
         if (!isOutgoingOnly)
-          Divider(height: 1, color: atlasBorderColor(context)),
+          Divider(height: 1, color: hesperBorderColor(context)),
         if (!isOutgoingOnly) OnlineStatusWidget()
       ],
     );
@@ -356,16 +356,16 @@ class _ConnectionPageState extends State<ConnectionPage>
 
   /// UI for the remote ID TextField.
   /// Search for a peer.
-  /// Atlas Remote: full-width sage input + connect-type icon group + green
+  /// Hesper Remote: full-width sage input + connect-type icon group + green
   /// "Connect →" button. The autocomplete peer search + connect action are
   /// preserved; only the surrounding layout/chrome is redesigned.
   Widget _buildRemoteIDTextField(BuildContext context) {
     final idField = Container(
       height: 44,
       decoration: BoxDecoration(
-        color: atlasCardColor(context),
+        color: hesperCardColor(context),
         borderRadius: BorderRadius.circular(8),
-        border: Border.all(color: atlasBorderColor(context), width: 1),
+        border: Border.all(color: hesperBorderColor(context), width: 1),
       ),
       alignment: Alignment.center,
       child: Row(
@@ -416,11 +416,11 @@ class _ConnectionPageState extends State<ConnectionPage>
                           keyboardType: TextInputType.visiblePassword,
                           focusNode: fieldFocusNode,
                           style: TextStyle(
-                            fontFamily: kAtlasMonoFont,
+                            fontFamily: kHesperMonoFont,
                             fontSize: 15,
                             letterSpacing: 0.6, // 0.04em at 15px
                             height: 1.2,
-                            color: atlasInkPrimary(context),
+                            color: hesperInkPrimary(context),
                           ),
                           maxLines: 1,
                           cursorColor: _kGreen,
@@ -433,10 +433,10 @@ class _ConnectionPageState extends State<ConnectionPage>
                                   ? null
                                   : translate('Enter Remote ID'),
                               hintStyle: TextStyle(
-                                fontFamily: kAtlasMonoFont,
+                                fontFamily: kHesperMonoFont,
                                 fontSize: 15,
                                 letterSpacing: 0.6,
-                                color: atlasInkMuted(context),
+                                color: hesperInkMuted(context),
                               ),
                               contentPadding: const EdgeInsets.symmetric(
                                   horizontal: 14, vertical: 12)),
@@ -486,7 +486,7 @@ class _ConnectionPageState extends State<ConnectionPage>
                               borderRadius: BorderRadius.circular(5),
                               child: Material(
                                 elevation: 4,
-                                color: atlasCardColor(context),
+                                color: hesperCardColor(context),
                                 child: ConstrainedBox(
                                   constraints: BoxConstraints(
                                     maxHeight: maxHeight,
@@ -537,7 +537,7 @@ class _ConnectionPageState extends State<ConnectionPage>
         constraints: const BoxConstraints(maxWidth: 720), child: w);
   }
 
-  // Atlas: connect-type selector — 3 grouped icon buttons
+  // Hesper: connect-type selector — 3 grouped icon buttons
   // (monitor / folder / terminal). The active one has a green-tinted bg. This
   // supplants the old "more" popup: choosing a kind here changes what the
   // green Connect button does.
@@ -561,7 +561,7 @@ class _ConnectionPageState extends State<ConnectionPage>
               child: Icon(
                 icon,
                 size: 16,
-                color: active ? Colors.white : atlasInkMuted(context),
+                color: active ? Colors.white : hesperInkMuted(context),
               ),
             ),
           ),
@@ -573,9 +573,9 @@ class _ConnectionPageState extends State<ConnectionPage>
       height: 44,
       padding: const EdgeInsets.all(3),
       decoration: BoxDecoration(
-        color: atlasFillColor(context),
+        color: hesperFillColor(context),
         borderRadius: BorderRadius.circular(9),
-        border: Border.all(color: atlasBorderColor(context), width: 1),
+        border: Border.all(color: hesperBorderColor(context), width: 1),
       ),
       child: Row(
         mainAxisSize: MainAxisSize.min,
@@ -590,7 +590,7 @@ class _ConnectionPageState extends State<ConnectionPage>
     );
   }
 
-  // Atlas: green "Connect →" button. Fires the flavour of onConnect matching
+  // Hesper: green "Connect →" button. Fires the flavour of onConnect matching
   // the selected connect-type.
   Widget _buildConnectButton(BuildContext context) {
     return Obx(() {
@@ -619,7 +619,7 @@ class _ConnectionPageState extends State<ConnectionPage>
               Text(
                 translate("Connect"),
                 style: const TextStyle(
-                  fontFamily: kAtlasBodyFont,
+                  fontFamily: kHesperBodyFont,
                   fontSize: 16,
                   fontWeight: FontWeight.w500,
                   color: Colors.white,

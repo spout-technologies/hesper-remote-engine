@@ -168,7 +168,7 @@ const String kOptionEnableConfirmClosingTabs = "enable-confirm-closing-tabs";
 const String kOptionAllowAlwaysSoftwareRender = "allow-always-software-render";
 const String kOptionEnableCheckUpdate = "enable-check-update";
 const String kOptionAllowAutoUpdate = "allow-auto-update";
-// Atlas: local (per-user) flag for the Settings → About Diagnostics block.
+// Hesper: local (per-user) flag for the Settings → About Diagnostics block.
 // When "Y", main.dart tees debugPrint output into <log dir>/flutter.log at
 // startup. Read/written with the explicit == 'Y' pattern (a bare key would
 // default true through option2bool).
@@ -710,7 +710,7 @@ extension WindowsTargetExt on int {
 }
 
 const kCheckSoftwareUpdateFinish = 'check_software_update_finish';
-// Atlas: completion event for the on-demand Settings → About update check
+// Hesper: completion event for the on-demand Settings → About update check
 // (bind.mainCheckForUpdate → common.rs::check_software_update_manual). Fires
 // on EVERY outcome — evt['url'] non-empty when an update exists, empty when
 // already latest; evt['error'] non-empty when the check failed — unlike

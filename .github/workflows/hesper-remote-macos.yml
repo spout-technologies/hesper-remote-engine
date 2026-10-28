@@ -1,10 +1,10 @@
-# Atlas Remote — macOS build + Developer ID sign + notarize (arm64 first).
+# Hesper Remote — macOS build + Developer ID sign + notarize (arm64 first).
 # Adapted from RustDesk's proven build-for-macOS job (flutter-build.yml), rebranded
-# to "Atlas Remote.app" and wired to THIS repo's signing secrets:
+# to "Hesper Remote.app" and wired to THIS repo's signing secrets:
 #   APPLE_DEVELOPER_ID_APP_P12_BASE64 / _PASSWORD, ASC_API_KEY_ID / _ISSUER_ID /
 #   _KEY_P8_BASE64, KEYCHAIN_PASSWORD  (+ vars APPLE_TEAM_ID, MACOS_BUNDLE_ID).
 # The relay + name + icons are baked into the source (this fork), not env vars.
-name: atlas-remote-macos
+name: hesper-remote-macos
 
 permissions:
   contents: write
@@ -66,12 +66,12 @@ jobs:
         with:
           p12-file-base64: ${{ secrets.APPLE_DEVELOPER_ID_APP_P12_BASE64 }}
           p12-password: ${{ secrets.APPLE_DEVELOPER_ID_APP_P12_PASSWORD }}
-          keychain: atlasremote
+          keychain: hesperremote
           keychain-password: ${{ secrets.KEYCHAIN_PASSWORD }}
 
       - name: Resolve codesign identity
         run: |
-          security default-keychain -s atlasremote.keychain
+          security default-keychain -s hesperremote.keychain
           IDENTITY=$(security find-identity -v -p codesigning | grep "Developer ID Application" | head -1 | sed -E 's/.*"(Developer ID Application:[^"]+)".*/\1/')
           echo "Codesign identity: $IDENTITY"
           echo "CODESIGN_IDENTITY=$IDENTITY" >> "$GITHUB_ENV"
@@ -148,14 +148,14 @@ jobs:
         run: |
           # A const token holding a white/sage-page surface can never flip in
           # dark mode (the bug that made Settings a white-on-dark chimera). Use
-          # the atlas*Color(context) getters in common.dart instead.
+          # the hesper*Color(context) getters in common.dart instead.
           if grep -rnE "const Color _k[A-Za-z]+ *= *Color\(0xFF(FFFFFF|F7F9F6)\)" flutter/lib/; then
-            echo "::error::Reintroduced a const light-surface token — use atlas*Color(context) getters."
+            echo "::error::Reintroduced a const light-surface token — use hesper*Color(context) getters."
             exit 1
           fi
           echo "guardrail OK: no const light-surface tokens in flutter/lib"
 
-      - name: Build Atlas Remote (min-macOS 12.3, ${{ matrix.job.arch }})
+      - name: Build Hesper Remote (min-macOS 12.3, ${{ matrix.job.arch }})
         run: |
           # Both arches ship --screencapturekit, whose framework floor is macOS 12.3,
           # so pin the deployment target to 12.3 across all four build inputs (upstream default is 10.14).
@@ -183,21 +183,21 @@ jobs:
 
       - name: Codesign (hardened runtime) + signed DMG
         run: |
-          APP="./flutter/build/macos/Build/Products/Release/Atlas Remote.app"
-          security default-keychain -s atlasremote.keychain
-          security unlock-keychain -p "${{ secrets.KEYCHAIN_PASSWORD }}" atlasremote.keychain
+          APP="./flutter/build/macos/Build/Products/Release/Hesper Remote.app"
+          security default-keychain -s hesperremote.keychain
+          security unlock-keychain -p "${{ secrets.KEYCHAIN_PASSWORD }}" hesperremote.keychain
           CREATE_DMG="$(readlink -f "$(command -v create-dmg)")"
           sed -i -e 's/MAXIMUM_UNMOUNTING_ATTEMPTS=3/MAXIMUM_UNMOUNTING_ATTEMPTS=7/' "$CREATE_DMG"
           codesign --force --options runtime -s "$CODESIGN_IDENTITY" --deep --strict "$APP" -vvv
           rm -f *.dmg || true
-          create-dmg --icon "Atlas Remote.app" 200 190 --hide-extension "Atlas Remote.app" \
+          create-dmg --icon "Hesper Remote.app" 200 190 --hide-extension "Hesper Remote.app" \
             --window-size 800 400 --app-drop-link 600 185 \
-            "AtlasRemote-${VERSION}-${{ matrix.job.arch }}.dmg" "$APP"
-          codesign --force --options runtime -s "$CODESIGN_IDENTITY" --deep --strict "AtlasRemote-${VERSION}-${{ matrix.job.arch }}.dmg" -vvv
+            "HesperRemote-${VERSION}-${{ matrix.job.arch }}.dmg" "$APP"
+          codesign --force --options runtime -s "$CODESIGN_IDENTITY" --deep --strict "HesperRemote-${VERSION}-${{ matrix.job.arch }}.dmg" -vvv
 
       - name: Notarize + staple (notarytool, ASC API key)
         run: |
-          DMG="AtlasRemote-${VERSION}-${{ matrix.job.arch }}.dmg"
+          DMG="HesperRemote-${VERSION}-${{ matrix.job.arch }}.dmg"
           xcrun notarytool submit "$DMG" \
             --key "$ASC_KEY_PATH" \
             --key-id "${{ secrets.ASC_API_KEY_ID }}" \
@@ -209,10 +209,10 @@ jobs:
       - name: Upload signed DMG (artifact)
         uses: actions/upload-artifact@v4
         with:
-          name: AtlasRemote-macos-${{ matrix.job.arch }}
+          name: HesperRemote-macos-${{ matrix.job.arch }}
           path: |
-            AtlasRemote-${{ env.VERSION }}-${{ matrix.job.arch }}.dmg
-            AtlasRemote-${{ env.VERSION }}-${{ matrix.job.arch }}.dmg.sha256
+            HesperRemote-${{ env.VERSION }}-${{ matrix.job.arch }}.dmg
+            HesperRemote-${{ env.VERSION }}-${{ matrix.job.arch }}.dmg.sha256
 
       # NOTE: the per-arch DMG is uploaded as a workflow artifact above; the actual
       # release is published ONCE by the publish-macos-draft job below (a per-matrix
@@ -228,7 +228,7 @@ jobs:
       - name: Download both-arch signed DMGs
         uses: actions/download-artifact@v4
         with:
-          pattern: AtlasRemote-macos-*
+          pattern: HesperRemote-macos-*
           merge-multiple: true
       - name: Publish as a single DRAFT release
         uses: softprops/action-gh-release@v2
@@ -239,5 +239,5 @@ jobs:
           draft: true
           prerelease: true
           files: |
-            AtlasRemote-*.dmg
-            AtlasRemote-*.dmg.sha256
+            HesperRemote-*.dmg
+            HesperRemote-*.dmg.sha256

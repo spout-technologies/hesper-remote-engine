@@ -327,40 +327,40 @@ class ToolbarState {
 }
 
 class _ToolbarTheme {
-  // ── Atlas floating-toolbar tokens ────────────────────────────────────
+  // ── Hesper floating-toolbar tokens ────────────────────────────────────
   // The in-session toolbar floats over the remote screen, so it is always
   // dark regardless of app theme (design: rgba(28,28,30,0.82) + blur, white
   // glyphs, one green accent, red close). These tokens are the single source
   // of truth for the toolbar's colours; the button renderers below treat the
   // `color`/`hoverColor` props as the GLYPH colour on a transparent tile.
-  static const Color atlasSurface = Color(0xD11C1C1E); // dark pill bg (design rgba(28,28,30,0.82))
-  static const Color atlasInk = Color(0xF2FFFFFF); // idle glyph (white ~0.95)
-  static const Color atlasInkDim = Color(0x99FFFFFF); // muted glyph (~0.6)
-  static const Color atlasAccent = MyTheme.accent; // Atlas green #6EA924
-  static const Color atlasHairline = Color(0x24FFFFFF); // seg dividers (design rgba(255,255,255,0.14))
-  static const Color atlasBorder = Color(0x1AFFFFFF); // pill/handle outer border (design rgba(255,255,255,0.10))
-  static const Color atlasHover = Color(0x1FFFFFFF); // hover tile overlay ~0.12
-  static const Color atlasDanger = Color(0xF2DC2626); // close/rec red (~0.95)
+  static const Color hesperSurface = Color(0xD11C1C1E); // dark pill bg (design rgba(28,28,30,0.82))
+  static const Color hesperInk = Color(0xF2FFFFFF); // idle glyph (white ~0.95)
+  static const Color hesperInkDim = Color(0x99FFFFFF); // muted glyph (~0.6)
+  static const Color hesperAccent = MyTheme.accent; // Hesper violet #7460FF
+  static const Color hesperHairline = Color(0x24FFFFFF); // seg dividers (design rgba(255,255,255,0.14))
+  static const Color hesperBorder = Color(0x1AFFFFFF); // pill/handle outer border (design rgba(255,255,255,0.10))
+  static const Color hesperHover = Color(0x1FFFFFFF); // hover tile overlay ~0.12
+  static const Color hesperDanger = Color(0xF2DC2626); // close/rec red (~0.95)
   // Design close/active-record tile: a persistently FILLED red tile
   // (rgba(220,38,38,0.85)) with a white glyph — not a red-tinted glyph on a
   // transparent tile. Used by the Close segment and the active recording state.
-  static const Color atlasDangerFill = Color(0xD9DC2626); // filled close tile (design rgba(220,38,38,0.85))
-  static const Color atlasDangerGlyph = Color(0xFFFFFFFF); // white glyph on filled red tile
+  static const Color hesperDangerFill = Color(0xD9DC2626); // filled close tile (design rgba(220,38,38,0.85))
+  static const Color hesperDangerGlyph = Color(0xFFFFFFFF); // white glyph on filled red tile
 
   // The glyph colour used by idle top-level buttons. Green is reserved for
   // active/selected/pinned states, so idle glyphs read as near-white ink.
-  static const Color blueColor = atlasInk;
-  static const Color hoverBlueColor = atlasInk;
+  static const Color blueColor = hesperInk;
+  static const Color hoverBlueColor = hesperInk;
   // "Off/unselected" glyph — a dimmed white so unselected monitors etc. recede
   // without the old opaque-grey tile look.
-  static Color inactiveColor = atlasInkDim;
-  static Color hoverInactiveColor = atlasInk;
+  static Color inactiveColor = hesperInkDim;
+  static Color hoverInactiveColor = hesperInk;
   // Active/selected/pinned accent (green), used where a control is "on".
-  static const Color accentColor = atlasAccent;
-  static const Color hoverAccentColor = atlasAccent;
+  static const Color accentColor = hesperAccent;
+  static const Color hoverAccentColor = hesperAccent;
 
-  static const Color redColor = atlasDanger;
-  static const Color hoverRedColor = atlasDanger;
+  static const Color redColor = hesperDanger;
+  static const Color hoverRedColor = hesperDanger;
   // kMinInteractiveDimension
   static const double height = 20.0;
   static const double dividerHeight = 12.0;
@@ -374,20 +374,20 @@ class _ToolbarTheme {
 
   static double dividerSpaceToAction = isWindows ? 8 : 14;
 
-  static double menuBorderRadius = 8.0; // Atlas standard radius for popovers
+  static double menuBorderRadius = 8.0; // Hesper standard radius for popovers
   static EdgeInsets menuPadding = isWindows
       ? EdgeInsets.fromLTRB(4, 12, 4, 12)
       : EdgeInsets.fromLTRB(6, 14, 6, 14);
   static const double menuButtonBorderRadius = 6.0;
 
   // The floating toolbar's own surface + hairline are theme-independent (it
-  // sits over the remote screen), so return the Atlas dark-pill tokens rather
+  // sits over the remote screen), so return the Hesper dark-pill tokens rather
   // than the app-theme menu-bar colours.
-  static Color get toolbarSurface => atlasSurface;
+  static Color get toolbarSurface => hesperSurface;
 
-  static Color borderColor(BuildContext context) => atlasHairline;
+  static Color borderColor(BuildContext context) => hesperHairline;
 
-  static Color? dividerColor(BuildContext context) => atlasHairline;
+  static Color? dividerColor(BuildContext context) => hesperHairline;
 
   static MenuStyle defaultMenuStyle(BuildContext context) => MenuStyle(
         side: MaterialStateProperty.all(BorderSide(
@@ -410,7 +410,7 @@ class _ToolbarTheme {
     return Container(
       decoration: BoxDecoration(
         border: Border.all(
-          color: atlasBorder,
+          color: hesperBorder,
           width: 1,
         ),
         borderRadius: borderRadius,
@@ -885,7 +885,7 @@ class _RemoteToolbarState extends State<RemoteToolbar> {
     }
     if (!isWeb) toolbarItems.add(_RecordMenu());
     toolbarItems.add(_CloseMenu(id: widget.id, ffi: widget.ffi));
-    // Atlas: the floating pill uses a rounded surface (design ~12px) and its
+    // Hesper: the floating pill uses a rounded surface (design ~12px) and its
     // own dark bg + hairline border, independent of app theme.
     final toolbarBorderRadius = BorderRadius.all(Radius.circular(12.0));
     // innerAxis: how the toolbar icons themselves flow.
@@ -952,7 +952,7 @@ class _RemoteToolbarState extends State<RemoteToolbar> {
         color: _ToolbarTheme.dividerColor(context),
       ),
       // Each top-level segment is a MenuBar, which paints its OWN Material
-      // surface on top of the dark atlasSurface pill. Inheriting the app-theme
+      // surface on top of the dark hesperSurface pill. Inheriting the app-theme
       // menu-bar background (white in light mode) made that row of MenuBars
       // paint white over the pill — the white glyphs then vanished against it,
       // leaving only their black-bordered white bodies. Force the MenuBar
@@ -2855,7 +2855,7 @@ class _IconMenuButtonState extends State<_IconMenuButton> {
   @override
   Widget build(BuildContext context) {
     assert(widget.assetName != null || widget.icon != null);
-    // Atlas structural fidelity (design: 32px tile, 14px glyph centred):
+    // Hesper structural fidelity (design: 32px tile, 14px glyph centred):
     //  • The 32×32 box is the hover target + tap area; the SVG glyph sits at
     //    ~14px, Centered inside it — so the glyph no longer IS the tile.
     //  • Idle buttons keep a transparent tile with a faint white hover overlay
@@ -2865,11 +2865,11 @@ class _IconMenuButtonState extends State<_IconMenuButton> {
     final bool isCloseAction =
         widget.color == _ToolbarTheme.redColor || widget.hoverColor == _ToolbarTheme.redColor;
     final Color glyphColor = isCloseAction
-        ? _ToolbarTheme.atlasDangerGlyph // white glyph on the filled red tile
+        ? _ToolbarTheme.hesperDangerGlyph // white glyph on the filled red tile
         : (hover ? widget.hoverColor : widget.color);
     final Color tileColor = isCloseAction
-        ? (hover ? _ToolbarTheme.atlasDanger : _ToolbarTheme.atlasDangerFill)
-        : (hover ? _ToolbarTheme.atlasHover : Colors.transparent);
+        ? (hover ? _ToolbarTheme.hesperDanger : _ToolbarTheme.hesperDangerFill)
+        : (hover ? _ToolbarTheme.hesperHover : Colors.transparent);
     // The glyph: a ~14px SVG for asset-driven buttons. A caller-supplied
     // `widget.icon` (e.g. the monitor-switcher composite) already sizes itself,
     // so it is only re-centred, not resized.
@@ -2967,12 +2967,12 @@ class _IconSubmenuButtonState extends State<_IconSubmenuButton> {
   @override
   Widget build(BuildContext context) {
     assert(widget.svg != null || widget.icon != null);
-    // Atlas structural fidelity (design: 32px tile, 14px glyph centred):
+    // Hesper structural fidelity (design: 32px tile, 14px glyph centred):
     // tint the glyph (idle = near-white ink, green when active) and centre a
     // ~14px SVG inside the 32×32 tile, which stays transparent with a faint
     // white hover overlay — the glyph is no longer the tile.
     final Color glyphColor = hover ? widget.hoverColor : widget.color;
-    final Color tileColor = hover ? _ToolbarTheme.atlasHover : Colors.transparent;
+    final Color tileColor = hover ? _ToolbarTheme.hesperHover : Colors.transparent;
     // A caller-supplied `widget.icon` (e.g. the monitors composite) already
     // sizes itself, so it is only re-centred; asset glyphs render at ~14px.
     final Widget glyph = widget.icon ??
@@ -3372,8 +3372,8 @@ class _DraggableShowHideState extends State<_DraggableShowHide> {
         child: Icon(
           widget.isHorizontal ? Icons.drag_indicator : Icons.drag_handle,
           size: 20,
-          // Atlas: dim-white grip on the dark strip.
-          color: _ToolbarTheme.atlasInkDim,
+          // Hesper: dim-white grip on the dark strip.
+          color: _ToolbarTheme.hesperInkDim,
         ),
         feedback: widget,
         onDragStarted: () {
@@ -3423,10 +3423,10 @@ class _DraggableShowHideState extends State<_DraggableShowHide> {
     }
 
     final axis = widget.isHorizontal ? Axis.horizontal : Axis.vertical;
-    // Atlas: the strip's action icons (fullscreen, minimize, collapse) sit on
+    // Hesper: the strip's action icons (fullscreen, minimize, collapse) sit on
     // the dark floating surface, so default them to near-white ink.
     final child = IconTheme.merge(
-      data: const IconThemeData(color: _ToolbarTheme.atlasInk),
+      data: const IconThemeData(color: _ToolbarTheme.hesperInk),
       child: Flex(
       direction: axis,
       mainAxisSize: MainAxisSize.min,
@@ -3502,11 +3502,11 @@ class _DraggableShowHideState extends State<_DraggableShowHide> {
       data: TextButtonThemeData(style: buttonStyle),
       child: Container(
         decoration: BoxDecoration(
-          // Atlas: the drag/collapse strip shares the floating pill's dark
+          // Hesper: the drag/collapse strip shares the floating pill's dark
           // surface + hairline so it reads as one piece over the remote screen.
           color: _ToolbarTheme.toolbarSurface,
           border: Border.all(
-            color: _ToolbarTheme.atlasBorder,
+            color: _ToolbarTheme.hesperBorder,
             width: 1,
           ),
           borderRadius: widget.borderRadius,

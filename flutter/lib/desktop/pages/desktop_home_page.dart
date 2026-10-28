@@ -85,9 +85,9 @@ class _DesktopHomePageState extends State<DesktopHomePage>
   Widget buildLeftPane(BuildContext context) {
     final isIncomingOnly = bind.isIncomingOnly();
     final isOutgoingOnly = bind.isOutgoingOnly();
-    // Atlas Remote Home — LEFT pane ("YOUR DESKTOP"). Restructured from
+    // Hesper Remote Home — LEFT pane ("YOUR DESKTOP"). Restructured from
     // RustDesk's stacked ID/password strips into the Claude Design card layout:
-    // atlasOS logo → "YOUR DESKTOP" label → THIS DEVICE'S ID card →
+    // hesperOS logo → "YOUR DESKTOP" label → THIS DEVICE'S ID card →
     // PASSWORD card (with segmented One-time/Permanent toggle) → tip, with the
     // "Allow remote control" switch pinned to the bottom of the pane.
     final children = <Widget>[
@@ -100,7 +100,7 @@ class _DesktopHomePageState extends State<DesktopHomePage>
       Align(
         alignment: Alignment.centerLeft,
         child: loadLogo(),
-      ).marginOnly(left: kAtlasPanePad, top: 20, bottom: 20),
+      ).marginOnly(left: kHesperPanePad, top: 20, bottom: 20),
       if (!isOutgoingOnly) _buildEyebrow(context, translate("Your Desktop")),
       if (!isOutgoingOnly) buildIDBoard(context),
       if (!isOutgoingOnly) buildPasswordBoard(context),
@@ -159,7 +159,7 @@ class _DesktopHomePageState extends State<DesktopHomePage>
                     ),
                   ),
                 ),
-                // Atlas: pin the "Allow remote control" switch to the bottom of
+                // Hesper: pin the "Allow remote control" switch to the bottom of
                 // the left pane (design annotation: incoming-control affordance
                 // reads as a persistent setting, not a scrolled-away control).
                 if (!isOutgoingOnly)
@@ -199,30 +199,30 @@ class _DesktopHomePageState extends State<DesktopHomePage>
     );
   }
 
-  // Atlas design tokens (mirrors MyTheme + the Claude Design spec). Kept local
+  // Hesper design tokens (mirrors MyTheme + the Claude Design spec). Kept local
   // to the Home screen so the card layout reads self-documenting.
   //
-  // Colour tokens are now THEME-AWARE via the atlas*Color(context) getters in
-  // common.dart: they resolve to the Atlas light hex in light mode and to the
+  // Colour tokens are now THEME-AWARE via the hesper*Color(context) getters in
+  // common.dart: they resolve to the Hesper light hex in light mode and to the
   // dark surfaces/ink in dark mode, so cards/text/borders adapt instead of
-  // rendering white-on-dark. Only the brand green + its pale wash are kept as
+  // rendering white-on-dark. Only the brand violet + its pale wash are kept as
   // constants here (green is identical in both modes).
-  static const double kAtlasPanePad = 20.0;
-  static const Color kAtlasGreen = kAtlasBrandGreen; // brand-500 (both modes)
+  static const double kHesperPanePad = 20.0;
+  static const Color kHesperBrand = kHesperBrand; // brand-500 (both modes)
 
   // Uppercase eyebrow / label (ink-500, 11px, ~0.08em tracking).
   Widget _buildEyebrow(BuildContext context, String text) {
     return Padding(
       padding: const EdgeInsets.only(
-          left: kAtlasPanePad, right: kAtlasPanePad, bottom: 10),
+          left: kHesperPanePad, right: kHesperPanePad, bottom: 10),
       child: Text(
         text.toUpperCase(),
         style: TextStyle(
-          fontFamily: kAtlasBodyFont,
+          fontFamily: kHesperBodyFont,
           fontSize: 10,
           fontWeight: FontWeight.w700,
           letterSpacing: 1.0, // 0.1em at 10px
-          color: atlasInkMuted(context),
+          color: hesperInkMuted(context),
         ),
       ),
     );
@@ -233,12 +233,12 @@ class _DesktopHomePageState extends State<DesktopHomePage>
       {required Widget child, EdgeInsets? padding}) {
     return Container(
       margin: const EdgeInsets.only(
-          left: kAtlasPanePad, right: kAtlasPanePad, bottom: 14),
+          left: kHesperPanePad, right: kHesperPanePad, bottom: 14),
       padding: padding ?? const EdgeInsets.fromLTRB(16, 14, 16, 14),
       decoration: BoxDecoration(
-        color: atlasCardColor(context),
+        color: hesperCardColor(context),
         borderRadius: BorderRadius.circular(12),
-        border: Border.all(color: atlasBorderColor(context), width: 1),
+        border: Border.all(color: hesperBorderColor(context), width: 1),
         boxShadow: [
           BoxShadow(
             color: Colors.black.withOpacity(isLightTheme(context) ? 0.04 : 0.2),
@@ -258,7 +258,7 @@ class _DesktopHomePageState extends State<DesktopHomePage>
     );
   }
 
-  // Atlas: inline "Allow remote control" switch, bound to the same
+  // Hesper: inline "Allow remote control" switch, bound to the same
   // service-enable state as RustDesk's "Start service" nag (svcStopped /
   // kOptionStopService, toggled via start_service). ON = this device accepts
   // incoming remote control. Replaces the underlined "Start service" link with
@@ -267,9 +267,9 @@ class _DesktopHomePageState extends State<DesktopHomePage>
     return Column(
       mainAxisSize: MainAxisSize.min,
       children: [
-        Divider(height: 1, thickness: 1, color: atlasBorderColor(context)),
+        Divider(height: 1, thickness: 1, color: hesperBorderColor(context)),
         Container(
-          padding: const EdgeInsets.fromLTRB(kAtlasPanePad, 14, kAtlasPanePad, 14),
+          padding: const EdgeInsets.fromLTRB(kHesperPanePad, 14, kHesperPanePad, 14),
           child: Obx(
             () => Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -283,20 +283,20 @@ class _DesktopHomePageState extends State<DesktopHomePage>
                       Text(
                         translate('Allow remote control'),
                         style: TextStyle(
-                          fontFamily: kAtlasBodyFont,
+                          fontFamily: kHesperBodyFont,
                           fontSize: 13,
                           fontWeight: FontWeight.w500,
-                          color: atlasInkBody(context),
+                          color: hesperInkBody(context),
                         ),
                       ),
                       const SizedBox(height: 1),
                       Text(
                         translate('Turns incoming connections on or off.'),
                         style: TextStyle(
-                          fontFamily: kAtlasBodyFont,
+                          fontFamily: kHesperBodyFont,
                           fontSize: 11,
                           height: 1.3,
-                          color: atlasInkMuted(context),
+                          color: hesperInkMuted(context),
                         ),
                       ),
                     ],
@@ -305,7 +305,7 @@ class _DesktopHomePageState extends State<DesktopHomePage>
                 const SizedBox(width: 8),
                 Switch(
                   value: !svcStopped.value,
-                  activeColor: kAtlasGreen,
+                  activeColor: kHesperBrand,
                   onChanged: (bool value) async {
                     await start_service(value);
                   },
@@ -318,7 +318,7 @@ class _DesktopHomePageState extends State<DesktopHomePage>
     );
   }
 
-  // Atlas: "THIS DEVICE'S ID" card. The ID board still reflects the real
+  // Hesper: "THIS DEVICE'S ID" card. The ID board still reflects the real
   // serverId (device identity) and its copy action; only the chrome changed —
   // a bordered white card with an uppercase label + "…" menu on top and the
   // ID in large ink-900 mono with a copy button on the right.
@@ -335,11 +335,11 @@ class _DesktopHomePageState extends State<DesktopHomePage>
               Text(
                 translate("This Device's ID").toUpperCase(),
                 style: TextStyle(
-                  fontFamily: kAtlasBodyFont,
+                  fontFamily: kHesperBodyFont,
                   fontSize: 10,
                   fontWeight: FontWeight.w600,
                   letterSpacing: 0.8, // 0.08em at 10px
-                  color: atlasInkMuted(context),
+                  color: hesperInkMuted(context),
                 ),
               ),
               buildPopupMenu(context),
@@ -366,12 +366,12 @@ class _DesktopHomePageState extends State<DesktopHomePage>
                       contentPadding: EdgeInsets.symmetric(vertical: 4),
                     ),
                     style: TextStyle(
-                      fontFamily: kAtlasMonoFont,
+                      fontFamily: kHesperMonoFont,
                       fontSize: 25,
                       fontWeight: FontWeight.w700,
                       letterSpacing: 0.5, // 0.02em at 25px
                       height: 1.05,
-                      color: atlasInkPrimary(context),
+                      color: hesperInkPrimary(context),
                     ),
                   ).workaroundFreezeLinuxMint(),
                 ),
@@ -398,7 +398,7 @@ class _DesktopHomePageState extends State<DesktopHomePage>
   //  • filled (copy / eye / refresh): 30×30 or 28×28, radius 7, solid
   //    surface-100 fill, text-secondary (ink-600) icon.
   //  • ghost (the "…" menu): 26×26, radius 7, transparent, text-label (ink-500)
-  //    icon that goes ink-900 on a pale-green square on hover.
+  //    icon that goes ink-900 on a pale-violet square on hover.
   Widget _buildIconButton(BuildContext context,
       {required IconData icon,
       required String tooltip,
@@ -421,11 +421,11 @@ class _DesktopHomePageState extends State<DesktopHomePage>
               color: filled
                   ? (hover.value
                       ? (isLightTheme(context)
-                          ? const Color(0xFFD1D7CC)
-                          : const Color(0xFF3A3F46))
-                      : atlasFillColor(context))
+                          ? const Color(0xFFDDD9E5)
+                          : const Color(0xFF35313F))
+                      : hesperFillColor(context))
                   : (hover.value
-                      ? atlasGreenPale(context)
+                      ? hesperBrandPale(context)
                       : Colors.transparent),
               borderRadius: BorderRadius.circular(7),
             ),
@@ -434,10 +434,10 @@ class _DesktopHomePageState extends State<DesktopHomePage>
                   icon,
                   size: 15,
                   color: filled
-                      ? atlasInkBody(context)
+                      ? hesperInkBody(context)
                       : (hover.value
-                          ? atlasInkPrimary(context)
-                          : atlasInkMuted(context)),
+                          ? hesperInkPrimary(context)
+                          : hesperInkMuted(context)),
                 ),
           ),
         ),
@@ -464,7 +464,7 @@ class _DesktopHomePageState extends State<DesktopHomePage>
         ));
   }
 
-  // Atlas: "PASSWORD" card. Preserves the real incoming-control password
+  // Hesper: "PASSWORD" card. Preserves the real incoming-control password
   // surface (serverPasswd, refresh temporary password, change permanent
   // password) but reframes it as a card with a segmented One-time / Permanent
   // toggle. The toggle is a pure VIEW switch (local option); the auth policy
@@ -487,11 +487,11 @@ class _DesktopHomePageState extends State<DesktopHomePage>
               Text(
                 translate("Password").toUpperCase(),
                 style: TextStyle(
-                  fontFamily: kAtlasBodyFont,
+                  fontFamily: kHesperBodyFont,
                   fontSize: 10,
                   fontWeight: FontWeight.w600,
                   letterSpacing: 0.8, // 0.08em at 10px
-                  color: atlasInkMuted(context),
+                  color: hesperInkMuted(context),
                 ),
               ),
               if (!bind.isDisableSettings())
@@ -520,11 +520,11 @@ class _DesktopHomePageState extends State<DesktopHomePage>
                             contentPadding: EdgeInsets.symmetric(vertical: 6),
                           ),
                           style: TextStyle(
-                            fontFamily: kAtlasMonoFont,
+                            fontFamily: kHesperMonoFont,
                             fontSize: 19,
                             fontWeight: FontWeight.w700,
                             letterSpacing: 1.14, // 0.06em at 19px
-                            color: atlasInkPrimary(context),
+                            color: hesperInkPrimary(context),
                           ),
                         ).workaroundFreezeLinuxMint(),
                       )
@@ -535,11 +535,11 @@ class _DesktopHomePageState extends State<DesktopHomePage>
                         child: Text(
                           '••••••••',
                           style: TextStyle(
-                            fontFamily: kAtlasMonoFont,
+                            fontFamily: kHesperMonoFont,
                             fontSize: 19,
                             fontWeight: FontWeight.w700,
                             letterSpacing: 1.14,
-                            color: atlasInkPrimary(context),
+                            color: hesperInkPrimary(context),
                           ),
                         ),
                       ),
@@ -571,7 +571,7 @@ class _DesktopHomePageState extends State<DesktopHomePage>
                   iconWidget: AnimatedRotationWidget(
                     onPressed: () => bind.mainUpdateTemporaryPassword(),
                     child: Icon(Icons.refresh,
-                        size: 14, color: atlasInkBody(context)),
+                        size: 14, color: hesperInkBody(context)),
                   ),
                 )
               else if (!bind.isDisableSettings())
@@ -608,7 +608,7 @@ class _DesktopHomePageState extends State<DesktopHomePage>
           duration: const Duration(milliseconds: 120),
           padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
           decoration: BoxDecoration(
-            color: active ? atlasCardColor(context) : Colors.transparent,
+            color: active ? hesperCardColor(context) : Colors.transparent,
             borderRadius: BorderRadius.circular(6),
             boxShadow: active
                 ? [
@@ -624,10 +624,10 @@ class _DesktopHomePageState extends State<DesktopHomePage>
           child: Text(
             label,
             style: TextStyle(
-              fontFamily: kAtlasBodyFont,
+              fontFamily: kHesperBodyFont,
               fontSize: 12.5,
               fontWeight: active ? FontWeight.w600 : FontWeight.w500,
-              color: active ? atlasInkPrimary(context) : atlasInkMuted(context),
+              color: active ? hesperInkPrimary(context) : hesperInkMuted(context),
             ),
           ),
         ),
@@ -637,8 +637,8 @@ class _DesktopHomePageState extends State<DesktopHomePage>
     return Container(
       padding: const EdgeInsets.all(2),
       decoration: BoxDecoration(
-        color: atlasFillColor(context),
-        border: Border.all(color: atlasBorderColor(context), width: 1),
+        color: hesperFillColor(context),
+        border: Border.all(color: hesperBorderColor(context), width: 1),
         borderRadius: BorderRadius.circular(7),
       ),
       child: Row(
@@ -669,36 +669,36 @@ class _DesktopHomePageState extends State<DesktopHomePage>
     );
   }
 
-  // Atlas: tip line under the ID/PASSWORD cards (ink-500, 13px). The
+  // Hesper: tip line under the ID/PASSWORD cards (ink-500, 13px). The
   // "YOUR DESKTOP" heading now lives in the eyebrow above the ID card.
   buildTip(BuildContext context) {
     final isOutgoingOnly = bind.isOutgoingOnly();
     return Padding(
       padding: const EdgeInsets.only(
-          left: kAtlasPanePad, right: kAtlasPanePad, top: 12, bottom: 10),
+          left: kHesperPanePad, right: kHesperPanePad, top: 12, bottom: 10),
       child: Text(
         translate(isOutgoingOnly ? "outgoing_only_desk_tip" : "desk_tip"),
         overflow: TextOverflow.clip,
         style: TextStyle(
-          fontFamily: kAtlasBodyFont,
+          fontFamily: kHesperBodyFont,
           fontSize: 12,
           height: 1.6,
-          color: atlasInkMuted(context),
+          color: hesperInkMuted(context),
         ),
       ),
     );
   }
 
   Widget buildHelpCards(String updateUrl) {
-    // Atlas: surface the in-app update banner on BOTH macOS and Windows for the
+    // Hesper: surface the in-app update banner on BOTH macOS and Windows for the
     // rebranded custom client. The stock gate (below: non-custom client + a
     // rustdesk:// URI prefix) excludes our fork on every platform — which left
     // WINDOWS with no working in-app update at all (isCustomClient() is true and
-    // our prefix is atlasremote://, so the banner never rendered). isToUpdate
+    // our prefix is hesperremote://, so the banner never rendered). isToUpdate
     // below still routes Windows through handleUpdate → the direct-asset
     // installer URL the hub returns (…-windows-setup.exe).
-    final atlasUpdate = (isMacOS || isWindows) && updateUrl.isNotEmpty && !isCardClosed;
-    if (atlasUpdate ||
+    final hesperUpdate = (isMacOS || isWindows) && updateUrl.isNotEmpty && !isCardClosed;
+    if (hesperUpdate ||
         (!bind.isCustomClient() &&
             updateUrl.isNotEmpty &&
             !isCardClosed &&
@@ -706,7 +706,7 @@ class _DesktopHomePageState extends State<DesktopHomePage>
       final isToUpdate = isMacOS || (isWindows && bind.mainIsInstalled());
       String btnText = isToUpdate ? 'Update' : 'Download';
       GestureTapCallback onPressed = () async {
-        final Uri url = Uri.parse('https://atlasos.work/download');
+        final Uri url = Uri.parse('https://hesper.work/download');
         await launchUrl(url);
       };
       if (isToUpdate) {
@@ -722,7 +722,7 @@ class _DesktopHomePageState extends State<DesktopHomePage>
           closeButton: true,
           help: isToUpdate ? 'Changelog' : null,
           link: isToUpdate
-              ? 'https://github.com/spout-technologies/atlas-remote-engine/releases'
+              ? 'https://github.com/spout-technologies/hesper-remote-engine/releases'
               : null);
     }
     if (systemError.isNotEmpty) {
@@ -799,7 +799,7 @@ class _DesktopHomePageState extends State<DesktopHomePage>
             marginTop: LinuxCards.isEmpty ? 20.0 : 5.0,
             help: 'Help',
             link:
-                'https://atlasos.work/docs/en/client/linux/#permissions-issue',
+                'https://hesper.work/docs/en/client/linux/#permissions-issue',
             closeButton: true,
             closeOption: keyShowSelinuxHelpTip,
           ));
@@ -810,13 +810,13 @@ class _DesktopHomePageState extends State<DesktopHomePage>
             "Warning", "wayland_experiment_tip", "", () async {},
             marginTop: LinuxCards.isEmpty ? 20.0 : 5.0,
             help: 'Help',
-            link: 'https://atlasos.work/docs/en/client/linux/#x11-required'));
+            link: 'https://hesper.work/docs/en/client/linux/#x11-required'));
       } else if (bind.mainIsLoginWayland()) {
         LinuxCards.add(buildInstallCard("Warning",
             "Login screen using Wayland is not supported", "", () async {},
             marginTop: LinuxCards.isEmpty ? 20.0 : 5.0,
             help: 'Help',
-            link: 'https://atlasos.work/docs/en/client/linux/#login-screen'));
+            link: 'https://hesper.work/docs/en/client/linux/#login-screen'));
       }
       if (LinuxCards.isNotEmpty) {
         return Column(
@@ -849,9 +849,9 @@ class _DesktopHomePageState extends State<DesktopHomePage>
       String? link,
       bool? closeButton,
       String? closeOption}) {
-    // Atlas: suppress ALL help/install nag cards when hide-help-cards is set —
+    // Hesper: suppress ALL help/install nag cards when hide-help-cards is set —
     // including install_daemon_tip, which upstream RustDesk deliberately exempts.
-    // The Atlas Local Agent owns unattended access, and the design (annotation
+    // The Hesper Local Agent owns unattended access, and the design (annotation
     // h-nag) requires these cards absent, so the pink "install service" prompt
     // must not survive the flag.
     if (bind.mainGetBuildinOption(key: kOptionHideHelpCards) == 'Y') {

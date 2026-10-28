@@ -417,10 +417,10 @@ def build_flutter_dmg(version, features):
     mac_arch = 'arm64' if platform.machine().lower() in ('arm64', 'aarch64') else 'x86_64'
     system2(
         f'FLUTTER_XCODE_ARCHS={mac_arch} FLUTTER_XCODE_ONLY_ACTIVE_ARCH=YES flutter build macos --release')
-    system2('cp -rf ../target/release/service "./build/macos/Build/Products/Release/Atlas Remote.app/Contents/MacOS/"')
+    system2('cp -rf ../target/release/service "./build/macos/Build/Products/Release/Hesper Remote.app/Contents/MacOS/"')
     '''
     system2(
-        "create-dmg --volname \"RustDesk Installer\" --window-pos 200 120 --window-size 800 400 --icon-size 100 --app-drop-link 600 185 --icon \"Atlas Remote.app\" 200 190 --hide-extension \"Atlas Remote.app\" rustdesk.dmg \"./build/macos/Build/Products/Release/Atlas Remote.app\"")
+        "create-dmg --volname \"RustDesk Installer\" --window-pos 200 120 --window-size 800 400 --icon-size 100 --app-drop-link 600 185 --icon \"Hesper Remote.app\" 200 190 --hide-extension \"Hesper Remote.app\" rustdesk.dmg \"./build/macos/Build/Products/Release/Hesper Remote.app\"")
     os.rename("rustdesk.dmg", f"../rustdesk-{version}.dmg")
     '''
     os.chdir("..")
@@ -453,7 +453,7 @@ def build_flutter_windows(version, features, skip_portable_pack):
     os.chdir('libs/portable')
     system2('pip3 install -r requirements.txt')
     system2(
-        f'python3 ./generate.py -f ../../{flutter_build_dir_2} -o . -e ../../{flutter_build_dir_2}/AtlasRemote.exe')
+        f'python3 ./generate.py -f ../../{flutter_build_dir_2} -o . -e ../../{flutter_build_dir_2}/HesperRemote.exe')
     os.chdir('../..')
     if os.path.exists('./rustdesk_portable.exe'):
         os.replace('./target/release/rustdesk-portable-packer.exe',
@@ -463,9 +463,9 @@ def build_flutter_windows(version, features, skip_portable_pack):
                   './rustdesk_portable.exe')
     print(
         f'output location: {os.path.abspath(os.curdir)}/rustdesk_portable.exe')
-    os.rename('./rustdesk_portable.exe', f'./AtlasRemote-{version}-install.exe')
+    os.rename('./rustdesk_portable.exe', f'./HesperRemote-{version}-install.exe')
     print(
-        f'output location: {os.path.abspath(os.curdir)}/AtlasRemote-{version}-install.exe')
+        f'output location: {os.path.abspath(os.curdir)}/HesperRemote-{version}-install.exe')
 
 
 def main():

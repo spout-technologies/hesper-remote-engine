@@ -44,26 +44,26 @@ const Color _accentColor = MyTheme.accent;
 const String _kSettingPageControllerTag = 'settingPageController';
 const String _kSettingPageTabKeyTag = 'settingPageTabKey';
 
-// ── Atlas design tokens (Atlas Remote — Desktop UI spec) ──────────────
+// ── Hesper design tokens (Hesper Remote — Desktop UI spec) ──────────────
 // Surfaces, ink and radii sourced from _ds/tokens/colors.css. Applied to
-// the settings rail, cards and the Network "Managed by Atlas" panel so no
-// stock RustDesk blue/grey survives. MyTheme.accent is the Atlas green.
+// the settings rail, cards and the Network "Managed by Hesper" panel so no
+// stock RustDesk blue/grey survives. MyTheme.accent is the Hesper violet.
 // Theme-aware: each returns the exact original light hex in light mode
 // (light mode stays byte-identical) and a matched dark hex in dark mode.
-Color _kAtlasPage(BuildContext context) => isLightTheme(context) ? const Color(0xFFF7F9F6) : const Color(0xFF17181C); // surface-50 (page)
-Color _kAtlasCard(BuildContext context) => isLightTheme(context) ? const Color(0xFFFFFFFF) : const Color(0xFF23262B); // card
-Color _kAtlasBorder(BuildContext context) => isLightTheme(context) ? const Color(0xFFD1D6CD) : const Color(0xFF33373D); // surface-300 (border)
-Color _kAtlasInkHeading(BuildContext context) => isLightTheme(context) ? const Color(0xFF1C1917) : const Color(0xFFE6E8E3); // ink-900
-Color _kAtlasInkBody(BuildContext context) => isLightTheme(context) ? const Color(0xFF44403C) : const Color(0xFFB7BCB2); // ink-700 (--text-body)
-Color _kAtlasInkSecondary(BuildContext context) => isLightTheme(context) ? const Color(0xFF444241) : const Color(0xFFB7BCB2); // ink-600 (--text-secondary / rail idle label)
-Color _kAtlasInkLabel(BuildContext context) => isLightTheme(context) ? const Color(0xFF858585) : const Color(0xFF8C9187); // ink-500
-Color _kAtlasIconIdle(BuildContext context) => isLightTheme(context) ? const Color(0xFFA8A8A2) : const Color(0xFF8C9187); // settings rail idle icon
-Color _kAtlasAccentPale(BuildContext context) => isLightTheme(context) ? const Color(0xFFF4F8EC) : const Color(0x296EA924); // brand-50 (active pill)
-Color _kAtlasAccentDark(BuildContext context) => isLightTheme(context) ? const Color(0xFF426516) : const Color(0xFF9FD65A); // brand-700 (active text)
-Color _kAtlasInfoBg(BuildContext context) => isLightTheme(context) ? const Color(0xFFEFF6FF) : const Color(0xFF182231); // info-50
-Color _kAtlasInfoBorder(BuildContext context) => isLightTheme(context) ? const Color(0xFFBFDBFE) : const Color(0xFF2C3E5C); // info-200
-Color _kAtlasInfoInk(BuildContext context) => isLightTheme(context) ? const Color(0xFF1D4ED8) : const Color(0xFF93B4F5); // info-700
-const double _kAtlasCtrlRadius = 8.0; // radius-md: cards, inputs, tabs, panels
+Color _kHesperPage(BuildContext context) => isLightTheme(context) ? const Color(0xFFF7F6FA) : const Color(0xFF090909); // surface-50 (page)
+Color _kHesperCard(BuildContext context) => isLightTheme(context) ? const Color(0xFFFFFFFF) : const Color(0xFF141416); // card
+Color _kHesperBorder(BuildContext context) => isLightTheme(context) ? const Color(0xFFDDD9E5) : const Color(0xFF35313F); // surface-300 (border)
+Color _kHesperInkHeading(BuildContext context) => isLightTheme(context) ? const Color(0xFF090909) : const Color(0xFFF7F6FA); // ink-900
+Color _kHesperInkBody(BuildContext context) => isLightTheme(context) ? const Color(0xFF494451) : const Color(0xFFDDD9E5); // ink-700 (--text-body)
+Color _kHesperInkSecondary(BuildContext context) => isLightTheme(context) ? const Color(0xFF444241) : const Color(0xFFDDD9E5); // ink-600 (--text-secondary / rail idle label)
+Color _kHesperInkLabel(BuildContext context) => isLightTheme(context) ? const Color(0xFF66616F) : const Color(0xFFAAA5B7); // ink-500
+Color _kHesperIconIdle(BuildContext context) => isLightTheme(context) ? const Color(0xFFA8A8A2) : const Color(0xFFAAA5B7); // settings rail idle icon
+Color _kHesperAccentPale(BuildContext context) => isLightTheme(context) ? const Color(0xFFF6F3FF) : const Color(0x296EA924); // brand-50 (active pill)
+Color _kHesperAccentDark(BuildContext context) => isLightTheme(context) ? const Color(0xFF4527E3) : const Color(0xFF9FD65A); // brand-700 (active text)
+Color _kHesperInfoBg(BuildContext context) => isLightTheme(context) ? const Color(0xFFEFF6FF) : const Color(0xFF182231); // info-50
+Color _kHesperInfoBorder(BuildContext context) => isLightTheme(context) ? const Color(0xFFBFDBFE) : const Color(0xFF2C3E5C); // info-200
+Color _kHesperInfoInk(BuildContext context) => isLightTheme(context) ? const Color(0xFF1D4ED8) : const Color(0xFF93B4F5); // info-700
+const double _kHesperCtrlRadius = 8.0; // radius-md: cards, inputs, tabs, panels
 
 class _TabInfo {
   late final SettingsTabKey key;
@@ -306,9 +306,9 @@ class _DesktopSettingPageState extends State<DesktopSettingPage>
           Container(
             width: _kTabWidth,
             decoration: BoxDecoration(
-              color: _kAtlasPage(context),
+              color: _kHesperPage(context),
               border:
-                  Border(right: BorderSide(color: _kAtlasBorder(context), width: 1)),
+                  Border(right: BorderSide(color: _kHesperBorder(context), width: 1)),
             ),
             child: Column(
               children: [
@@ -337,8 +337,8 @@ class _DesktopSettingPageState extends State<DesktopSettingPage>
       translate('Settings'),
       textAlign: TextAlign.left,
       style: TextStyle(
-        fontFamily: kAtlasDisplayFont,
-        color: _kAtlasInkHeading(context),
+        fontFamily: kHesperDisplayFont,
+        color: _kHesperInkHeading(context),
         fontSize: _kTitleFontSize,
         fontWeight: FontWeight.w700,
         letterSpacing: -0.3,
@@ -384,7 +384,7 @@ class _DesktopSettingPageState extends State<DesktopSettingPage>
   Widget _listItem({required _TabInfo tab}) {
     return Obx(() {
       bool selected = tab.key == selectedTab.value;
-      // Atlas rail item: selected state is a pale-green pill (brand-50 fill,
+      // Hesper rail item: selected state is a pale-violet pill (brand-50 fill,
       // brand-700 label, green icon); idle state is muted ink. Replaces the
       // stock left accent bar.
       return Container(
@@ -392,13 +392,13 @@ class _DesktopSettingPageState extends State<DesktopSettingPage>
         height: _kTabHeight,
         margin: const EdgeInsets.symmetric(horizontal: 10, vertical: 1),
         decoration: BoxDecoration(
-          color: selected ? _kAtlasAccentPale(context) : Colors.transparent,
-          borderRadius: BorderRadius.circular(_kAtlasCtrlRadius),
+          color: selected ? _kHesperAccentPale(context) : Colors.transparent,
+          borderRadius: BorderRadius.circular(_kHesperCtrlRadius),
         ),
         child: Material(
           color: Colors.transparent,
           child: InkWell(
-            borderRadius: BorderRadius.circular(_kAtlasCtrlRadius),
+            borderRadius: BorderRadius.circular(_kHesperCtrlRadius),
             onTap: () {
               if (selectedTab.value != tab.key) {
                 int index = DesktopSettingPage.tabKeys.indexOf(tab.key);
@@ -412,16 +412,16 @@ class _DesktopSettingPageState extends State<DesktopSettingPage>
             child: Row(children: [
               Icon(
                 selected ? tab.selected : tab.unselected,
-                color: selected ? _accentColor : _kAtlasIconIdle(context),
+                color: selected ? _accentColor : _kHesperIconIdle(context),
                 size: 15,
               ).marginOnly(left: 12, right: 10),
               Text(
                 translate(tab.label),
                 style: TextStyle(
-                    fontFamily: kAtlasBodyFont,
+                    fontFamily: kHesperBodyFont,
                     color: selected
-                        ? _kAtlasAccentDark(context)
-                        : _kAtlasInkSecondary(context),
+                        ? _kHesperAccentDark(context)
+                        : _kHesperInkSecondary(context),
                     fontWeight: selected ? FontWeight.w600 : FontWeight.w400,
                     fontSize: 13),
               ),
@@ -1643,15 +1643,15 @@ class _NetworkState extends State<_Network> with AutomaticKeepAliveClientMixin {
   Widget build(BuildContext context) {
     super.build(context);
     return ListView(controller: scrollController, children: [
-      _managedByAtlasBanner(),
+      _managedByHesperBanner(),
       _lock(locked, 'Unlock Network Settings', () {
         locked = false;
         setState(() => {});
       }),
-      // Locked/read-only by default: the Atlas relay is baked into the build,
+      // Locked/read-only by default: the Hesper relay is baked into the build,
       // so the user cannot change servers. The underlying controls remain
       // present (load-bearing for admin/unlocked builds) but are dimmed and
-      // non-interactive while `locked`, matching the "Managed by Atlas" spec.
+      // non-interactive while `locked`, matching the "Managed by Hesper" spec.
       preventMouseKeyBuilder(
         block: locked,
         child: Opacity(
@@ -1664,9 +1664,9 @@ class _NetworkState extends State<_Network> with AutomaticKeepAliveClientMixin {
     ]).marginOnly(bottom: _kListViewBottomMargin);
   }
 
-  // "Managed by Atlas" notice — network settings are centrally configured for
+  // "Managed by Hesper" notice — network settings are centrally configured for
   // the organisation. Uses the info-tone tokens from the design spec.
-  Widget _managedByAtlasBanner() {
+  Widget _managedByHesperBanner() {
     return Row(
       children: [
         Flexible(
@@ -1676,24 +1676,24 @@ class _NetworkState extends State<_Network> with AutomaticKeepAliveClientMixin {
               margin: const EdgeInsets.only(left: _kCardLeftMargin, top: 15),
               padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 10),
               decoration: BoxDecoration(
-                color: _kAtlasInfoBg(context),
-                border: Border.all(color: _kAtlasInfoBorder(context), width: 1),
-                borderRadius: BorderRadius.circular(_kAtlasCtrlRadius),
+                color: _kHesperInfoBg(context),
+                border: Border.all(color: _kHesperInfoBorder(context), width: 1),
+                borderRadius: BorderRadius.circular(_kHesperCtrlRadius),
               ),
               child: Row(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Icon(Icons.info_outline,
-                          size: 15, color: _kAtlasInfoInk(context))
+                          size: 15, color: _kHesperInfoInk(context))
                       .marginOnly(top: 1, right: 8),
                   Expanded(
                     child: Text(
                       translate(
-                          'Managed by Atlas — network settings are centrally configured for your organisation. Contact your administrator to change them.'),
+                          'Managed by Hesper — network settings are centrally configured for your organisation. Contact your administrator to change them.'),
                       style: TextStyle(
-                        fontFamily: kAtlasBodyFont,
+                        fontFamily: kHesperBodyFont,
                         fontSize: 12.5,
-                        color: _kAtlasInfoInk(context),
+                        color: _kHesperInfoInk(context),
                         height: 1.5,
                       ),
                     ),
@@ -2171,7 +2171,7 @@ class _AccountState extends State<_Account> {
             context,
             title: 'Account',
             subtitle:
-                "Your Atlas identity connects this device to your practice's fleet.",
+                "Your Hesper identity connects this device to your practice's fleet.",
             children: [accountAction(), useInfo()]),
       ],
     ).marginOnly(bottom: _kListViewBottomMargin);
@@ -2522,7 +2522,7 @@ class _AboutState extends State<_About> {
       final fingerprint = data['fingerprint'].toString();
       final scrollController = ScrollController();
 
-      // Atlas About: centred brand lockup + mono version line, an atlasos.work
+      // Hesper About: centred brand lockup + mono version line, an hesper.work
       // links row, then the AGPL attribution card. The copyright + licence
       // text is upstream AGPL attribution and is kept verbatim — the fork is
       // public AGPL and must link its source.
@@ -2535,7 +2535,7 @@ class _AboutState extends State<_About> {
             child: Text(
               '${translate(label)} ↗',
               style: TextStyle(
-                fontFamily: kAtlasBodyFont,
+                fontFamily: kHesperBodyFont,
                 fontSize: fontSize,
                 fontWeight: FontWeight.w500,
                 color: _accentColor,
@@ -2549,7 +2549,7 @@ class _AboutState extends State<_About> {
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           const SizedBox(height: 4),
-          // Typographic Atlas wordmark (self-contained; no SVG dependency).
+          // Typographic Hesper wordmark (self-contained; no SVG dependency).
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.center,
@@ -2564,13 +2564,13 @@ class _AboutState extends State<_About> {
                 ),
               ),
               Text(
-                'Atlas Remote',
+                'Hesper Remote',
                 style: TextStyle(
-                  fontFamily: kAtlasDisplayFont,
+                  fontFamily: kHesperDisplayFont,
                   fontSize: 19,
                   fontWeight: FontWeight.w700,
                   letterSpacing: -0.3,
-                  color: _kAtlasInkHeading(context),
+                  color: _kHesperInkHeading(context),
                 ),
               ),
             ],
@@ -2581,9 +2581,9 @@ class _AboutState extends State<_About> {
               '${translate('Version')} $version · $buildDate',
               textAlign: TextAlign.center,
               style: TextStyle(
-                fontFamily: kAtlasMonoFont,
+                fontFamily: kHesperMonoFont,
                 fontSize: 12,
-                color: _kAtlasInkLabel(context),
+                color: _kHesperInkLabel(context),
               ),
             ),
           ),
@@ -2593,28 +2593,28 @@ class _AboutState extends State<_About> {
                 '${translate('Fingerprint')}: $fingerprint',
                 textAlign: TextAlign.center,
                 style: TextStyle(
-                  fontFamily: kAtlasMonoFont,
+                  fontFamily: kHesperMonoFont,
                   fontSize: 11,
-                  color: _kAtlasInkLabel(context),
+                  color: _kHesperInkLabel(context),
                 ),
               ).marginOnly(top: 4),
             ),
           const SizedBox(height: 22),
-          Divider(height: 1, color: _kAtlasBorder(context)),
+          Divider(height: 1, color: _kHesperBorder(context)),
           const SizedBox(height: 22),
           Wrap(
             alignment: WrapAlignment.center,
             spacing: 18,
             children: [
-              aboutLink('Privacy Statement', 'https://atlasos.work/privacy'),
-              aboutLink('Terms of Service', 'https://atlasos.work/terms'),
-              aboutLink('Website', 'https://atlasos.work'),
+              aboutLink('Privacy Statement', 'https://hesper.work/privacy'),
+              aboutLink('Terms of Service', 'https://hesper.work/terms'),
+              aboutLink('Website', 'https://hesper.work'),
             ],
           ),
         ],
       );
 
-      // Attribution card. Atlas Remote is a Spout product built on the
+      // Attribution card. Hesper Remote is a Spout product built on the
       // open-source RustDesk project; this states that plainly AND preserves
       // the legally-required AGPL-3.0 attribution to Purslane Ltd (the upstream
       // copyright holder) plus a View Source link (AGPL source-availability).
@@ -2626,23 +2626,23 @@ class _AboutState extends State<_About> {
         margin: const EdgeInsets.only(top: 20),
         padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
         decoration: BoxDecoration(
-          color: _kAtlasPage(context),
-          border: Border.all(color: _kAtlasBorder(context), width: 1),
-          borderRadius: BorderRadius.circular(_kAtlasCtrlRadius),
+          color: _kHesperPage(context),
+          border: Border.all(color: _kHesperBorder(context), width: 1),
+          borderRadius: BorderRadius.circular(_kHesperCtrlRadius),
         ),
         child: SelectionArea(
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
-                'Atlas Remote is a product of Spout Technologies (Pty) Ltd, '
+                'Hesper Remote is a product of Spout Technologies (Pty) Ltd, '
                 'built on the open-source RustDesk remote-desktop project '
                 '(© Purslane Ltd, AGPL-3.0).',
                 style: TextStyle(
-                  fontFamily: kAtlasBodyFont,
+                  fontFamily: kHesperBodyFont,
                   fontSize: 12,
                   fontWeight: FontWeight.w600,
-                  color: _kAtlasInkHeading(context),
+                  color: _kHesperInkHeading(context),
                   height: 1.6,
                 ),
               ),
@@ -2650,16 +2650,16 @@ class _AboutState extends State<_About> {
               Text(
                 'Copyright © ${DateTime.now().toString().substring(0, 4)} Purslane Ltd.\n$license',
                 style: TextStyle(
-                  fontFamily: kAtlasBodyFont,
+                  fontFamily: kHesperBodyFont,
                   fontSize: 12,
-                  color: _kAtlasInkSecondary(context),
+                  color: _kHesperInkSecondary(context),
                   height: 1.6,
                 ),
               ),
               Align(
                 alignment: Alignment.centerLeft,
                 child: aboutLink('View Source',
-                        'https://github.com/spout-technologies/atlas-remote-engine',
+                        'https://github.com/spout-technologies/hesper-remote-engine',
                         fontSize: 12)
                     .marginOnly(top: 6, left: -6),
               ),
@@ -2672,7 +2672,7 @@ class _AboutState extends State<_About> {
         controller: scrollController,
         child: Column(
           children: [
-            _Card(context, title: translate('About Atlas Remote'), children: [
+            _Card(context, title: translate('About Hesper Remote'), children: [
               Column(
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [
@@ -2682,14 +2682,14 @@ class _AboutState extends State<_About> {
                     '© ${DateTime.now().toString().substring(0, 4)} Spout Technologies (Pty) Ltd. All rights reserved.',
                     textAlign: TextAlign.center,
                     style: TextStyle(
-                        fontFamily: kAtlasBodyFont,
+                        fontFamily: kHesperBodyFont,
                         fontSize: 11,
-                        color: _kAtlasInkLabel(context)),
+                        color: _kHesperInkLabel(context)),
                   ).marginOnly(top: 16),
                 ],
               ).marginOnly(left: _kContentHMargin)
             ]),
-            // Atlas: first-class update + diagnostics surfaces. Desktop only —
+            // Hesper: first-class update + diagnostics surfaces. Desktop only —
             // the web client has no updater or local log directory.
             if (!isWeb)
               _Card(context, title: translate('Updates'), children: [
@@ -2708,7 +2708,7 @@ class _AboutState extends State<_About> {
   }
 }
 
-// Atlas: Settings → About "Updates" block. Shows the current version and an
+// Hesper: Settings → About "Updates" block. Shows the current version and an
 // on-demand "Check for updates" that drives the SAME check the home banner
 // uses (bind.mainCheckForUpdate → common.rs::check_software_update_manual →
 // do_check_software_update): a found update lands in stateGlobal.updateUrl via
@@ -2771,7 +2771,7 @@ class _AboutUpdatesState extends State<_AboutUpdates> {
   }
 
   String _availableVersion(String updateUrl) {
-    // The hub returns a direct asset URL (…/AtlasRemote-1.5.21-x86_64.dmg);
+    // The hub returns a direct asset URL (…/HesperRemote-1.5.21-x86_64.dmg);
     // show a clean version number, not the filename.
     final m = RegExp(r'\d+(\.\d+)+').firstMatch(updateUrl.split('/').last);
     return m?.group(0) ?? bind.mainGetNewVersion();
@@ -2796,7 +2796,7 @@ class _AboutUpdatesState extends State<_AboutUpdates> {
               child: CircularProgressIndicator(strokeWidth: 2)),
           Text(translate('Checking for updates ...'),
                   style: TextStyle(
-                      fontSize: 13, color: _kAtlasInkSecondary(context)))
+                      fontSize: 13, color: _kHesperInkSecondary(context)))
               .marginOnly(left: 8),
         ]);
       } else if (hasUpdate) {
@@ -2805,7 +2805,7 @@ class _AboutUpdatesState extends State<_AboutUpdates> {
           style: TextStyle(
               fontSize: 13,
               fontWeight: FontWeight.w600,
-              color: _kAtlasAccentDark(context)),
+              color: _kHesperAccentDark(context)),
         );
       } else if (err.isNotEmpty) {
         status = Text(
@@ -2816,7 +2816,7 @@ class _AboutUpdatesState extends State<_AboutUpdates> {
       } else if (_checkedOnce.value) {
         status = Text(
           "${translate("You're on the latest version")} (v${widget.version})",
-          style: TextStyle(fontSize: 13, color: _kAtlasInkSecondary(context)),
+          style: TextStyle(fontSize: 13, color: _kHesperInkSecondary(context)),
         );
       } else {
         status = const SizedBox.shrink();
@@ -2828,9 +2828,9 @@ class _AboutUpdatesState extends State<_AboutUpdates> {
           Text(
             '${translate('Version')}: ${widget.version}',
             style: TextStyle(
-                fontFamily: kAtlasMonoFont,
+                fontFamily: kHesperMonoFont,
                 fontSize: 12,
-                color: _kAtlasInkBody(context)),
+                color: _kHesperInkBody(context)),
           ),
           status.marginOnly(top: 10),
           Row(children: [
@@ -2845,7 +2845,7 @@ class _AboutUpdatesState extends State<_AboutUpdates> {
                   if (isToUpdate) {
                     handleUpdate(updateUrl);
                   } else {
-                    launchUrlString('https://atlasos.work/download');
+                    launchUrlString('https://hesper.work/download');
                   }
                 },
                 child: Text(translate(isToUpdate ? 'Update' : 'Download'))
@@ -2858,7 +2858,7 @@ class _AboutUpdatesState extends State<_AboutUpdates> {
   }
 }
 
-// Atlas: Settings → About "Diagnostics" block. The toggle persists a LOCAL
+// Hesper: Settings → About "Diagnostics" block. The toggle persists a LOCAL
 // option (kOptionDiagnosticsMode); main.dart reads it at startup and tees
 // debugPrint into <log dir>/flutter.log while it is on. It uses the explicit
 // == 'Y' getter/setter pattern because a bare key would default TRUE through
@@ -2917,7 +2917,7 @@ class _AboutDiagnosticsState extends State<_AboutDiagnostics> {
       String two(int n) => n.toString().padLeft(2, '0');
       final stamp =
           '${now.year}${two(now.month)}${two(now.day)}-${two(now.hour)}${two(now.minute)}${two(now.second)}';
-      final base = 'atlas-remote-diagnostics-${widget.version}-$stamp';
+      final base = 'hesper-remote-diagnostics-${widget.version}-$stamp';
       final sep = Platform.pathSeparator;
       // Newest engine log; the Flutter-side tee (if enabled) rides along
       // under its own suffix. No archive dependency in pubspec, so v1 copies
@@ -2954,7 +2954,7 @@ class _AboutDiagnosticsState extends State<_AboutDiagnostics> {
         Text(
           translate(
               'Also captures app-side logs to flutter.log. Takes effect after restart.'),
-          style: TextStyle(fontSize: 12, color: _kAtlasInkLabel(context)),
+          style: TextStyle(fontSize: 12, color: _kHesperInkLabel(context)),
         ).marginOnly(left: _kCheckBoxLeftMargin + 30, top: 2),
         Row(children: [
           ElevatedButton(
@@ -2983,20 +2983,20 @@ Widget _Card(BuildContext context,
     required List<Widget> children,
     List<Widget>? title_suffix,
     String? subtitle}) {
-  // Atlas card: white surface, 12px radius, hairline sage border, display
+  // Hesper card: white surface, 12px radius, hairline sage border, display
   // font heading + optional muted subtitle. Replaces the stock sage/elevated
-  // RustDesk card so the settings canvases read as Atlas panels.
+  // RustDesk card so the settings canvases read as Hesper panels.
   return Row(
     children: [
       Flexible(
         child: SizedBox(
           width: _kCardFixedWidth,
           child: Card(
-            color: _kAtlasCard(context),
+            color: _kHesperCard(context),
             elevation: 0,
             shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(_kAtlasCtrlRadius),
-              side: BorderSide(color: _kAtlasBorder(context), width: 1),
+              borderRadius: BorderRadius.circular(_kHesperCtrlRadius),
+              side: BorderSide(color: _kHesperBorder(context), width: 1),
             ),
             child: Column(
               children: [
@@ -3010,10 +3010,10 @@ Widget _Card(BuildContext context,
                           translate(title),
                           textAlign: TextAlign.start,
                           style: TextStyle(
-                            fontFamily: kAtlasDisplayFont,
+                            fontFamily: kHesperDisplayFont,
                             fontSize: 17,
                             fontWeight: FontWeight.w600,
-                            color: _kAtlasInkHeading(context),
+                            color: _kHesperInkHeading(context),
                           ),
                         )),
                         ...?title_suffix
@@ -3023,9 +3023,9 @@ Widget _Card(BuildContext context,
                       Text(
                         translate(subtitle),
                         style: TextStyle(
-                          fontFamily: kAtlasBodyFont,
+                          fontFamily: kHesperBodyFont,
                           fontSize: 12.5,
-                          color: _kAtlasInkLabel(context),
+                          color: _kHesperInkLabel(context),
                           height: 1.5,
                         ),
                       ).marginOnly(top: 3),

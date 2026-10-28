@@ -12,8 +12,8 @@ final _isExtracting = false.obs;
 void handleUpdate(String releasePageUrl) {
   _isExtracting.value = false;
   String downloadUrl = releasePageUrl.replaceAll('tag', 'download');
-  // Atlas: the hub's engine-version check returns a DIRECT asset URL
-  // (…/download/<tag>/AtlasRemote-<ver>-<arch>.{dmg,exe}), so use it as-is. The
+  // Hesper: the hub's engine-version check returns a DIRECT asset URL
+  // (…/download/<tag>/HesperRemote-<ver>-<arch>.{dmg,exe}), so use it as-is. The
   // stock path below rebuilds a `rustdesk-<ver>-…` filename, which 404s for our
   // rebranded assets — only run it when we were handed a release-page URL.
   final bool isDirectAsset =

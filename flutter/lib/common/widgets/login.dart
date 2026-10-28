@@ -381,29 +381,29 @@ class LoginWidgetOP extends StatelessWidget {
   }
 }
 
-// ── Atlas design tokens for the bespoke login form ──────────────────
-// Mirrors the Claude Design "Sign in to Atlas" canvas + _ds/tokens:
+// ── Hesper design tokens for the bespoke login form ──────────────────
+// Mirrors the Claude Design "Sign in to Hesper" canvas + _ds/tokens:
 //   field fill #FFFFFF · border #D1D6CD (surface-300) · radius 8px ·
 //   36px height · ink body #44403C · placeholder #858585 (ink-500) ·
-//   focus → brand-500 #6EA924 border + soft green glow.
+//   focus → brand-500 #7460FF border + soft green glow.
 //
 // Colours are now sourced from the context-aware getters in common.dart
-// (atlasCardColor / atlasBorderColor / atlasInkBody / atlasInkPrimary /
-// atlasInkMuted / kAtlasBrandGreen) so the card renders correctly in BOTH
+// (hesperCardColor / hesperBorderColor / hesperInkBody / hesperInkPrimary /
+// hesperInkMuted / kHesperBrand) so the card renders correctly in BOTH
 // light and dark shells. The light-mode values below are preserved exactly:
-//   fill    #FFFFFF  → atlasCardColor(context)  (white in light)
-//   border  #D1D6CD  → atlasBorderColor(context)
-//   ink body #44403C → atlasInkBody(context)
-//   heading  #1C1917 → atlasInkPrimary(context)
-//   muted    #858585 → atlasInkMuted(context)
-//   label    #444241 → atlasInkBody(context)    (≈#44403C; 1pt delta)
-// The green accent (#6EA924) stays constant across both modes.
-const double _kAtlasFieldRadius = 8.0;
+//   fill    #FFFFFF  → hesperCardColor(context)  (white in light)
+//   border  #D1D6CD  → hesperBorderColor(context)
+//   ink body #44403C → hesperInkBody(context)
+//   heading  #1C1917 → hesperInkPrimary(context)
+//   muted    #858585 → hesperInkMuted(context)
+//   label    #444241 → hesperInkBody(context)    (≈#44403C; 1pt delta)
+// The green accent (#7460FF) stays constant across both modes.
+const double _kHesperFieldRadius = 8.0;
 
-/// A single Atlas-styled login field (label above a bespoke text field),
+/// A single Hesper-styled login field (label above a bespoke text field),
 /// preserving the controller / focusNode / errorText contract the auth
 /// flow relies on. Password mode adds an inline visibility toggle.
-class _AtlasLoginField extends StatefulWidget {
+class _HesperLoginField extends StatefulWidget {
   final String label;
   final String hintText;
   final TextEditingController controller;
@@ -414,7 +414,7 @@ class _AtlasLoginField extends StatefulWidget {
   final bool autofillEmail;
   final VoidCallback? onSubmitted;
 
-  const _AtlasLoginField({
+  const _HesperLoginField({
     Key? key,
     required this.label,
     required this.hintText,
@@ -428,10 +428,10 @@ class _AtlasLoginField extends StatefulWidget {
   }) : super(key: key);
 
   @override
-  State<_AtlasLoginField> createState() => _AtlasLoginFieldState();
+  State<_HesperLoginField> createState() => _HesperLoginFieldState();
 }
 
-class _AtlasLoginFieldState extends State<_AtlasLoginField> {
+class _HesperLoginFieldState extends State<_HesperLoginField> {
   bool _visible = false;
   bool _focused = false;
   // Composes with any caller-supplied focusNode so the design's focus glow can
@@ -470,10 +470,10 @@ class _AtlasLoginFieldState extends State<_AtlasLoginField> {
         Text(
           translate(widget.label),
           style: TextStyle(
-            fontFamily: kAtlasBodyFont,
+            fontFamily: kHesperBodyFont,
             fontSize: 13,
             fontWeight: FontWeight.w500,
-            color: atlasInkBody(context),
+            color: hesperInkBody(context),
           ),
         ),
         const SizedBox(height: 6),
@@ -481,7 +481,7 @@ class _AtlasLoginFieldState extends State<_AtlasLoginField> {
         // rgb(110 169 36 / 0.18) (0 blur, 3px spread, no offset).
         Container(
           decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(_kAtlasFieldRadius),
+            borderRadius: BorderRadius.circular(_kHesperFieldRadius),
             boxShadow: _focused && !hasError
                 ? const [
                     BoxShadow(
@@ -502,21 +502,21 @@ class _AtlasLoginFieldState extends State<_AtlasLoginField> {
               widget.autofillEmail ? const [AutofillHints.username] : null,
           onSubmitted: (_) => widget.onSubmitted?.call(),
           style: TextStyle(
-            fontFamily: kAtlasBodyFont,
+            fontFamily: kHesperBodyFont,
             fontSize: 14,
-            color: atlasInkBody(context),
+            color: hesperInkBody(context),
           ),
           decoration: InputDecoration(
             isDense: true,
             filled: true,
             // Design uses white fields in light; in dark defer to the card
             // surface so the field reads on the dark shell.
-            fillColor: atlasCardColor(context),
+            fillColor: hesperCardColor(context),
             hintText: translate(widget.hintText),
             hintStyle: TextStyle(
-              fontFamily: kAtlasBodyFont,
+              fontFamily: kHesperBodyFont,
               fontSize: 14,
-              color: atlasInkMuted(context),
+              color: hesperInkMuted(context),
             ),
             // 36px effective height: 14px text + symmetric 9px padding.
             contentPadding:
@@ -529,15 +529,15 @@ class _AtlasLoginFieldState extends State<_AtlasLoginField> {
                           ? Icons.visibility_outlined
                           : Icons.visibility_off_outlined,
                       size: 18,
-                      color: atlasInkMuted(context),
+                      color: hesperInkMuted(context),
                     ),
                     onPressed: () => setState(() => _visible = !_visible),
                   )
                 : null,
             enabledBorder: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(_kAtlasFieldRadius),
+              borderRadius: BorderRadius.circular(_kHesperFieldRadius),
               borderSide: BorderSide(
-                color: hasError ? MyTheme.dark : atlasBorderColor(context),
+                color: hasError ? MyTheme.dark : hesperBorderColor(context),
                 width: 1,
               ),
             ),
@@ -545,15 +545,15 @@ class _AtlasLoginFieldState extends State<_AtlasLoginField> {
             // brand-500, and adds an external 3px soft-green glow (rendered by
             // the wrapping Container's BoxShadow below).
             focusedBorder: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(_kAtlasFieldRadius),
+              borderRadius: BorderRadius.circular(_kHesperFieldRadius),
               borderSide: const BorderSide(
-                color: MyTheme.accent, // brand-500 #6EA924
+                color: MyTheme.accent, // brand-500 #7460FF
                 width: 1,
               ),
             ),
             border: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(_kAtlasFieldRadius),
-              borderSide: BorderSide(color: atlasBorderColor(context), width: 1),
+              borderRadius: BorderRadius.circular(_kHesperFieldRadius),
+              borderSide: BorderSide(color: hesperBorderColor(context), width: 1),
             ),
           ),
           ),
@@ -564,7 +564,7 @@ class _AtlasLoginFieldState extends State<_AtlasLoginField> {
             child: SelectableText(
               widget.errorText!,
               style: TextStyle(
-                fontFamily: kAtlasBodyFont,
+                fontFamily: kHesperBodyFont,
                 color: Theme.of(context).colorScheme.error,
                 fontSize: 12,
               ),
@@ -575,10 +575,10 @@ class _AtlasLoginFieldState extends State<_AtlasLoginField> {
   }
 }
 
-/// Bespoke Atlas email/password login form (annotations l-widget / l-fields).
+/// Bespoke Hesper email/password login form (annotations l-widget / l-fields).
 /// Replaces the stock RustDesk username + OIDC-provider layout with the
-/// Claude Design "Sign in to Atlas" card. The `username` controller now
-/// carries the Atlas email; the underlying auth flow (`onLogin` → gather /
+/// Claude Design "Sign in to Hesper" card. The `username` controller now
+/// carries the Hesper email; the underlying auth flow (`onLogin` → gather /
 /// gFFI.userModel.login) is unchanged and load-bearing.
 class LoginWidgetUserPass extends StatelessWidget {
   final TextEditingController username;
@@ -617,33 +617,33 @@ class LoginWidgetUserPass extends StatelessWidget {
           ),
           const SizedBox(height: 18),
           Text(
-            translate('Sign in to Atlas'),
+            translate('Sign in to Hesper'),
             textAlign: TextAlign.center,
             // Design: font-family:var(--font-display); font-size:20px;
             // font-weight:700; color:var(--text-heading) #1C1917. The heading
             // is a plain <div> (not an h-tag) so it inherits NO letter-spacing.
             style: TextStyle(
-              fontFamily: kAtlasDisplayFont,
+              fontFamily: kHesperDisplayFont,
               fontSize: 20,
               fontWeight: FontWeight.w700,
-              color: atlasInkPrimary(context),
+              color: hesperInkPrimary(context),
             ),
           ),
           const SizedBox(height: 5),
           Text(
-            translate('Connect this device to your Atlas-managed fleet.'),
+            translate('Connect this device to your Hesper-managed fleet.'),
             textAlign: TextAlign.center,
             style: TextStyle(
-              fontFamily: kAtlasBodyFont,
+              fontFamily: kHesperBodyFont,
               fontSize: 12.5,
               height: 1.5,
-              color: atlasInkMuted(context),
+              color: hesperInkMuted(context),
             ),
           ),
           const SizedBox(height: 24),
 
           // ── Email ──
-          _AtlasLoginField(
+          _HesperLoginField(
             label: 'Email',
             hintText: 'you@yourpractice.co.za',
             controller: username,
@@ -656,7 +656,7 @@ class LoginWidgetUserPass extends StatelessWidget {
           const SizedBox(height: 14),
 
           // ── Password ──
-          _AtlasLoginField(
+          _HesperLoginField(
             label: 'Password',
             hintText: '••••••••', // design placeholder (8 bullets)
             controller: pass,
@@ -667,15 +667,15 @@ class LoginWidgetUserPass extends StatelessWidget {
 
           // ── "Forgot password?" link ──
           // Design: right-aligned link button, margin-top:6px, xs (18px).
-          // Opens the Atlas account portal (not an in-app reset flow).
+          // Opens the Hesper account portal (not an in-app reset flow).
           Align(
             alignment: Alignment.centerRight,
             child: Padding(
               padding: const EdgeInsets.only(top: 6),
-              child: _AtlasLoginLink(
+              child: _HesperLoginLink(
                 label: 'Forgot password?',
                 onTap: () => launchUrl(
-                  Uri.parse('https://atlasos.work'),
+                  Uri.parse('https://hesper.work'),
                   mode: LaunchMode.externalApplication,
                 ),
               ),
@@ -690,19 +690,19 @@ class LoginWidgetUserPass extends StatelessWidget {
             ),
           const SizedBox(height: 10), // design: primary button div margin-top:10px
 
-          // ── Primary "Sign in with Atlas" (green, full-width, 44px) ──
+          // ── Primary "Sign in with Hesper" (green, full-width, 44px) ──
           SizedBox(
             height: 44,
             width: double.infinity,
             child: Obx(() => ElevatedButton(
                   style: ElevatedButton.styleFrom(
-                    backgroundColor: MyTheme.accent, // brand-500 #6EA924
+                    backgroundColor: MyTheme.accent, // brand-500 #7460FF
                     foregroundColor: Colors.white,
                     disabledBackgroundColor: MyTheme.accent.withOpacity(0.5),
                     disabledForegroundColor: Colors.white.withOpacity(0.8),
                     elevation: 0,
                     shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(_kAtlasFieldRadius),
+                      borderRadius: BorderRadius.circular(_kHesperFieldRadius),
                     ),
                   ),
                   onPressed:
@@ -711,12 +711,12 @@ class LoginWidgetUserPass extends StatelessWidget {
                           : null,
                   child: Text(
                     // Label-only relabel; the OIDC/account flow underneath
-                    // is unchanged (Atlas SSO wiring is a separate track).
+                    // is unchanged (Hesper SSO wiring is a separate track).
                     // Design .ds-btn base = font-weight:500; .ds-btn--size-lg
                     // = font-size:16px (default variant adds no weight override).
-                    translate('Sign in with Atlas'),
+                    translate('Sign in with Hesper'),
                     style: const TextStyle(
-                      fontFamily: kAtlasBodyFont,
+                      fontFamily: kHesperBodyFont,
                       fontSize: 16,
                       fontWeight: FontWeight.w500,
                     ),
@@ -726,27 +726,27 @@ class LoginWidgetUserPass extends StatelessWidget {
 
           // ── Footer sign-up line ──
           // Design: centred, margin-top:20px, 12px, muted text with a green
-          // "Get started at atlasos.work ↗" link to the account portal.
+          // "Get started at hesper.work ↗" link to the account portal.
           const SizedBox(height: 20),
           Wrap(
             alignment: WrapAlignment.center,
             crossAxisAlignment: WrapCrossAlignment.center,
             children: [
               Text(
-                translate("Don't have an Atlas account?"),
+                translate("Don't have an Hesper account?"),
                 textAlign: TextAlign.center,
                 style: TextStyle(
-                  fontFamily: kAtlasBodyFont,
+                  fontFamily: kHesperBodyFont,
                   fontSize: 12,
-                  color: atlasInkMuted(context),
+                  color: hesperInkMuted(context),
                 ),
               ),
               const SizedBox(width: 4),
-              _AtlasLoginLink(
-                label: 'Get started at atlasos.work ↗',
+              _HesperLoginLink(
+                label: 'Get started at hesper.work ↗',
                 fontSize: 12,
                 onTap: () => launchUrl(
-                  Uri.parse('https://atlasos.work'),
+                  Uri.parse('https://hesper.work'),
                   mode: LaunchMode.externalApplication,
                 ),
               ),
@@ -758,14 +758,14 @@ class LoginWidgetUserPass extends StatelessWidget {
   }
 }
 
-/// A green Atlas text link (design Button variant="link"): brand-500 #6EA924,
+/// A green Hesper text link (design Button variant="link"): brand-500 #7460FF,
 /// Inter, weight 500, no chrome. Opens the account portal via `onTap`.
-class _AtlasLoginLink extends StatelessWidget {
+class _HesperLoginLink extends StatelessWidget {
   final String label;
   final VoidCallback onTap;
   final double fontSize;
 
-  const _AtlasLoginLink({
+  const _HesperLoginLink({
     Key? key,
     required this.label,
     required this.onTap,
@@ -782,10 +782,10 @@ class _AtlasLoginLink extends StatelessWidget {
         child: Text(
           translate(label),
           style: TextStyle(
-            fontFamily: kAtlasBodyFont,
+            fontFamily: kHesperBodyFont,
             fontSize: fontSize,
             fontWeight: FontWeight.w500,
-            color: MyTheme.accent, // brand-500 #6EA924
+            color: MyTheme.accent, // brand-500 #7460FF
           ),
         ),
       ),
@@ -959,7 +959,7 @@ Future<bool?> loginDialog() async {
           );
         });
 
-    // The Atlas card carries its own "Sign in to Atlas" heading inside the
+    // The Hesper card carries its own "Sign in to Hesper" heading inside the
     // content (per the Claude Design canvas), so the dialog title bar is just
     // the close affordance (load-bearing — must stay reachable), right-aligned.
     final title = Row(
@@ -977,7 +977,7 @@ Future<bool?> loginDialog() async {
               // Because we can ensure the color is not null when debug.
               // Design close colour = var(--text-label) = ink-500 #858585
               // (light) / dark-aware muted; white on hover (red hover bg).
-              color: isCloseHovered ? Colors.white : atlasInkMuted(context),
+              color: isCloseHovered ? Colors.white : hesperInkMuted(context),
             ),
             onTap: onDialogCancel,
             hoverColor: Colors.red,

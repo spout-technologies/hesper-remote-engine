@@ -55,7 +55,7 @@ class Peer {
         sameServer = json['same_server'],
         rendezvousServer = json['rendezvous_server'] ?? '',
         rendezvousKey = json['rendezvous_key'] ?? '' {
-    // Atlas hub address book (/api/ab/*) now carries an authoritative `online`
+    // Hesper hub address book (/api/ab/*) now carries an authoritative `online`
     // for each peer. Fleet (UUID) peers can never be resolved by hbbs'
     // queryOnlines, so this server-supplied flag is the single source of truth
     // for their status in both the Recent and Address Book tabs. `online` is a
@@ -309,7 +309,7 @@ class Peers extends ChangeNotifier {
       final state = onlineStates[peer.id];
       // Only overwrite with the locally-tracked (queryOnlines) snapshot when we
       // actually have a prior state for this id. Otherwise keep the freshly
-      // loaded `peer.online` — which, for Atlas fleet (UUID) peers, is the
+      // loaded `peer.online` — which, for Hesper fleet (UUID) peers, is the
       // hub's authoritative flag from the address-book payload. hbbs never sees
       // fleet ids, so the snapshot is stale-offline for them; forcing false
       // here made the Address Book tab disagree with Recent. This is
