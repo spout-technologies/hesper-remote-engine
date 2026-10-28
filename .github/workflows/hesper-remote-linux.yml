@@ -1,0 +1,174 @@
+# Hesper Remote — Linux build (x86_64): flutter-linux bundle + .deb (primary,
+# installs on Debian/Ubuntu) and a best-effort AppImage. Adapted from RustDesk's
+# proven Linux build and THIS repo's mac/win workflow pattern (bridge → flutter →
+# rust → vcpkg → build.py → draft prerelease). The relay + name + icons are baked
+# into the source (this fork), not env vars.
+#
+# Triggered by a `linux-v*` tag (so it does NOT re-fire the macOS `v*` or Windows
+# `win-v*` builds), or manually via workflow_dispatch. Linux CI for a RustDesk
+# fork is finicky (apt deps, vcpkg, appimage-builder); the .deb is the required
+# artifact, the AppImage is continue-on-error.
+name: hesper-remote-linux
+
+permissions:
+  contents: write
+
+on:
+  workflow_dispatch:
+  push:
+    tags: ["linux-v*"]
+
+env:
+  FLUTTER_VERSION: "3.24.5"
+  VCPKG_COMMIT_ID: "120deac3062162151622ca4860575a33844ba10b"
+  VCPKG_BINARY_SOURCES: "clear;x-gha,readwrite"
+  # Fallback for workflow_dispatch; tag builds override this from the tag
+  # (linux-vX.Y.Z). Keep in step with Cargo.toml, Cargo.lock, flutter/pubspec.yaml
+  # and the macOS/Windows workflow fallbacks.
+  VERSION: "1.5.22"
+
+jobs:
+  generate-bridge:
+    uses: ./.github/workflows/bridge.yml
+    secrets: inherit
+
+  build-for-linux:
+    name: linux-x86_64
+    needs: [generate-bridge]
+    runs-on: ubuntu-22.04
+    steps:
+      - name: Export GitHub Actions cache environment variables
+        uses: actions/github-script@d7906e4ad0b1822421a7e6a35d5ca353c962f410 # v6
+        with:
+          script: |
+            core.exportVariable('ACTIONS_CACHE_URL', process.env.ACTIONS_CACHE_URL || '');
+            core.exportVariable('ACTIONS_RUNTIME_TOKEN', process.env.ACTIONS_RUNTIME_TOKEN || '');
+
+      - name: Checkout source code
+        uses: actions/checkout@v4
+
+      - name: Install build + runtime dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y --no-install-recommends \
+            g++ gcc git curl wget nasm yasm cmake ninja-build pkg-config tree \
+            clang libclang-dev llvm-dev \
+            libgtk-3-dev libxcb-randr0-dev libxdo-dev libxfixes-dev \
+            libxcb-shape0-dev libxcb-xfixes0-dev libasound2-dev libpulse-dev \
+            libpam0g-dev libappindicator3-dev libvdpau-dev libva-dev \
+            libgstreamer1.0-dev libgstreamer-plugins-base1.0-dev \
+            libwayland-dev libxkbcommon-dev libgl1-mesa-dev \
+            fuse libfuse2 python3 python3-pip
+
+      - name: Install Flutter
+        uses: subosito/flutter-action@v2
+        with:
+          channel: stable
+          flutter-version: ${{ env.FLUTTER_VERSION }}
+
+      - name: Install Rust toolchain
+        uses: dtolnay/rust-toolchain@stable
+
+      - uses: Swatinem/rust-cache@v2
+
+      - name: Restore bridge files
+        uses: actions/download-artifact@v4
+        with:
+          name: bridge-artifact
+          path: ./
+
+      - name: Setup vcpkg (binary cache)
+        uses: lukka/run-vcpkg@v11
+        with:
+          vcpkgGitCommitId: ${{ env.VCPKG_COMMIT_ID }}
+          doNotCache: false
+
+      - name: Install vcpkg dependencies
+        run: |
+          if ! $VCPKG_ROOT/vcpkg install --x-install-root="$VCPKG_ROOT/installed"; then
+            find "${VCPKG_ROOT}/" -name "*.log" -exec sh -c 'echo "== {} =="; cat "{}"' \;
+            exit 1
+          fi
+
+      - name: Show versions
+        run: rustup show && cargo -V && clang --version && flutter --version || true
+
+      - name: Stamp version from tag
+        run: |
+          if [[ "$GITHUB_REF" == refs/tags/* ]]; then
+            VERSION="${GITHUB_REF_NAME#linux-v}"
+          fi
+          echo "VERSION=$VERSION" >> "$GITHUB_ENV"
+          echo "Stamping version: $VERSION (build ${GITHUB_RUN_NUMBER})"
+          sed -i -e "s/^version = \"[^\"]*\"/version = \"${VERSION}\"/" Cargo.toml
+          awk -v v="${VERSION}" '/^name = "rustdesk"$/{print; getline; print "version = \"" v "\""; next} 1' Cargo.lock > Cargo.lock.tmp && mv Cargo.lock.tmp Cargo.lock
+          sed -i -e "s/^version: .*/version: ${VERSION}+${GITHUB_RUN_NUMBER}/" flutter/pubspec.yaml
+          grep -m1 '^version = ' Cargo.toml
+          grep -m1 '^version:' flutter/pubspec.yaml
+
+      - name: Build Hesper Remote (flutter-linux + .deb)
+        run: |
+          ./build.py --flutter --hwcodec --unix-file-copy-paste
+
+      - name: Collect .deb (required)
+        run: |
+          DEB="$(find . -maxdepth 3 -name 'rustdesk-*.deb' -o -maxdepth 3 -name 'rustdesk.deb' | head -1)"
+          [ -n "$DEB" ] || { echo "::error::no .deb produced by build.py"; find . -name '*.deb'; exit 1; }
+          OUT="HesperRemote-${VERSION}-x86_64.deb"
+          mv "$DEB" "$OUT"
+          sha256sum "$OUT" > "$OUT.sha256"
+          echo "built $OUT"
+
+      - name: Package AppImage (best-effort)
+        continue-on-error: true
+        run: |
+          pip3 install --user appimage-builder==1.1.0 || pip3 install --user appimage-builder
+          export PATH="$HOME/.local/bin:$PATH"
+          # appimage-builder reads ./rustdesk.deb and res/*.png|scalable.svg (Hesper icons).
+          cp "HesperRemote-${VERSION}-x86_64.deb" appimage/rustdesk.deb
+          sed -i -e "s/^    name: rustdesk/    name: Hesper Remote/" \
+                 -e "s/^    version: .*/    version: ${VERSION}/" appimage/AppImageBuilder-x86_64.yml
+          cd appimage
+          APPIMAGE_EXTRACT_AND_RUN=1 appimage-builder --recipe AppImageBuilder-x86_64.yml --skip-test
+          IMG="$(find . -maxdepth 1 -name '*.AppImage' | head -1)"
+          if [ -n "$IMG" ]; then
+            OUT="../HesperRemote-${VERSION}-x86_64.AppImage"
+            mv "$IMG" "$OUT"
+            ( cd .. && sha256sum "HesperRemote-${VERSION}-x86_64.AppImage" > "HesperRemote-${VERSION}-x86_64.AppImage.sha256" )
+            echo "built AppImage"
+          else
+            echo "AppImage not produced (continuing; .deb is the primary artifact)"
+          fi
+
+      - name: Upload Linux artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: HesperRemote-linux-x86_64
+          path: |
+            HesperRemote-${{ env.VERSION }}-x86_64.deb
+            HesperRemote-${{ env.VERSION }}-x86_64.deb.sha256
+            HesperRemote-${{ env.VERSION }}-x86_64.AppImage
+            HesperRemote-${{ env.VERSION }}-x86_64.AppImage.sha256
+          if-no-files-found: warn
+
+  publish-linux-draft:
+    name: Publish Linux build as a draft release
+    needs: [build-for-linux]
+    if: startsWith(github.ref, 'refs/tags/')
+    runs-on: ubuntu-latest
+    steps:
+      - name: Download Linux artifacts
+        uses: actions/download-artifact@v4
+        with:
+          pattern: HesperRemote-linux-*
+          merge-multiple: true
+      - name: Publish as a DRAFT prerelease
+        uses: softprops/action-gh-release@v2
+        with:
+          draft: true
+          prerelease: true
+          files: |
+            HesperRemote-*-x86_64.deb
+            HesperRemote-*-x86_64.deb.sha256
+            HesperRemote-*-x86_64.AppImage
+            HesperRemote-*-x86_64.AppImage.sha256
