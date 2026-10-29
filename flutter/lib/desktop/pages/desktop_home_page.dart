@@ -205,10 +205,9 @@ class _DesktopHomePageState extends State<DesktopHomePage>
   // Colour tokens are now THEME-AWARE via the hesper*Color(context) getters in
   // common.dart: they resolve to the Hesper light hex in light mode and to the
   // dark surfaces/ink in dark mode, so cards/text/borders adapt instead of
-  // rendering white-on-dark. Only the brand violet + its pale wash are kept as
-  // constants here (green is identical in both modes).
+  // rendering white-on-dark. The brand violet is kHesperBrand (common.dart),
+  // identical in both modes — reference it directly, not a local re-alias.
   static const double kHesperPanePad = 20.0;
-  static const Color kHesperBrand = kHesperBrand; // brand-500 (both modes)
 
   // Uppercase eyebrow / label (ink-500, 11px, ~0.08em tracking).
   Widget _buildEyebrow(BuildContext context, String text) {
