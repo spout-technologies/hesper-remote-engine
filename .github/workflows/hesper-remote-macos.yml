@@ -202,7 +202,14 @@ jobs:
             --key "$ASC_KEY_PATH" \
             --key-id "${{ secrets.ASC_API_KEY_ID }}" \
             --issuer "${{ secrets.ASC_API_ISSUER_ID }}" --wait
-          xcrun stapler staple "$DMG"
+          # Stapler fetches the notarization ticket from Apple CloudKit and can hit a
+          # transient "network connection was lost" (NSURLErrorDomain -1005, Error 68)
+          # right after acceptance; retry with backoff rather than failing the build.
+          for i in 1 2 3 4 5; do
+            xcrun stapler staple "$DMG" && break
+            echo "staple attempt $i failed (transient ticket fetch?); retrying in 30s" >&2
+            sleep 30
+          done
           xcrun stapler validate "$DMG"
           shasum -a 256 "$DMG" > "$DMG.sha256"
 
