@@ -97,7 +97,7 @@ class _AddressBookState extends State<AddressBook> {
             offstage: hideAbTagsPanel.value,
             child: Container(
               decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(12),
+                  borderRadius: BorderRadius.circular(0),
                   border: Border.all(
                       color: Theme.of(context).colorScheme.background)),
               child: Container(
@@ -172,7 +172,7 @@ class _AddressBookState extends State<AddressBook> {
   // Shared pill chrome for the Client field (DS .ds-select).
   BoxDecoration _clientPillDecoration() => BoxDecoration(
         color: hesperCardColor(context),
-        borderRadius: BorderRadius.circular(8),
+        borderRadius: BorderRadius.circular(0),
         border: Border.all(color: hesperBorderColor(context), width: 1),
       );
 
@@ -293,7 +293,7 @@ class _AddressBookState extends State<AddressBook> {
                   width: 200,
                   decoration: BoxDecoration(
                     color: hesperCardColor(context),
-                    borderRadius: BorderRadius.circular(8),
+                    borderRadius: BorderRadius.circular(0),
                     border:
                         Border.all(color: hesperBorderColor(context), width: 1),
                   ),
@@ -311,7 +311,7 @@ class _AddressBookState extends State<AddressBook> {
       height: 32,
       decoration: BoxDecoration(
         color: hesperCardColor(context),
-        borderRadius: BorderRadius.circular(8),
+        borderRadius: BorderRadius.circular(0),
         border: Border.all(color: hesperBorderColor(context), width: 1),
       ),
       child: Center(
@@ -376,7 +376,7 @@ class _AddressBookState extends State<AddressBook> {
             offstage: hideAbTagsPanel.value,
             child: Container(
               decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(6),
+                  borderRadius: BorderRadius.circular(0),
                   border: Border.all(
                       color: Theme.of(context).colorScheme.background)),
               child: Container(
@@ -542,7 +542,7 @@ class _AddressBookState extends State<AddressBook> {
               hintText: translate('Search'),
               hintStyle: const TextStyle(fontSize: 12),
               border: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(8),
+                borderRadius: BorderRadius.circular(0),
               ),
             ),
           ).workaroundFreezeLinuxMint(),
@@ -1053,7 +1053,7 @@ class AddressBookTag extends StatelessWidget {
                 color: tags.contains(name)
                     ? gFFI.abModel.getCurrentAbTagColor(name)
                     : Theme.of(context).colorScheme.background,
-                borderRadius: BorderRadius.circular(4)),
+                borderRadius: BorderRadius.circular(0)),
             margin: const EdgeInsets.symmetric(horizontal: 4.0, vertical: 4.0),
             padding: const EdgeInsets.symmetric(vertical: 2.0, horizontal: 6.0),
             child: IntrinsicWidth(

@@ -164,7 +164,7 @@ Alignment _alignmentForEdge(_ToolbarEdge edge, double fraction) {
 // The drag handle hangs off the side of the toolbar facing away from the
 // docked edge, so the icons themselves sit flush against that edge.
 BorderRadius _collapseHandleBorderRadius(_ToolbarEdge edge) {
-  const r = Radius.circular(10); // design collapsed tab: border-radius 0 0 10px 10px
+  const r = Radius.circular(0); // design collapsed tab: border-radius 0 0 10px 10px
   switch (edge) {
     case _ToolbarEdge.top:
       return const BorderRadius.vertical(bottom: r);
@@ -788,7 +788,7 @@ class _RemoteToolbarState extends State<RemoteToolbar> {
         height: previewSize.height,
         decoration: BoxDecoration(
           color: color.withOpacity(0.10),
-          borderRadius: BorderRadius.circular(6),
+          borderRadius: BorderRadius.circular(0),
           border: Border.all(color: color.withOpacity(0.55), width: 1.5),
         ),
       ),
@@ -887,7 +887,7 @@ class _RemoteToolbarState extends State<RemoteToolbar> {
     toolbarItems.add(_CloseMenu(id: widget.id, ffi: widget.ffi));
     // Hesper: the floating pill uses a rounded surface (design ~12px) and its
     // own dark bg + hairline border, independent of app theme.
-    final toolbarBorderRadius = BorderRadius.all(Radius.circular(12.0));
+    final toolbarBorderRadius = BorderRadius.all(Radius.circular(0));
     // innerAxis: how the toolbar icons themselves flow.
     // outerAxis: how the toolbar block and the handle stack against each other
     // (perpendicular to the dock edge, so the handle hangs off the interior face).

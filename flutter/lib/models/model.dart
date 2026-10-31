@@ -689,7 +689,7 @@ class FfiModel with ChangeNotifier {
                                         : MyTheme.button.withOpacity(0.5))
                                     : Theme.of(context).cardColor,
                                 borderRadius: BorderRadius.all(
-                                  Radius.circular(5.0),
+                                  Radius.circular(0),
                                 ),
                               ),
                               key: ValueKey(printerNames[index]),

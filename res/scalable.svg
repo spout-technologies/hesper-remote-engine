@@ -1,7 +1,7 @@
 <?xml version='1.0' encoding='UTF-8'?>
-<svg xmlns="http://www.w3.org/2000/svg" version="1.1" viewBox="0 0 512 512" width="512" height="512" preserveAspectRatio="xMidYMid meet" role="img" aria-labelledby="hesper-title hesper-description">
-  <title id="hesper-title">Hesper app-icon — primary</title>
-  <desc id="hesper-description">Original Hesper symbol geometry on a square #FFFFFF background. Uniformly scaled with no redrawing or font dependency.</desc>
+<svg xmlns="http://www.w3.org/2000/svg" version="1.1" viewBox="-2.87109 -17.3494 218.562 218.562" width="512" height="512" preserveAspectRatio="xMidYMid meet" role="img" aria-labelledby="hesper-title hesper-description">
+  <title id="hesper-title">Hesper mark — primary</title>
+  <desc id="hesper-description">Original supplied angular segmented Hesper symbol; all symbol paths and clipping preserved. Colour variant only.</desc>
   <defs>
     <g/>
     <clipPath id="d1d0da8eef">
@@ -38,34 +38,31 @@
       <rect x="0" width="217" y="0" height="166"/>
     </clipPath>
   </defs>
-  <rect x="0" y="0" width="512" height="512" fill="#FFFFFF"/>
-  <g transform="translate(85.228271 108.463726) scale(1.604848)">
-    <g clip-path="url(#d1d0da8eef)">
-      <g transform="matrix(1, 0, 0, 1, 1, 9)">
-        <g clip-path="url(#c4a7ffe277)">
-          <g clip-path="url(#f1bd2527aa)">
-            <g clip-path="url(#a2c333e090)">
-              <g clip-path="url(#419cd88339)">
-                <path fill="#2B13CF" d="M 92.617188 165.597656 L 93.839844 0.375 L 175.839844 82.375 Z M 92.617188 165.597656 " fill-opacity="1" fill-rule="nonzero"/>
-              </g>
+  <g clip-path="url(#d1d0da8eef)">
+    <g transform="matrix(1, 0, 0, 1, 1, 9)">
+      <g clip-path="url(#c4a7ffe277)">
+        <g clip-path="url(#f1bd2527aa)">
+          <g clip-path="url(#a2c333e090)">
+            <g clip-path="url(#419cd88339)">
+              <path fill="#2B13CF" d="M 92.617188 165.597656 L 93.839844 0.375 L 175.839844 82.375 Z M 92.617188 165.597656 " fill-opacity="1" fill-rule="nonzero"/>
             </g>
           </g>
-          <g clip-path="url(#f14277a759)">
-            <g clip-path="url(#b471f285ab)">
-              <g clip-path="url(#a23dcfe08b)">
-                <path fill="#2B13CF" d="M 178.347656 0.304688 L 177.78125 76.835938 L 139.796875 38.855469 Z M 178.347656 0.304688 " fill-opacity="1" fill-rule="nonzero"/>
-              </g>
+        </g>
+        <g clip-path="url(#f14277a759)">
+          <g clip-path="url(#b471f285ab)">
+            <g clip-path="url(#a23dcfe08b)">
+              <path fill="#2B13CF" d="M 178.347656 0.304688 L 177.78125 76.835938 L 139.796875 38.855469 Z M 178.347656 0.304688 " fill-opacity="1" fill-rule="nonzero"/>
             </g>
           </g>
-          <g clip-path="url(#c8a3476e90)">
-            <path fill="#7460FF" d="M 87.628906 89.085938 L 0.128906 0.277344 L 87.628906 0.277344 Z M 87.628906 89.085938 " fill-opacity="1" fill-rule="nonzero"/>
-          </g>
-          <g clip-path="url(#b384a36628)">
-            <path fill="#7460FF" d="M 50.207031 165.445312 L 87.710938 128.496094 L 87.710938 165.445312 Z M 50.207031 165.445312 " fill-opacity="1" fill-rule="nonzero"/>
-          </g>
-          <g clip-path="url(#2eaf7a0a01)">
-            <path fill="#7460FF" d="M 183.46875 0.265625 L 210.691406 27.898438 L 183.46875 27.898438 Z M 183.46875 0.265625 " fill-opacity="1" fill-rule="nonzero"/>
-          </g>
+        </g>
+        <g clip-path="url(#c8a3476e90)">
+          <path fill="#7460FF" d="M 87.628906 89.085938 L 0.128906 0.277344 L 87.628906 0.277344 Z M 87.628906 89.085938 " fill-opacity="1" fill-rule="nonzero"/>
+        </g>
+        <g clip-path="url(#b384a36628)">
+          <path fill="#7460FF" d="M 50.207031 165.445312 L 87.710938 128.496094 L 87.710938 165.445312 Z M 50.207031 165.445312 " fill-opacity="1" fill-rule="nonzero"/>
+        </g>
+        <g clip-path="url(#2eaf7a0a01)">
+          <path fill="#7460FF" d="M 183.46875 0.265625 L 210.691406 27.898438 L 183.46875 27.898438 Z M 183.46875 0.265625 " fill-opacity="1" fill-rule="nonzero"/>
         </g>
       </g>
     </g>

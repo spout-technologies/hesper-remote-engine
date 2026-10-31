@@ -1158,7 +1158,7 @@ void showRequestElevationDialog(
       color: MyTheme.currentThemeMode() == ThemeMode.dark
           ? Color.fromARGB(135, 87, 87, 90)
           : Colors.grey[100],
-      borderRadius: BorderRadius.circular(8),
+      borderRadius: BorderRadius.circular(0),
       border: Border.all(color: Colors.grey),
     ),
     child: Row(
@@ -1554,7 +1554,7 @@ Widget buildNoteTextField({
     decoration: InputDecoration(
       hintText: translate('input note here'),
       border: OutlineInputBorder(
-        borderRadius: BorderRadius.circular(8),
+        borderRadius: BorderRadius.circular(0),
       ),
       contentPadding: EdgeInsets.all(12),
     ),

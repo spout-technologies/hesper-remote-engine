@@ -532,7 +532,7 @@ class RecentPeersView extends BasePeersView {
       margin: const EdgeInsets.only(right: 12),
       decoration: BoxDecoration(
         color: hesperCardColor(context),
-        borderRadius: BorderRadius.circular(8),
+        borderRadius: BorderRadius.circular(0),
         border: Border.all(color: hesperBorderColor(context), width: 1),
         boxShadow: [
           BoxShadow(
@@ -742,13 +742,13 @@ class _HesperRecentDeviceRowState extends State<_HesperRecentDeviceRow> {
               Tooltip(
                 message: translate('Connect'),
                 child: InkWell(
-                  borderRadius: BorderRadius.circular(7),
+                  borderRadius: BorderRadius.circular(0),
                   onTap: _connect,
                   child: Container(
                     width: 28,
                     height: 28,
                     decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(7),
+                      borderRadius: BorderRadius.circular(0),
                       color: _hover ? _kHesperBrand : hesperFillColor(context),
                     ),
                     child: Icon(
@@ -908,13 +908,13 @@ class _HesperAbDeviceRowState extends State<_HesperAbDeviceRow> {
               Tooltip(
                 message: translate('Connect'),
                 child: InkWell(
-                  borderRadius: BorderRadius.circular(7),
+                  borderRadius: BorderRadius.circular(0),
                   onTap: _connect,
                   child: Container(
                     width: 28,
                     height: 28,
                     decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(7),
+                      borderRadius: BorderRadius.circular(0),
                       color: _hover ? _kHesperBrand : hesperFillColor(context),
                     ),
                     child: Icon(
@@ -961,7 +961,7 @@ class _HesperClientChip extends StatelessWidget {
             padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 3),
             decoration: BoxDecoration(
               color: color.withOpacity(0.14),
-              borderRadius: BorderRadius.circular(6),
+              borderRadius: BorderRadius.circular(0),
             ),
             child: Row(
               mainAxisSize: MainAxisSize.min,
@@ -997,7 +997,7 @@ class _HesperClientChip extends StatelessWidget {
             padding: const EdgeInsets.symmetric(horizontal: 5, vertical: 2),
             decoration: BoxDecoration(
               color: hesperFillColor(context),
-              borderRadius: BorderRadius.circular(5),
+              borderRadius: BorderRadius.circular(0),
             ),
             child: Text(
               '+${tags.length - 1}',
@@ -1097,7 +1097,7 @@ class AddressBookPeersView extends BasePeersView {
       return Container(
       decoration: BoxDecoration(
         color: hesperCardColor(context),
-        borderRadius: BorderRadius.circular(8),
+        borderRadius: BorderRadius.circular(0),
         border: Border.all(color: hesperBorderColor(context), width: 1),
         boxShadow: [
           BoxShadow(

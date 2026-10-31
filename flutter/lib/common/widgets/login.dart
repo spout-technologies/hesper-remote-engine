@@ -278,7 +278,7 @@ class _WidgetOPState extends State<WidgetOP> {
                             horizontal: 8.0, vertical: 6.0),
                         decoration: BoxDecoration(
                           color: bgColor,
-                          borderRadius: BorderRadius.circular(4.0),
+                          borderRadius: BorderRadius.circular(0),
                         ),
                         child: Row(
                           mainAxisSize: MainAxisSize.min,
@@ -398,7 +398,7 @@ class LoginWidgetOP extends StatelessWidget {
 //   muted    #858585 → hesperInkMuted(context)
 //   label    #444241 → hesperInkBody(context)    (≈#44403C; 1pt delta)
 // The green accent (#7460FF) stays constant across both modes.
-const double _kHesperFieldRadius = 8.0;
+const double _kHesperFieldRadius = 0.0; // hard corners (Hesper radius token = 0px)
 
 /// A single Hesper-styled login field (label above a bespoke text field),
 /// preserving the controller / focusNode / errorText contract the auth
@@ -776,7 +776,7 @@ class _HesperLoginLink extends StatelessWidget {
   Widget build(BuildContext context) {
     return InkWell(
       onTap: onTap,
-      borderRadius: BorderRadius.circular(4),
+      borderRadius: BorderRadius.circular(0),
       child: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 2, vertical: 1),
         child: Text(
@@ -981,7 +981,7 @@ Future<bool?> loginDialog() async {
             ),
             onTap: onDialogCancel,
             hoverColor: Colors.red,
-            borderRadius: BorderRadius.circular(7), // design border-radius:7px
+            borderRadius: BorderRadius.circular(0), // design border-radius:7px
           ),
         ).marginOnly(top: 14, right: 14), // design top:14px right:14px
       ],

@@ -60,7 +60,7 @@ Widget waylandKeyboardScopeChip(BuildContext context, String text) {
   return Container(
     padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
     decoration: BoxDecoration(
-      borderRadius: BorderRadius.circular(999),
+      borderRadius: BorderRadius.circular(0),
       border: Border.all(color: colorScheme.primary.withOpacity(0.35)),
     ),
     child: Text(

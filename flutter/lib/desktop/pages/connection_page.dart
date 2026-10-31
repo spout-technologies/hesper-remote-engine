@@ -118,7 +118,7 @@ class _OnlineStatusWidgetState extends State<OnlineStatusWidget> {
               height: 8,
               width: 8,
               decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(4),
+                borderRadius: BorderRadius.circular(0),
                 color: _svcStopped.value ||
                         stateGlobal.svcStatus.value == SvcStatus.connecting
                     ? kColorWarn
@@ -364,7 +364,7 @@ class _ConnectionPageState extends State<ConnectionPage>
       height: 44,
       decoration: BoxDecoration(
         color: hesperCardColor(context),
-        borderRadius: BorderRadius.circular(8),
+        borderRadius: BorderRadius.circular(0),
         border: Border.all(color: hesperBorderColor(context), width: 1),
       ),
       alignment: Alignment.center,
@@ -483,7 +483,7 @@ class _ConnectionPageState extends State<ConnectionPage>
                             ],
                           ),
                           child: ClipRRect(
-                              borderRadius: BorderRadius.circular(5),
+                              borderRadius: BorderRadius.circular(0),
                               child: Material(
                                 elevation: 4,
                                 color: hesperCardColor(context),
@@ -548,7 +548,7 @@ class _ConnectionPageState extends State<ConnectionPage>
         return Tooltip(
           message: tip,
           child: InkWell(
-            borderRadius: BorderRadius.circular(7),
+            borderRadius: BorderRadius.circular(0),
             onTap: () => _connectKind.value = kind,
             child: Container(
               width: 34,
@@ -556,7 +556,7 @@ class _ConnectionPageState extends State<ConnectionPage>
               margin: const EdgeInsets.symmetric(horizontal: 1.5),
               decoration: BoxDecoration(
                 color: active ? _kGreen : Colors.transparent,
-                borderRadius: BorderRadius.circular(7),
+                borderRadius: BorderRadius.circular(0),
               ),
               child: Icon(
                 icon,
@@ -574,7 +574,7 @@ class _ConnectionPageState extends State<ConnectionPage>
       padding: const EdgeInsets.all(3),
       decoration: BoxDecoration(
         color: hesperFillColor(context),
-        borderRadius: BorderRadius.circular(9),
+        borderRadius: BorderRadius.circular(0),
         border: Border.all(color: hesperBorderColor(context), width: 1),
       ),
       child: Row(
@@ -604,7 +604,7 @@ class _ConnectionPageState extends State<ConnectionPage>
             elevation: 0,
             padding: const EdgeInsets.symmetric(horizontal: 24),
             shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(8),
+              borderRadius: BorderRadius.circular(0),
             ),
           ),
           onPressed: () {

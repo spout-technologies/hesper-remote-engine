@@ -185,7 +185,7 @@ class _PeerTabPageState extends State<PeerTabPage>
                   message: model.tabTooltip(t),
                   onTriggered: isMobile ? mobileShowTabVisibilityMenu : null,
                   child: InkWell(
-                    borderRadius: BorderRadius.circular(6),
+                    borderRadius: BorderRadius.circular(0),
                     child: AnimatedContainer(
                       duration: const Duration(milliseconds: 120),
                       margin: const EdgeInsets.only(right: 4),
@@ -193,7 +193,7 @@ class _PeerTabPageState extends State<PeerTabPage>
                           horizontal: showLabels ? 12 : 8, vertical: 4),
                       decoration: BoxDecoration(
                         color: bg,
-                        borderRadius: BorderRadius.circular(6),
+                        borderRadius: BorderRadius.circular(0),
                         // --shadow-sm: 0 1px 2px 0 rgb(0 0 0 /.03),
                         //              0 1px 3px 0 rgb(0 0 0 /.05)
                         boxShadow: selected
@@ -754,7 +754,7 @@ class _PeerSearchBarState extends State<PeerSearchBar> {
           width: stateGlobal.isPortrait.isTrue ? 120 : 140,
           decoration: BoxDecoration(
             color: Theme.of(context).colorScheme.background,
-            borderRadius: BorderRadius.circular(6),
+            borderRadius: BorderRadius.circular(0),
           ),
           child: Row(
             children: [
@@ -1023,7 +1023,7 @@ class RefreshWidgetState extends State<RefreshWidget> {
   Widget build(BuildContext context) {
     final deco = BoxDecoration(
       color: Theme.of(context).colorScheme.background,
-      borderRadius: BorderRadius.circular(6),
+      borderRadius: BorderRadius.circular(0),
     );
     return AnimatedRotation(
         turns: turns,
@@ -1065,7 +1065,7 @@ Widget _hoverAction(
   final hover = false.obs;
   final deco = BoxDecoration(
     color: Theme.of(context).colorScheme.background,
-    borderRadius: BorderRadius.circular(6),
+    borderRadius: BorderRadius.circular(0),
   );
   return Tooltip(
     message: toolTip,

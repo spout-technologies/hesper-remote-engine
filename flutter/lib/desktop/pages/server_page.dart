@@ -451,7 +451,7 @@ class _CmHeaderState extends State<_CmHeader>
     return Container(
       decoration: BoxDecoration(
         color: hesperCardColor(context),
-        borderRadius: BorderRadius.circular(12.0),
+        borderRadius: BorderRadius.circular(0),
         border: Border.all(color: hesperBorderColor(context)),
       ),
       margin: EdgeInsets.symmetric(horizontal: 5.0, vertical: 10.0),
@@ -602,7 +602,7 @@ class _CmHeaderState extends State<_CmHeader>
       alignment: Alignment.center,
       decoration: BoxDecoration(
         color: kHesperBrand,
-        borderRadius: BorderRadius.circular(12.0),
+        borderRadius: BorderRadius.circular(0),
       ),
       child: Text(
         client.name.isNotEmpty ? client.name[0].toUpperCase() : '?',
@@ -634,7 +634,7 @@ class _PrivilegeBoardState extends State<_PrivilegeBoard> {
     // Hesper tiles: green when active (was RustDesk blue), neutral neutral fill
     // when off (was Colors.grey[700]). Icon ink flips white/muted to keep
     // contrast in both states and both themes.
-    final borderRadius = BorderRadius.circular(8.0);
+    final borderRadius = BorderRadius.circular(0);
     return Tooltip(
       message: "$tooltipText: ${enabled ? "ON" : "OFF"}",
       waitDuration: Duration.zero,
@@ -686,7 +686,7 @@ class _PrivilegeBoardState extends State<_PrivilegeBoard> {
       margin: EdgeInsets.all(5.0),
       padding: EdgeInsets.all(8.0),
       decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(12.0),
+        borderRadius: BorderRadius.circular(0),
         color: hesperCardColor(context),
         border: Border.all(color: hesperBorderColor(context)),
       ),
@@ -1168,7 +1168,7 @@ class _CmControlPanel extends StatelessWidget {
         ),
       );
     }
-    final borderRadius = BorderRadius.circular(8.0);
+    final borderRadius = BorderRadius.circular(0);
     final btn = Container(
       height: 28,
       decoration: BoxDecoration(
@@ -1274,7 +1274,7 @@ class __FileTransferLogPageState extends State<_FileTransferLogPage> {
       decoration: BoxDecoration(
         color: hesperCardColor(context),
         borderRadius: BorderRadius.all(
-          Radius.circular(12.0),
+          Radius.circular(0),
         ),
         border: Border.all(color: hesperBorderColor(context)),
       ),
@@ -1417,7 +1417,7 @@ class __FileTransferLogPageState extends State<_FileTransferLogPage> {
                                               center: Text(
                                                 '${(item.finishedSize / item.totalSize * 100).toStringAsFixed(0)}%',
                                               ),
-                                              barRadius: Radius.circular(15),
+                                              barRadius: Radius.circular(0),
                                               percent: item.finishedSize /
                                                   item.totalSize,
                                               progressColor: MyTheme.accent,

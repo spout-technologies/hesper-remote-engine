@@ -128,7 +128,7 @@ class _DesktopTabPageState extends State<DesktopTabPage> {
 }
 
 // Hesper Remote: top-right window-chrome status pill. A small green dot + text
-// "Ready · Hesper Relay (EU)" on a pale-violet rounded-full pill. The dot colour
+// "Ready · Hesper Relay (ZA)" on a pale-violet pill (hard corners). The dot colour
 // and the leading status word track the real service status
 // (stateGlobal.svcStatus), so the pill reads as a live health indicator.
 class _HesperStatusPill extends StatelessWidget {
@@ -136,7 +136,7 @@ class _HesperStatusPill extends StatelessWidget {
 
   static const Color _green = kHesperBrand;
   static const Color _warn = Color(0xFFE0A312);
-  static const String _relayLabel = 'Hesper Relay (EU)';
+  static const String _relayLabel = 'Hesper Relay (ZA)';
 
   @override
   Widget build(BuildContext context) {
@@ -169,7 +169,7 @@ class _HesperStatusPill extends StatelessWidget {
         padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
         decoration: BoxDecoration(
           color: pillBg,
-          borderRadius: BorderRadius.circular(999),
+          borderRadius: BorderRadius.circular(0),
         ),
         child: Row(
           mainAxisSize: MainAxisSize.min,

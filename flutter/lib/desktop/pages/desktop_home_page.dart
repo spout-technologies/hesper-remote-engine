@@ -236,7 +236,7 @@ class _DesktopHomePageState extends State<DesktopHomePage>
       padding: padding ?? const EdgeInsets.fromLTRB(16, 14, 16, 14),
       decoration: BoxDecoration(
         color: hesperCardColor(context),
-        borderRadius: BorderRadius.circular(12),
+        borderRadius: BorderRadius.circular(0),
         border: Border.all(color: hesperBorderColor(context), width: 1),
         boxShadow: [
           BoxShadow(
@@ -410,7 +410,7 @@ class _DesktopHomePageState extends State<DesktopHomePage>
       () => Tooltip(
         message: tooltip,
         child: InkWell(
-          borderRadius: BorderRadius.circular(7),
+          borderRadius: BorderRadius.circular(0),
           onTap: onTap,
           onHover: (v) => hover.value = v,
           child: Container(
@@ -426,7 +426,7 @@ class _DesktopHomePageState extends State<DesktopHomePage>
                   : (hover.value
                       ? hesperBrandPale(context)
                       : Colors.transparent),
-              borderRadius: BorderRadius.circular(7),
+              borderRadius: BorderRadius.circular(0),
             ),
             child: iconWidget ??
                 Icon(
@@ -601,14 +601,14 @@ class _DesktopHomePageState extends State<DesktopHomePage>
 
     Widget seg(String label, bool active, VoidCallback onTap) {
       return InkWell(
-        borderRadius: BorderRadius.circular(6),
+        borderRadius: BorderRadius.circular(0),
         onTap: active ? null : onTap,
         child: AnimatedContainer(
           duration: const Duration(milliseconds: 120),
           padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
           decoration: BoxDecoration(
             color: active ? hesperCardColor(context) : Colors.transparent,
-            borderRadius: BorderRadius.circular(6),
+            borderRadius: BorderRadius.circular(0),
             boxShadow: active
                 ? [
                     BoxShadow(
@@ -638,7 +638,7 @@ class _DesktopHomePageState extends State<DesktopHomePage>
       decoration: BoxDecoration(
         color: hesperFillColor(context),
         border: Border.all(color: hesperBorderColor(context), width: 1),
-        borderRadius: BorderRadius.circular(7),
+        borderRadius: BorderRadius.circular(0),
       ),
       child: Row(
         mainAxisSize: MainAxisSize.min,

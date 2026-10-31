@@ -26,7 +26,7 @@ SRC="${SCRIPT_DIR}/hesper-icon.svg"               # square app icon (symbol on w
 MARK_BLACK="${SCRIPT_DIR}/hesper-mark-mono-black.png"
 MARK_WHITE="${SCRIPT_DIR}/hesper-mark-mono-white.png"
 MARK_PRIMARY="${SCRIPT_DIR}/hesper-mark-primary.png"
-BG_COLOUR="#FFFFFF"                               # app-icon background (matches hesper-icon.svg)
+BG_COLOUR="#090909"                               # app-icon background (matches hesper-icon.svg)
 
 for tool in rsvg-convert magick python3; do
     command -v "$tool" >/dev/null 2>&1 || { echo "ERROR: $tool not found" >&2; exit 1; }
@@ -122,7 +122,7 @@ if [ -d "$ANDROID_RES" ]; then
     cat > "${ANDROID_RES}/values/ic_launcher_background.xml" <<'XML'
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="ic_launcher_background">#FFFFFF</color>
+    <color name="ic_launcher_background">#090909</color>
 </resources>
 XML
 fi

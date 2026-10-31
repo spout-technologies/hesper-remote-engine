@@ -280,7 +280,7 @@ class MyTheme {
   static const ListTileThemeData listTileTheme = ListTileThemeData(
     shape: RoundedRectangleBorder(
       borderRadius: BorderRadius.all(
-        Radius.circular(5),
+        Radius.circular(0),
       ),
     ),
   );
@@ -300,7 +300,7 @@ class MyTheme {
     splashRadius: 0,
     shape: RoundedRectangleBorder(
       borderRadius: BorderRadius.all(
-        Radius.circular(5),
+        Radius.circular(0),
       ),
     ),
   );
@@ -315,7 +315,7 @@ class MyTheme {
     style: TextButton.styleFrom(
       padding: EdgeInsets.symmetric(horizontal: mobileTextButtonPaddingLR),
       shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(8.0),
+        borderRadius: BorderRadius.circular(0),
       ),
     ),
   );
@@ -401,7 +401,7 @@ class MyTheme {
     dialogTheme: DialogTheme(
       elevation: 15,
       shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(18.0),
+        borderRadius: BorderRadius.circular(0),
         side: BorderSide(
           width: 1,
           color: grayBg,
@@ -415,7 +415,7 @@ class MyTheme {
             filled: true,
             isDense: true,
             border: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(8),
+              borderRadius: BorderRadius.circular(0),
             ),
           )
         : null,
@@ -451,7 +451,7 @@ class MyTheme {
             style: TextButton.styleFrom(
               splashFactory: NoSplash.splashFactory,
               shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(18.0),
+                borderRadius: BorderRadius.circular(0),
               ),
             ),
           )
@@ -460,7 +460,7 @@ class MyTheme {
       style: ElevatedButton.styleFrom(
         backgroundColor: MyTheme.accent,
         shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(8.0),
+          borderRadius: BorderRadius.circular(0),
         ),
       ),
     ),
@@ -469,7 +469,7 @@ class MyTheme {
         backgroundColor: grayBg,
         foregroundColor: Colors.black87,
         shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(8.0),
+          borderRadius: BorderRadius.circular(0),
         ),
       ),
     ),
@@ -489,7 +489,7 @@ class MyTheme {
               color: (isDesktop || isWebDesktop)
                   ? Color(0xFFECECEC)
                   : Colors.transparent),
-          borderRadius: BorderRadius.all(Radius.circular(8.0)),
+          borderRadius: BorderRadius.all(Radius.circular(0)),
         )),
   ).copyWith(
     extensions: <ThemeExtension<dynamic>>[
@@ -510,7 +510,7 @@ class MyTheme {
     dialogTheme: DialogTheme(
       elevation: 15,
       shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(18.0),
+        borderRadius: BorderRadius.circular(0),
         side: BorderSide(
           width: 1,
           color: Color(0xFF1C1C20),
@@ -524,7 +524,7 @@ class MyTheme {
             filled: true,
             isDense: true,
             border: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(8),
+              borderRadius: BorderRadius.circular(0),
             ),
           )
         : null,
@@ -555,7 +555,7 @@ class MyTheme {
               disabledForegroundColor: Colors.white70,
               foregroundColor: Colors.white70,
               shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(18.0),
+                borderRadius: BorderRadius.circular(0),
               ),
             ),
           )
@@ -567,7 +567,7 @@ class MyTheme {
         disabledForegroundColor: Colors.white70,
         disabledBackgroundColor: Colors.white10,
         shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(8.0),
+          borderRadius: BorderRadius.circular(0),
         ),
       ),
     ),
@@ -578,7 +578,7 @@ class MyTheme {
         disabledForegroundColor: Colors.white70,
         foregroundColor: Colors.white70,
         shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(8.0),
+          borderRadius: BorderRadius.circular(0),
         ),
       ),
     ),
@@ -597,7 +597,7 @@ class MyTheme {
     popupMenuTheme: PopupMenuThemeData(
         shape: RoundedRectangleBorder(
       side: BorderSide(color: Colors.white24),
-      borderRadius: BorderRadius.all(Radius.circular(8.0)),
+      borderRadius: BorderRadius.all(Radius.circular(0)),
     )),
   ).copyWith(
     extensions: <ThemeExtension<dynamic>>[
@@ -738,7 +738,7 @@ final ButtonStyle flatButtonStyle = TextButton.styleFrom(
   minimumSize: Size(0, 36),
   padding: EdgeInsets.symmetric(horizontal: 16.0, vertical: 10.0),
   shape: const RoundedRectangleBorder(
-    borderRadius: BorderRadius.all(Radius.circular(2.0)),
+    borderRadius: BorderRadius.all(Radius.circular(0)),
   ),
 );
 
@@ -1131,7 +1131,7 @@ void showToast(String text,
               decoration: BoxDecoration(
                 color: MyTheme.color(context).toastBg,
                 borderRadius: const BorderRadius.all(
-                  Radius.circular(20),
+                  Radius.circular(0),
                 ),
               ),
               padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 5),
@@ -3838,7 +3838,7 @@ class ComboBox extends StatelessWidget {
               : MyTheme.border,
         ),
         borderRadius:
-            BorderRadius.circular(8), //border raiuds of dropdown button
+            BorderRadius.circular(0), //border raiuds of dropdown button
       ),
       height: 42, // should be the height of a TextField
       child: Obx(() => DropdownButton<String>(

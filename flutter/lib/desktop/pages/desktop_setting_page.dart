@@ -63,7 +63,7 @@ Color _kHesperAccentDark(BuildContext context) => isLightTheme(context) ? const 
 Color _kHesperInfoBg(BuildContext context) => isLightTheme(context) ? const Color(0xFFEFF6FF) : const Color(0xFF182231); // info-50
 Color _kHesperInfoBorder(BuildContext context) => isLightTheme(context) ? const Color(0xFFBFDBFE) : const Color(0xFF2C3E5C); // info-200
 Color _kHesperInfoInk(BuildContext context) => isLightTheme(context) ? const Color(0xFF1D4ED8) : const Color(0xFF93B4F5); // info-700
-const double _kHesperCtrlRadius = 8.0; // radius-md: cards, inputs, tabs, panels
+const double _kHesperCtrlRadius = 0.0; // hard corners (Hesper radius token = 0px)
 
 class _TabInfo {
   late final SettingsTabKey key;
@@ -1767,7 +1767,7 @@ class _NetworkState extends State<_Network> with AutomaticKeepAliveClientMixin {
         onTap: onTap,
         trailing: trailing,
         shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(10),
+          borderRadius: BorderRadius.circular(0),
         ),
         contentPadding: EdgeInsets.symmetric(horizontal: 16),
         minLeadingWidth: 0,
@@ -2196,7 +2196,7 @@ class _AccountState extends State<_Account> {
             padding: const EdgeInsets.all(12),
             decoration: BoxDecoration(
               color: Theme.of(context).colorScheme.surfaceContainerHighest,
-              borderRadius: BorderRadius.circular(10),
+              borderRadius: BorderRadius.circular(0),
             ),
             child: Builder(builder: (context) {
               final avatarWidget = _buildUserAvatar();
@@ -2528,7 +2528,7 @@ class _AboutState extends State<_About> {
       // public AGPL and must link its source.
       Widget aboutLink(String label, String url, {double fontSize = 13}) {
         return InkWell(
-          borderRadius: BorderRadius.circular(6),
+          borderRadius: BorderRadius.circular(0),
           onTap: () => launchUrlString(url),
           child: Padding(
             padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 4),
