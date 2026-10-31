@@ -3892,7 +3892,7 @@ Widget loadPowered(BuildContext context) {
     cursor: SystemMouseCursors.click,
     child: GestureDetector(
       onTap: () {
-        launchUrl(Uri.parse('https://hesper.work'));
+        launchUrl(Uri.parse('https://hesperitsm.com'));
       },
       child: Opacity(
           opacity: 0.5,

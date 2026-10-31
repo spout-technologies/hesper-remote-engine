@@ -43,7 +43,7 @@ class _OnlineStatusWidgetState extends State<OnlineStatusWidget> {
   double? get height => bind.isIncomingOnly() ? null : em * 3;
 
   void onUsePublicServerGuide() {
-    const url = "https://hesper.work/pricing";
+    const url = "https://hesperitsm.com/pricing";
     canLaunchUrlString(url).then((can) {
       if (can) {
         launchUrlString(url);
@@ -88,7 +88,7 @@ class _OnlineStatusWidgetState extends State<OnlineStatusWidget> {
             child: Row(
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
-                Text(', ', style: TextStyle(fontSize: em)),
+                Text('. ', style: TextStyle(fontSize: em)),
                 Flexible(
                   child: InkWell(
                     onTap: onUsePublicServerGuide,
@@ -96,7 +96,7 @@ class _OnlineStatusWidgetState extends State<OnlineStatusWidget> {
                       children: [
                         Flexible(
                           child: Text(
-                            translate('setup_server_tip'),
+                            'Need more capacity? Click here.',
                             style: TextStyle(
                                 decoration: TextDecoration.underline,
                                 fontSize: em),
