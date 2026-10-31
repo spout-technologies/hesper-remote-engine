@@ -204,13 +204,15 @@ jobs:
             --issuer "${{ secrets.ASC_API_ISSUER_ID }}" --wait
           # Stapler fetches the notarization ticket from Apple CloudKit and can hit a
           # transient "network connection was lost" (NSURLErrorDomain -1005, Error 68)
-          # right after acceptance; retry with backoff rather than failing the build.
-          for i in 1 2 3 4 5; do
-            xcrun stapler staple "$DMG" && break
-            echo "staple attempt $i failed (transient ticket fetch?); retrying in 30s" >&2
+          # right after acceptance -- on BOTH staple AND validate. Retry the whole
+          # staple+validate as a unit with backoff, and fail only if every try fails.
+          ok=0
+          for i in 1 2 3 4 5 6; do
+            if xcrun stapler staple "$DMG" && xcrun stapler validate "$DMG"; then ok=1; break; fi
+            echo "staple/validate attempt $i failed (transient CloudKit ticket fetch?); retrying in 30s" >&2
             sleep 30
           done
-          xcrun stapler validate "$DMG"
+          [ "$ok" = 1 ] || { echo "::error::staple+validate failed after retries"; exit 1; }
           shasum -a 256 "$DMG" > "$DMG.sha256"
 
       - name: Upload signed DMG (artifact)
