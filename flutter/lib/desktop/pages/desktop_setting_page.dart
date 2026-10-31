@@ -2522,7 +2522,7 @@ class _AboutState extends State<_About> {
       final fingerprint = data['fingerprint'].toString();
       final scrollController = ScrollController();
 
-      // Hesper About: centred brand lockup + mono version line, an hesper.work
+      // Hesper About: centred brand lockup + mono version line, an hesperitsm.com
       // links row, then the AGPL attribution card. The copyright + licence
       // text is upstream AGPL attribution and is kept verbatim — the fork is
       // public AGPL and must link its source.
@@ -2606,15 +2606,15 @@ class _AboutState extends State<_About> {
             alignment: WrapAlignment.center,
             spacing: 18,
             children: [
-              aboutLink('Privacy Statement', 'https://hesper.work/privacy'),
-              aboutLink('Terms of Service', 'https://hesper.work/terms'),
-              aboutLink('Website', 'https://hesper.work'),
+              aboutLink('Privacy Statement', 'https://hesperitsm.com/privacy'),
+              aboutLink('Terms of Service', 'https://hesperitsm.com/terms'),
+              aboutLink('Website', 'https://hesperitsm.com'),
             ],
           ),
         ],
       );
 
-      // Attribution card. Hesper Remote is a Spout product built on the
+      // Attribution card. Hesper Remote is an Arke product built on the
       // open-source RustDesk project; this states that plainly AND preserves
       // the legally-required AGPL-3.0 attribution to Purslane Ltd (the upstream
       // copyright holder) plus a View Source link (AGPL source-availability).
@@ -2635,7 +2635,7 @@ class _AboutState extends State<_About> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
-                'Hesper Remote is a product of Spout Technologies (Pty) Ltd, '
+                'Hesper Remote is a product of Arke Technologies (Pty) Ltd, '
                 'built on the open-source RustDesk remote-desktop project '
                 '(© Purslane Ltd, AGPL-3.0).',
                 style: TextStyle(
@@ -2679,7 +2679,7 @@ class _AboutState extends State<_About> {
                   brand,
                   agplCard,
                   Text(
-                    '© ${DateTime.now().toString().substring(0, 4)} Spout Technologies (Pty) Ltd. All rights reserved.',
+                    '© ${DateTime.now().toString().substring(0, 4)} Arke Technologies (Pty) Ltd. All rights reserved.',
                     textAlign: TextAlign.center,
                     style: TextStyle(
                         fontFamily: kHesperBodyFont,
@@ -2845,7 +2845,7 @@ class _AboutUpdatesState extends State<_AboutUpdates> {
                   if (isToUpdate) {
                     handleUpdate(updateUrl);
                   } else {
-                    launchUrlString('https://hesper.work/download');
+                    launchUrlString('https://hesperitsm.com/download');
                   }
                 },
                 child: Text(translate(isToUpdate ? 'Update' : 'Download'))

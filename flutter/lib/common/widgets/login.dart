@@ -675,7 +675,7 @@ class LoginWidgetUserPass extends StatelessWidget {
               child: _HesperLoginLink(
                 label: 'Forgot password?',
                 onTap: () => launchUrl(
-                  Uri.parse('https://hesper.work'),
+                  Uri.parse('https://hesperitsm.com'),
                   mode: LaunchMode.externalApplication,
                 ),
               ),
@@ -726,7 +726,7 @@ class LoginWidgetUserPass extends StatelessWidget {
 
           // ── Footer sign-up line ──
           // Design: centred, margin-top:20px, 12px, muted text with a green
-          // "Get started at hesper.work ↗" link to the account portal.
+          // "Get started at hesperitsm.com ↗" link to the account portal.
           const SizedBox(height: 20),
           Wrap(
             alignment: WrapAlignment.center,
@@ -743,10 +743,10 @@ class LoginWidgetUserPass extends StatelessWidget {
               ),
               const SizedBox(width: 4),
               _HesperLoginLink(
-                label: 'Get started at hesper.work ↗',
+                label: 'Get started at hesperitsm.com ↗',
                 fontSize: 12,
                 onTap: () => launchUrl(
-                  Uri.parse('https://hesper.work'),
+                  Uri.parse('https://hesperitsm.com'),
                   mode: LaunchMode.externalApplication,
                 ),
               ),

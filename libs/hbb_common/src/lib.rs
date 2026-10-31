@@ -493,17 +493,24 @@ pub const VER_TYPE_RUSTDESK_CLIENT: &str = "rustdesk-client";
 pub const VER_TYPE_RUSTDESK_SERVER: &str = "rustdesk-server";
 
 pub fn version_check_request(typ: String) -> (VersionCheckRequest, String) {
-    // Hesper build: check the Hesper hub for updates, NOT api.rustdesk.com (which
-    // would phone home to RustDesk). The hub returns { url } pointing at the
-    // latest engine release asset for the requesting os/arch; the client parses
-    // the version from that URL's filename and offers an in-app update.
-    const URL: &str = "https://dash.hesper.work/api/install/engine-version";
-
+    // Hesper build: check GitHub for updates — the per-platform update manifest
+    // the release workflow publishes to this repo's `updates` branch — NOT
+    // api.rustdesk.com (which would phone home to RustDesk) and NOT the retired
+    // dash.hesper.work hub. Each manifest is a tiny { "url": "<latest release
+    // asset>" }; the client GETs the one for its os/arch and parses the version
+    // from the asset filename (common::extract_version_from_release_url).
+    // raw.githubusercontent.com is CDN-served and unauthenticated (no API rate
+    // limit), and the asset it points at is a signed GitHub release download.
     use sysinfo::System;
     let system = System::new();
     let os = system.distribution_id();
     let os_version = system.os_version().unwrap_or_default();
     let arch = std::env::consts::ARCH.to_string();
+    let url = format!(
+        "https://raw.githubusercontent.com/spout-technologies/hesper-remote-engine/updates/{}-{}.json",
+        std::env::consts::OS,
+        std::env::consts::ARCH,
+    );
     #[allow(deprecated)]
     let device_id = fingerprint::get_fingerprint(None, None);
     (
@@ -514,7 +521,7 @@ pub fn version_check_request(typ: String) -> (VersionCheckRequest, String) {
             device_id,
             typ,
         },
-        URL.to_string(),
+        url,
     )
 }
 
