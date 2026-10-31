@@ -117,7 +117,7 @@ const CHARS: &[char] = &[
     'm', 'n', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z',
 ];
 
-pub const RENDEZVOUS_SERVERS: &[&str] = &["159.195.16.230"];
+pub const RENDEZVOUS_SERVERS: &[&str] = &["102.214.9.70", "159.195.16.230"]; // ZA (artemis, Absolute Hosting) primary; EU (159) fallback
 pub const RS_PUB_KEY: &str = "XU1zOo6SpZYfNGlsb3iMNRaEHEDYLsgEirPgI6VNt8c=";
 
 pub const RENDEZVOUS_PORT: i32 = 21116;
